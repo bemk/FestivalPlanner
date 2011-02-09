@@ -53,5 +53,32 @@ public class Act extends TimeLine
 	{
 		return d;
 	}
+
+	public void setGenre (String g)
+	{
+		genre = g;
+	}
+	public String getGenre()
+	{
+		return genre;
+	}
+	public Stage findStage()
+	{
+		if (supremeTimeLine != instanceof(Stage))
+		{
+			if (supremeTimeLine!= instanceof(Act))
+			{
+				return supremeTimeLine.findStage();
+			}
+			else
+			{
+				return null;
+			}
+		}
+		else
+		{
+			return supremeTimeLine;
+		}
+	}
 }
  
