@@ -1,4 +1,4 @@
-package fp;
+//package fp;
 import java.util.ArrayList;
 
 
@@ -7,7 +7,11 @@ public class TimeLine {
 
 	public Act getAct(int a)
 	{
+<<<<<<< HEAD
 		return acts(a);
+=======
+		return acts.get(a);
+>>>>>>> Timeline
 	}
 	public void removeAct(int a)
 	{

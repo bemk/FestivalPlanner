@@ -25,7 +25,7 @@ public class Act extends TimeLine
 
 	public void setDuration(int d)
 	{
-		duraton = d;
+		duration = d;
 	}
 	public int getDuration()
 	{
@@ -42,7 +42,7 @@ public class Act extends TimeLine
 	}
 	public void removeArtist(Artist a)
 	{
-		this.removeArtist(indexOf(a));
+		this.removeArtist(artists.indexOf(a));
 	}
 
 	public void setDescription(String d)
@@ -51,7 +51,35 @@ public class Act extends TimeLine
 	}
 	public String getDescription()
 	{
-		return d;
+		return description;
+	}
+
+	public void setGenre (String g)
+	{
+		genre = g;
+	}
+	public String getGenre()
+	{
+		return genre;
+	}
+	public Stage findStage()
+	{
+		if (!(supremeTimeLine instanceof Stage))
+		{
+			if (!(supremeTimeLine instanceof Act))
+			{
+				Act a = (Act)supremeTimeLine;
+				return a.findStage();
+			}
+			else
+			{
+				return null;
+			}
+		}
+		else
+		{
+			return (Stage)(supremeTimeLine);
+		}
 	}
 
 	public void setGenre (String g)
