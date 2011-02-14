@@ -7,11 +7,7 @@ public class TimeLine {
 
 	public Act getAct(int a)
 	{
-<<<<<<< HEAD
-		return acts(a);
-=======
 		return acts.get(a);
->>>>>>> Timeline
 	}
 	public void removeAct(int a)
 	{
