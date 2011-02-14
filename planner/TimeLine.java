@@ -1,7 +1,7 @@
 //package fp;
 import java.util.ArrayList;
 
-
+//Demonstation puposes
 public class TimeLine {
 	private ArrayList<Act> acts;
 
