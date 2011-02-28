@@ -8,6 +8,15 @@ abstract class TimeLine {
 	{
 		return acts.get(a);
 	}
+	public ArrayList <Integer> getAllActs()
+	{
+		ArrayList<Integer> iActs = new ArrayList<Integer>();
+		for (Act a : acts)
+		{
+			iActs.add(a.ID());
+		}
+		return iActs;
+	}
 	public void removeAct(int a)
 	{
 		acts.remove(a);

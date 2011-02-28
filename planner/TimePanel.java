@@ -1,5 +1,5 @@
 import javax.swing.*;
-
+import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -15,14 +15,17 @@ public class TimePanel extends JPanel
     private boolean drawn = false;
     private boolean removed = false;
     private int stage;
+    private ArrayList<Integer> acts = new ArrayList<Integer>();
+    private Interface iface;
     
 	public TimePanel(GUI gui)
 	{
-		this(gui, 800, 100, "null", 0);
+		this(gui, 800, 100, "null", 0, null);
 	}
-	public TimePanel(GUI gui, int width, int height, String title, int stage)
+	public TimePanel(GUI gui, int width, int height, String title, int stage, Interface iface)
 	{
 		System.out.println(stage);
+		this.iface = iface;
 		this.stage = stage;
 		this.arg = this;
 		this.gui = gui;
@@ -48,6 +51,12 @@ public class TimePanel extends JPanel
 		
 		popupMenu1();
 		
+	}
+	
+	public void update()
+	{
+		acts = iface.getAllActs(stage);
+		repaint();
 	}
 	
 	public boolean drawn()
@@ -166,6 +175,6 @@ public class TimePanel extends JPanel
 			g2.drawLine(i*(this.getWidth()/24), this.getHeight()/2-this.getHeight()/8, i*(this.getWidth()/24), (this.getHeight()/2)+(this.getHeight()/8));
 		}
 		g2.drawString(title, 4, 3*(this.getHeight()/8));
-//		g2.draw();r
+		// TODO add act drawing code.
 	}
 }

@@ -1,5 +1,4 @@
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -390,7 +389,7 @@ public class GUI
 			}
 		}
 		int tmpStage = iface.newStage(stageName);
-		timelines.add(new TimePanel(this, time.getWidth(), timeSize, stageName, tmpStage));
+		timelines.add(new TimePanel(this, time.getWidth(), timeSize, stageName, tmpStage, iface));
 		redrawStages(); // paint the time panel to screen.
 	}
 

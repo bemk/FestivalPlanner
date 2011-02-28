@@ -65,6 +65,11 @@ public class Interface
     	 return tmp.getAct(ListNo);
     }
      
+    public ArrayList<Integer> getAllActs(int stage)
+    {
+    	return findStage(stage).getAllActs();
+    }
+    
     public void removeAct(String stage, int ListNo)
     {
     	 planning.getStage(stage).removeAct(ListNo);
