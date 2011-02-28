@@ -1,7 +1,7 @@
 //package fp;
-import java.util.ArrayList;
+import java.util.*;
 
-public class TimeLine {
+abstract class TimeLine {
 	private ArrayList<Act> acts;
 
 	public Act getAct(int a)
@@ -18,7 +18,8 @@ public class TimeLine {
 	}
 	public void sort()
 	{
-		//Sort the list of acts.
-		System.out.println("THE SORTING FUNCTION NEEDS TO BE IMPLEMENTED!!!");
+		Collections.sort(acts, new Act());
+		System.out.println("THE SORTING FUNCTION HASN'T BEEN TESTED!!!");
 	}
+	abstract int ID();
 }

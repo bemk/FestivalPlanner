@@ -1,11 +1,12 @@
-package fp;
-
 import java.util.*;
 import java.awt.Color;
+import java.io.Serializable;
 
-public class Act extends TimeLine
+@SuppressWarnings("unchecked")
+public class Act extends TimeLine implements Serializable, Comparator
 {
-        private Calendar startTime;
+		private static final long serialVersionUID = -4987434497827905839L;
+		private GregorianCalendar startTime;
         private int endTime;
         private ArrayList<Artist> artists;
         private String description;
@@ -13,19 +14,48 @@ public class Act extends TimeLine
         private Color color;
         private TimeLine supremeTimeLine;
         private String genre;
-
-        public void setStartTime(Calendar c)
+        private final int ID = serial;
+        private static int serial = 0;
+        
+        public Act()
         {
-                startTime = c;
+        	this (new GregorianCalendar(), 0, new ArrayList<Artist>(), new String(), new String(), new Color(1f, 1f, 1f));
+        }
+        
+        public Act(GregorianCalendar starttijd, int duratie, ArrayList<Artist> artists, String description, String genre, Color c)
+        {
+        	this.startTime = starttijd;
+        	this.duration = duratie;
+        	this.artists = artists;
+        	this.description = description;
+        	this.genre = genre;
+        	this.color = c;
+        	serial ++;
+        }
+        public int ID()
+        {
+        	return this.ID;
+        }
+
+        public void setStartTime(GregorianCalendar c)
+        {
+                this.startTime = c;
         }
         public Calendar getStartTime()
         {
                 return startTime;
         }
 
-        public void setDuration(int d)
+        public void setEndTime(int endTime) {
+			this.endTime = endTime;
+		}
+		public int getEndTime() {
+			return endTime;
+		}
+		
+		public void setDuration(int d)
         {
-                duration = d;
+                this.duration = d;
         }
         public int getDuration()
         {
@@ -34,11 +64,11 @@ public class Act extends TimeLine
 
         public void addArtist(Artist a)
         {
-                artists.add(a);
+                this.artists.add(a);
         }
         public void removeArtist(int a)
         {
-                artists.remove(a);
+                this.artists.remove(a);
         }
         public void removeArtist(Artist a)
         {
@@ -47,7 +77,7 @@ public class Act extends TimeLine
 
         public void setDescription(String d)
         {
-                description = d;
+                this.description = d;
         }
         public String getDescription()
         {
@@ -56,7 +86,7 @@ public class Act extends TimeLine
 
         public void setGenre (String g)
         {
-                genre = g;
+                this.genre = g;
         }
         public String getGenre()
         {
@@ -65,29 +95,50 @@ public class Act extends TimeLine
         
         public void setColor (Color c)
         {
-                color = c;
+                this.color = c;
         }
         public Color getColor()
         {
                 return color;
         }
         
-//        public Stage findStage()
-//        {
-//                if (supremeTimeLine != instanceof(Stage))
-//                {
-//                        if (supremeTimeLine!= instanceof(Act))
-//                        {
-//                                return supremeTimeLine.findStage();
-//                        }
-//                        else
-//                        {
-//                                return null;
-//                        }
-//                }
-//                else
-//                {
-//                        return supremeTimeLine;
-//                }
-//        }
+        public Stage findStage()
+        {
+                if (!(supremeTimeLine instanceof Stage))
+                {
+                        if (!(supremeTimeLine instanceof Act))
+                        {
+                        		Act tmp = (Act)supremeTimeLine;
+                                return tmp.findStage();
+                        }
+                        else
+                        {
+                                return null;
+                        }
+                }
+                else
+                {
+                        return (Stage)supremeTimeLine;
+                }
+        }
+        
+		public int compare(Object o1, Object o2) {
+			if (o1 instanceof Act && o2 instanceof Act)
+			{
+				Act a1 = (Act)o1;
+				Act a2 = (Act)o2;
+				Calendar first = a1.getStartTime();
+				Calendar second = a2.getStartTime();
+				if (first.getTimeInMillis() < second.getTimeInMillis())
+					return -1;
+				else if (first.getTimeInMillis() == second.getTimeInMillis())
+					return 0;
+				else
+					return 1;
+			}
+			else
+			{
+				return 0;
+			}
+		}
 }
