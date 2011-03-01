@@ -4,6 +4,7 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.util.GregorianCalendar;
 
 import javax.swing.JPanel;
 
@@ -15,6 +16,7 @@ public class ActPaint
 	private int stage;
 	private Interface iface;
 	private TimePanel t;
+	private Shape s;
 	public ActPaint(int act, Interface iface, TimePanel t)
 	{
 		this.t = t;
@@ -25,9 +27,9 @@ public class ActPaint
 	
 	public void paintComponent(Graphics2D g2)
 	{
-		System.out.println(stage);
-		System.out.println(act);
-	Shape s = new RoundRectangle2D.Double(0 , t.getHeight()/20*1.5,(t.getWidth()/(24*60))*iface.getDuration(stage, act), t.getHeight()/20 * 19 , 10 ,10);
+		System.out.println((t.getWidth()/7.9)/iface.getDuration(stage, act)*100+ "duration");
+		System.out.println(100-((t.getWidth()/7.9)/((iface.getStartTime(stage, act).getMaximum(GregorianCalendar.HOUR_OF_DAY)*60)+(iface.getStartTime(stage, act).getMaximum(GregorianCalendar.MINUTE)))*100)+ " startTime");
+	s = new RoundRectangle2D.Double((t.getWidth()+650)/((iface.getStartTime(stage, act).getMaximum(GregorianCalendar.HOUR_OF_DAY)*60)+(iface.getStartTime(stage, act).getMaximum(GregorianCalendar.MINUTE))), t.getHeight()/20*1.5,100-((t.getWidth()/+650)/iface.getDuration(stage, act)), t.getHeight()/20 * 19 , 10 ,10);
 	g2.setColor(iface.getColor(stage, act));
 	g2.draw(s);
 	g2.fill(s);
