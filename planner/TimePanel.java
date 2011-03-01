@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 
-public class TimePanel extends JPanel
+public class TimePanel extends JPanel implements MouseListener, MouseMotionListener
 {
 	private static final long serialVersionUID = 4466302497626327762L;
 	private JPopupMenu popupMenu1;
@@ -181,5 +181,40 @@ public class TimePanel extends JPanel
 		}
 		g2.drawString(title, 4, 3*(this.getHeight()/8));
 		// TODO add act drawing code.
+	}
+	@Override
+	public void mouseDragged(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseMoved(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

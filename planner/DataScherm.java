@@ -46,10 +46,12 @@ public class DataScherm implements DocumentListener
 	private Interface iface;
 	private GregorianCalendar gc;
 	private int stage;
+	private GUI gui;
 	
 
-	public DataScherm(Interface iface, int stage)
+	public DataScherm(Interface iface, int stage, GUI gui)
 	{
+		this.gui = gui;
 		this.stage = stage;
 		this.iface = iface;
 		frame = new JFrame("Add act");
@@ -482,6 +484,7 @@ public class DataScherm implements DocumentListener
 		Color c = Color.getColor(colorBox.getSelectedItem().toString().toUpperCase());
 		iface.tmpAct = iface.nieuwAct(gc, durationMin, chosenArtist, descriptiontxt.getText(), genretxt.getText(), c);
 		iface.addAct(stage, iface.tmpAct);
+		gui.drawAct(stage);
 		this.frame.dispose();
 	}
 

@@ -2,7 +2,7 @@
 import java.util.*;
 
 abstract class TimeLine {
-	private ArrayList<Act> acts;
+	private ArrayList<Act> acts = new ArrayList<Act>();
 
 	public Act getAct(int a)
 	{

@@ -407,21 +407,31 @@ public class GUI
 
 	protected void addAct(int stage) 
 	{
-		new DataScherm(iface, stage);
-		drawAct(stage);
+		new DataScherm(iface, stage, this);
+		
 	}
 	
-	private void drawAct(int stage)
+	public void drawAct(int stage)
 	{
+		System.out.println(stage);
 		TimePanel j = null;
 		for(TimePanel i : timelines)
 		{
 			if(i.getID() == stage)
 			{
-				i = j;
+				j=i;
 			}
 		}
-		j.add(new ActPaint());
+		try
+		{
+			j.add(new ActPaint(j));
+			j.repaint();
+			time.updateUI();
+		}
+		catch (Exception e)
+		{
+			System.out.println(e);
+		}
 	}
 	private void redrawStages()
 	{
