@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.awt.List;
 import java.awt.event.*;
 //import java.io.*;
 import java.util.*;
@@ -11,7 +10,7 @@ import javax.swing.filechooser.*;
 
 public class DataScherm implements DocumentListener
 {
-	private char[] ints = {'0', '2', '3', '4', '5', '6', '7', '8', '9', '1'}; 
+	private int[] ints = {0, 2, 3, 4, 5, 6, 7,8, 9, 1}; 
 	private Container content;
 	private int tmpDateYr;
 	private int tmpDateM;
@@ -45,11 +44,14 @@ public class DataScherm implements DocumentListener
 	private JLabel label;
 	private Interface iface;
 	private GregorianCalendar gc;
-	
+	private TimePanel stage;
+	private GUI gui;
 	
 
-	public DataScherm(Interface iface)
+	public DataScherm(Interface iface, TimePanel stage, GUI gui)
 	{
+		this.gui = gui;
+		this.stage = stage;
 		this.iface = iface;
 		frame = new JFrame("Add act");
 		frame.setLocationRelativeTo(null);
@@ -110,7 +112,17 @@ public class DataScherm implements DocumentListener
 		public void keyPressed(KeyEvent e)
 		{
 			try{
-				tmpDateYr = Integer.parseInt(dateyr.getText());
+				for(int i : ints)
+				{
+					if(i == Integer.parseInt("" +e.getKeyChar()));
+					{
+						System.out.println(e.getKeyChar());
+					}
+				}
+				if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+				{
+					
+				}
 			}
 			catch(NumberFormatException nfe){
 				frame.setAlwaysOnTop(false);
@@ -128,7 +140,17 @@ public class DataScherm implements DocumentListener
 		public void keyPressed(KeyEvent e)
 		{
 			try{
-				tmpDateM = Integer.parseInt(datem.getText());
+				for(int i : ints)
+				{
+					if(i == Integer.parseInt("" +e.getKeyChar()));
+					{
+						System.out.println(e.getKeyChar());
+					}
+				}
+				if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+				{
+					
+				}
 			}
 			catch(NumberFormatException nfe){
 				frame.setAlwaysOnTop(false);
@@ -147,7 +169,17 @@ public class DataScherm implements DocumentListener
 		public void keyPressed(KeyEvent e)
 		{
 			try{
-				tmpDateD = Integer.parseInt(dated.getText());
+				for(int i : ints)
+				{
+					if(i == Integer.parseInt("" +e.getKeyChar()));
+					{
+						System.out.println(e.getKeyChar());
+					}
+				}
+				if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+				{
+					
+				}
 			}
 			catch(NumberFormatException nfe){
 				frame.setAlwaysOnTop(false);
@@ -448,33 +480,64 @@ public class DataScherm implements DocumentListener
 		{
 			chosenArtist.add(iface.addressBook.searchArtist((String)chosenPeople.getElementAt(i)));
 		}
-		Color c = Color.getColor(colorBox.getSelectedItem().toString());
-		iface.tmpAct = iface.nieuwAct(gc, durationMin, chosenArtist, descriptiontxt.getText(), genretxt.getText(), c);
-		iface.addAct("", iface.tmpAct);
-		for(int i = 0; i<chosenArtist.size();i++)
+		Color c = null;
+		switch(colorBox.getSelectedIndex())
 		{
-			if(!chosenArtist.isEmpty())
-			System.out.println("\n"+chosenArtist.get(i).getName());
-			else if(chosenArtist.isEmpty())
-				System.out.println("hij is leeg??");
+		case 0 : 
+			c = Color.BLACK;
+			break;
+		case 1 : 
+			c = Color.GRAY;
+			break;
+		case 2 :
+			c = Color.YELLOW;
+			break;
+		case 3 :
+			c = Color.RED;
+			break;
+		case 4 :
+			c = Color.ORANGE;
+			break;
+		case 5 :
+			c = Color.BLUE;
+			break;
+		case 6 :
+			c = Color.GREEN;
+			break;
+		case 7 :
+			c = Color.PINK;
+			break;
+		case 8 :
+			c = Color.CYAN;
+			break;
+		case 9 :
+			c = Color.MAGENTA;
+			break;
+		default :
+			c = Color.BLACK;
+			break;
 		}
+		iface.newAct(gc, durationMin, chosenArtist, descriptiontxt.getText(), genretxt.getText(), c, stage.getID());
+		stage.update();
+		stage.repaint();
+		
 		this.frame.dispose();
 	}
 
 	@Override
-	public void changedUpdate(DocumentEvent arg0) {
+	public void changedUpdate(DocumentEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void insertUpdate(DocumentEvent arg0) {
+	public void insertUpdate(DocumentEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void removeUpdate(DocumentEvent arg0) {
+	public void removeUpdate(DocumentEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

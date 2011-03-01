@@ -6,12 +6,20 @@ public class Artist implements Serializable{
         private String preferences;
         private String comments;
         private int rating;
+        private final int id = serial;
+        private static int serial = 0;
         
         public Artist(String name, String preferences, int rating)
         {
+        	serial++;
         	this.name = name;
         	this.preferences = preferences;
         	this.rating = rating;
+        }
+        
+        public int ID()
+        {
+        	return id;
         }
 
         public void setName(String n)

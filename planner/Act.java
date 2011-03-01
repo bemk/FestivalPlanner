@@ -14,8 +14,6 @@ public class Act extends TimeLine implements Serializable, Comparator
         private Color color;
         private TimeLine supremeTimeLine;
         private String genre;
-        private final int ID = serial;
-        private static int serial = 0;
         
         public Act()
         {
@@ -30,11 +28,6 @@ public class Act extends TimeLine implements Serializable, Comparator
         	this.description = description;
         	this.genre = genre;
         	this.color = c;
-        	serial ++;
-        }
-        public int ID()
-        {
-        	return this.ID;
         }
 
         public void setStartTime(GregorianCalendar c)

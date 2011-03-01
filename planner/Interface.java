@@ -7,20 +7,29 @@ public class Interface
 	protected AddressBook addressBook = new AddressBook();
 	protected Artist tmpArtist;
 	protected Act tmpAct;
+	private ArrayList<TimeLine> timelines = new ArrayList<TimeLine>();
 
+	public ArrayList<Integer> getAllActs()
+	{
+		ArrayList<Integer> retval = new ArrayList<Integer>();
+		for (TimeLine i : timelines)
+		{
+			if (i instanceof Act)
+			{
+				retval.add(i.ID());
+			}
+		}
+		return retval;
+	}
 	
 	//Planning
 	public int newStage(String name)
 	{
 		Stage tmpStage = new Stage(name);
 		planning.addStage(tmpStage);
+		timelines.add(tmpStage);
 		return tmpStage.ID();
 	}
-
-    public void removeStage(Stage s)
-    {
-    	planning.removeStage(s);
-    }
     public void removeStage(String s)
     {
     	planning.removeStage(s);
@@ -28,17 +37,24 @@ public class Interface
 
     public void removeStage(int s)
     {
-    	Stage tmp = null;
-    	for (Iterator<Stage> p = planning.getAllStages().iterator(); p.hasNext(); tmp = p.next())
+    	for (Stage i : planning.getAllStages())
     	{
-    		if (tmp.ID() == s)
+    		if (i.ID() == s)
     		{
-    			planning.removeStage(tmp);
-    			return;
+    			planning.removeStage(i);
+    			break;
+    		}
+    	}
+    	for (TimeLine i : timelines)
+    	{
+    		if (i.ID() == s)
+    		{
+    			timelines.remove(i);
+    			break;
     		}
     	}
     }
-    public Stage getStage(String s)
+    public Stage getStage(int s)
     {
     	return planning.getStage(s);
     }
@@ -54,10 +70,10 @@ public class Interface
     	tmp.setName(name);
 
     }
-    public int getID(String stage)
-    {
-    	 return planning.getStage(stage).ID();
-    }
+//    public int getID(int stage)
+//    {
+//    	 return planning.getStage(stage).ID();
+//    }
 
     public Act getAct(int stage , int ListNo)
     {
@@ -65,176 +81,187 @@ public class Interface
     	 return tmp.getAct(ListNo);
     }
      
-    public void removeAct(String stage, int ListNo)
+    public ArrayList<Integer> getAllActs(int stage)
     {
-    	 planning.getStage(stage).removeAct(ListNo);
+    	return findStage(stage).getAllActs();
     }
-     
-    public void addAct(String stage, Act a)
+    
+    public void removeAct(int stage, int id)
     {
-    	 planning.getStage(stage).addAct(a);
+    	findStage(stage).removeAct(id);
+    	for (TimeLine i : timelines)
+    	{
+    		if (i.ID() == id && i instanceof Act)
+    		{
+    			timelines.remove(i);
+    		}
+    	}
     }
     
     //Act
-    public Act nieuwAct(GregorianCalendar startTime, int duration, ArrayList<Artist> artist, String description, String genre, Color c)
+    public int newAct(GregorianCalendar startTime, int duration, ArrayList<Artist> artist, String description, String genre, Color c, int stage)
     {
-    	 return new Act(startTime,duration,artist,description,genre,c);
+    	 Act tmpAct = new Act(startTime,duration,artist,description,genre,c);
+    	 Stage tmpStage = findStage(stage);
+    	 tmpStage.addAct(tmpAct);
+    	 return tmpAct.ID();
     }
-    public void setStartTime(String stage, int act, GregorianCalendar c)
+    public void setStartTime(int stage, int act, GregorianCalendar c)
     {
-    	 planning.getStage(stage).getAct(act).setStartTime(c);
-    }
-     
-    public Calendar getStartTime(String stage, int act)
-    {
-    	 return planning.getStage(stage).getAct(act).getStartTime();
+    	findStage(stage).getAct(act).setStartTime(c);
     }
      
-    public void setDuration(String stage, int act, int d)
+    public Calendar getStartTime(int stage, int act)
     {
-    	 planning.getStage(stage).getAct(act).setDuration(d);
+    	 return findStage(stage).getAct(act).getStartTime();
     }
      
-    public int getDuration(String stage, int act)
+    public void setDuration(int stage, int act, int d)
     {
-    	 return planning.getStage(stage).getAct(act).getDuration();
+    	findStage(stage).getAct(act).setDuration(d);
     }
      
-    public void addArtist(String stage, int act, Artist a)
+    public int getDuration(int stage, int act)
     {
-    	 planning.getStage(stage).getAct(act).addArtist(a);
-    }
-     
-    public void removeArtist(String stage, int act, Artist a)
-    {
-    	 planning.getStage(stage).getAct(act).removeArtist(a);
-    }
-     
-    public void removeArtist(String stage, int act, int i)
-    {
-    	 planning.getStage(stage).getAct(act).removeArtist(i);
-    }
-     
-    public void setDescription(String stage, int act, String s)
-    {
-    	planning.getStage(stage).getAct(act).setDescription(s);
-    }
-     
-    public String getDescription(String stage, int act)
-    {
-    	 return planning.getStage(stage).getAct(act).getDescription();
-    }
-     
-    public void setGenre(String stage, int act, String s)
-    {
-    	 planning.getStage(stage).getAct(act).setGenre(s);
-    }
-     
-    public String getGenre(String stage, int act)
-    {
-    	 return planning.getStage(stage).getAct(act).getGenre();
-    }
-     
-    public void setColor(String stage, int act, Color c)
-    {
-    	 planning.getStage(stage).getAct(act).setColor(c);
-    }
-    public Color getColor(String stage, int act)
-    {
-         return planning.getStage(stage).getAct(act).getColor();
+    	 return findStage(stage).getAct(act).getDuration();
     }
     
-    public void findStage(String stage, int act)
+    public void addArtist(int stage, int act, int Artist)
     {
-    	 planning.getStage(stage).getAct(act).findStage();
+    	findStage(stage).getAct(act).addArtist(findArtist(Artist));
     }
+     
+    public void removeArtist(int stage, int act, int a)
+    {
+    	findStage(stage).getAct(act).removeArtist(findArtist(a));
+    }
+    
+    public void setDescription(int stage, int act, String s)
+    {
+    	findStage(stage).getAct(act).setDescription(s);
+    }
+     
+    public String getDescription(int stage, int act)
+    {
+    	 return findStage(stage).getAct(act).getDescription();
+    }
+     
+    public void setGenre(int stage, int act, String s)
+    {
+    	 findStage(stage).getAct(act).setGenre(s);
+    }
+     
+    public String getGenre(int stage, int act)
+    {
+    	 return findStage(stage).getAct(act).getGenre();
+    }
+     
+    public void setColor(int stage, int act, Color c)
+    {
+    	 findStage(stage).getAct(act).setColor(c);
+    }
+    public Color getColor(int stage, int act)
+    {
+         return findStage(stage).getAct(act).getColor();
+    }
+    
+//    public void findStage(int stage, int act)
+//    {
+//    	 planning.getStage(stage).getAct(act).findStage();
+//    }
 
      
     //AddressBook
-    public Artist getArtist(int id)
+    public int newArtist(String name, int rating, String comments)
     {
-        return addressBook.getArtist(id);
-    }
-
-    public void addArtist(Artist a)
-    {
-    	 addressBook.addArtist(a);
-    }
-
-    public void removeArtist(Artist a)
-    {
-    	 addressBook.removeArtist(a);
+    	Artist tmpArtist = new Artist(name, comments, rating);
+    	addressBook.addArtist(tmpArtist);
+    	return tmpArtist.ID();
     }
 
     public void removeArtist(int n)
     {
-    	 addressBook.removeArtist(n);
+    	Artist tmp = findArtist(n);
+    	if (tmp!= null)
+    	{
+    		addressBook.removeArtist(tmp);
+    	}
     }
 
-    public ArrayList<Artist> getAllArtists()
+    public ArrayList<Integer> getAllArtists()
     {
-    	 return addressBook.getAllArtists();
+    	ArrayList<Integer> artists = new ArrayList<Integer>();
+    	for (Artist i : addressBook.getAllArtists())
+    	{
+    		artists.add(i.ID());
+    	}
+    	return artists;
     }
     	 
      
     //Artist
-     
-    public Artist newArtist(String name, String preferences, int rating)
-    {
-    	 return new Artist(name,preferences,rating);
-    	 
-    	 
-    }
+ 
     public void setName(int i, String n)
     {
-    	 addressBook.getArtist(i).setName(n);
+    	 findArtist(i).setName(n);
     }
 	
     public String getName(int i)
     {
-    	 return addressBook.getArtist(i).getName();
+    	 return findArtist(i).getName();
     }
      
     public void setPreferences(int i, String p)
     {
-    	 addressBook.getArtist(i).setPreferences(p);
+    	findArtist(i).setPreferences(p);
     }
      
     public String getPreferences(int i)
     {
-    	 return addressBook.getArtist(i).getPreferences();
+    	 return findArtist(i).getPreferences();
     }
      
     public void setComments(int i, String c)
     {
-    	 addressBook.getArtist(i).setComments(c);
+    	findArtist(i).setComments(c);
     }
      
     public String getComments(int i)
     {
-    	 return addressBook.getArtist(i).getComments();
+    	 return findArtist(i).getComments();
     }
      
     public void setRating(int i, int r)
     {
-    	 addressBook.getArtist(i).setRating(r);
+    	 findArtist(i).setRating(r);
     }
      
     public int getRating(int i)
     {
-    	return addressBook.getArtist(i).getRating();
+    	return findArtist(i).getRating();
+    }
+    
+    private Artist findArtist(int id)
+    {
+    	for (Artist i : addressBook.getAllArtists())
+    	{
+    		if (i.ID() == id)
+    		{
+    			return i;
+    		}
+    	}
+    	return null;
     }
     
     private Stage findStage (int id)
     {
-    	Stage tmp = null;
-    	for (Iterator<Stage> i = planning.getAllStages().iterator(); i.hasNext();tmp = i.next())
+    	for (TimeLine i : timelines)
     	{
-    		if (tmp.ID()==id)
+    		if (i.ID() == id && i instanceof Stage)
     		{
-    			return tmp;
+    			return (Stage)i;
     		}
-    	}
+    	} 
     	return null;
     }
 }
