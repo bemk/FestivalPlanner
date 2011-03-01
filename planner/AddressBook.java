@@ -32,6 +32,7 @@ public class AddressBook implements Serializable
         public Artist searchArtist(String n)
         {
         	Artist tmp = null;
+        	 
         	for (int i = 0; i < artists.size(); i++)
         	{
         		if(artists.get(i).getName().equals(n))

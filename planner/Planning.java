@@ -20,28 +20,34 @@ public class Planning implements Serializable
 		stages.remove(s);
 	}
 	
-	public void removeStage(int s)
-	{
-		stages.remove(s);
-	}
-	
 	public void removeStage(String s)
 	{
-		for(int i = 0; i<stages.size(); i++)
+		for(Stage i : stages)
 		{
-			if(stages.get(i).getName().equals(s))
+			if(i.getName().equals(s))
 			{
 				stages.remove(i);
 			}
 		}
 	}
 	
-	public Stage getStage(String s)
+	public void removeStage(int s)
+	{
+		for(int i = 0; i<stages.size(); i++)
+		{
+			if(stages.get(i).ID() == s)
+			{
+				stages.remove(i);
+			}
+		}
+	}
+	
+	public Stage getStage(int s)
 	{
 		Stage tmpStage = null;
 		for(int i = 0; i<stages.size(); i++)
 		{
-			if(stages.get(i).getName().equals(s))
+			if(stages.get(i).ID() == s)
 			{
 				tmpStage = stages.get(i);
 			}

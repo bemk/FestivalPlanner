@@ -20,7 +20,7 @@ public class GUI
 	private static GUI gui1;
 	private String s;
 	private Interface iface = new Interface();
-	private ArrayList<TimePanel> timelines = new ArrayList<TimePanel>();
+	protected ArrayList<TimePanel> timelines = new ArrayList<TimePanel>();
 	private JPanel time = new JPanel();
 	private int timeSize = 0;
 	
@@ -202,7 +202,7 @@ public class GUI
 	public void updateScore(int i)
 	{
 		this.score = i;
-		rating.setScore(iface.getArtist(i).getRating());
+		rating.setScore(iface.getRating(i));
 		rating.repaint();
 	}
 
@@ -405,11 +405,25 @@ public class GUI
 		
 	}
 
-	protected void addAct(TimePanel t) 
+	protected void addAct(TimePanel stage) 
 	{
-		new DataScherm(iface, t);
+		new DataScherm(iface, stage, this);
+		
 	}
-	private void redrawStages()
+	
+	public void drawAct(int stage)
+	{
+		System.out.println(stage);
+		TimePanel j = null;
+		for(TimePanel i : timelines)
+		{
+			if(i.getID() == stage)
+			{
+				j=i;
+			}
+		}
+	}
+	public void redrawStages()
 	{
 		TimePanel j = null; //Language quirk
 		for (Iterator<TimePanel> i = timelines.iterator(); i.hasNext();) // Loop through all the timelines

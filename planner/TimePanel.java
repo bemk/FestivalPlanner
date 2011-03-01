@@ -2,9 +2,11 @@ import javax.swing.*;
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 
 
-public class TimePanel extends JPanel
+public class TimePanel extends JPanel implements MouseListener, MouseMotionListener
 {
 	private static final long serialVersionUID = 4466302497626327762L;
 	private JPopupMenu popupMenu1;
@@ -13,6 +15,7 @@ public class TimePanel extends JPanel
     private JMenuItem editAct;
     private TimePanel arg;
     private boolean drawn = false;
+    private Graphics g;
     private boolean removed = false;
     private int stage;
     private ArrayList<Integer> acts = new ArrayList<Integer>();
@@ -164,8 +167,14 @@ public class TimePanel extends JPanel
 		return title;
 	}
 	
+	public int getID()
+	{
+		return stage;
+	}
+	
 	public void paintComponent(Graphics g)
 	{
+		this.g = g;
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		g.setColor(Color.red);
@@ -175,6 +184,47 @@ public class TimePanel extends JPanel
 			g2.drawLine(i*(this.getWidth()/24), this.getHeight()/2-this.getHeight()/8, i*(this.getWidth()/24), (this.getHeight()/2)+(this.getHeight()/8));
 		}
 		g2.drawString(title, 4, 3*(this.getHeight()/8));
+		for(int act : acts)
+		{
+			ActPaint tmp = new ActPaint(act, iface, this);
+			tmp.paintComponent(g2);
+		}
+		
 		// TODO add act drawing code.
+	}
+	@Override
+	public void mouseDragged(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseMoved(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }
