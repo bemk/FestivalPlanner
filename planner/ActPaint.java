@@ -18,13 +18,6 @@ public class ActPaint extends JPanel
 	
 	public void paintComponent(Graphics g)
 	{
-		super.paintComponents(g);
-		Graphics2D g2 = (Graphics2D) g;
-		AffineTransform tr = new AffineTransform();
-		tr.scale(1, -1);
-		tr.translate(0, getHeight());
-		Shape s = new Rectangle2D.Double(t.getHeight()/4, 10 , 10, t.getHeight()/10);
-		g2.draw(s);
-		g2.fill(s);
+	
 	}
 }

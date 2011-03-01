@@ -422,16 +422,6 @@ public class GUI
 				j=i;
 			}
 		}
-		try
-		{
-			j.add(new ActPaint(j));
-			j.repaint();
-			time.updateUI();
-		}
-		catch (Exception e)
-		{
-			System.out.println(e);
-		}
 	}
 	private void redrawStages()
 	{

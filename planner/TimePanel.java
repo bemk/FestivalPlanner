@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 
 
 public class TimePanel extends JPanel implements MouseListener, MouseMotionListener
@@ -13,6 +15,7 @@ public class TimePanel extends JPanel implements MouseListener, MouseMotionListe
     private JMenuItem editAct;
     private TimePanel arg;
     private boolean drawn = false;
+    private Graphics g;
     private boolean removed = false;
     private int stage;
     private ArrayList<Integer> acts = new ArrayList<Integer>();
@@ -171,6 +174,7 @@ public class TimePanel extends JPanel implements MouseListener, MouseMotionListe
 	
 	public void paintComponent(Graphics g)
 	{
+		this.g = g;
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		g.setColor(Color.red);
@@ -180,6 +184,7 @@ public class TimePanel extends JPanel implements MouseListener, MouseMotionListe
 			g2.drawLine(i*(this.getWidth()/24), this.getHeight()/2-this.getHeight()/8, i*(this.getWidth()/24), (this.getHeight()/2)+(this.getHeight()/8));
 		}
 		g2.drawString(title, 4, 3*(this.getHeight()/8));
+		
 		// TODO add act drawing code.
 	}
 	@Override
