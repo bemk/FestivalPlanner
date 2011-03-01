@@ -11,7 +11,7 @@ import javax.swing.filechooser.*;
 
 public class DataScherm implements DocumentListener
 {
-	private char[] ints = {'0', '2', '3', '4', '5', '6', '7', '8', '9', '1'}; 
+	private int[] ints = {0, 2, 3, 4, 5, 6, 7,8, 9, 1}; 
 	private Container content;
 	private int tmpDateYr;
 	private int tmpDateM;
@@ -45,11 +45,12 @@ public class DataScherm implements DocumentListener
 	private JLabel label;
 	private Interface iface;
 	private GregorianCalendar gc;
-	
+	private TimePanel t;
 	
 
-	public DataScherm(Interface iface)
+	public DataScherm(Interface iface, TimePanel t)
 	{
+		this.t = t;
 		this.iface = iface;
 		frame = new JFrame("Add act");
 		frame.setLocationRelativeTo(null);
@@ -110,7 +111,17 @@ public class DataScherm implements DocumentListener
 		public void keyPressed(KeyEvent e)
 		{
 			try{
-				tmpDateYr = Integer.parseInt(dateyr.getText());
+				for(int i : ints)
+				{
+					if(i == Integer.parseInt("" +e.getKeyChar()));
+					{
+						System.out.println(e.getKeyChar());
+					}
+				}
+				if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+				{
+					
+				}
 			}
 			catch(NumberFormatException nfe){
 				frame.setAlwaysOnTop(false);
@@ -128,7 +139,17 @@ public class DataScherm implements DocumentListener
 		public void keyPressed(KeyEvent e)
 		{
 			try{
-				tmpDateM = Integer.parseInt(datem.getText());
+				for(int i : ints)
+				{
+					if(i == Integer.parseInt("" +e.getKeyChar()));
+					{
+						System.out.println(e.getKeyChar());
+					}
+				}
+				if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+				{
+					
+				}
 			}
 			catch(NumberFormatException nfe){
 				frame.setAlwaysOnTop(false);
@@ -147,7 +168,17 @@ public class DataScherm implements DocumentListener
 		public void keyPressed(KeyEvent e)
 		{
 			try{
-				tmpDateD = Integer.parseInt(dated.getText());
+				for(int i : ints)
+				{
+					if(i == Integer.parseInt("" +e.getKeyChar()));
+					{
+						System.out.println(e.getKeyChar());
+					}
+				}
+				if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+				{
+					
+				}
 			}
 			catch(NumberFormatException nfe){
 				frame.setAlwaysOnTop(false);
@@ -448,16 +479,9 @@ public class DataScherm implements DocumentListener
 		{
 			chosenArtist.add(iface.addressBook.searchArtist((String)chosenPeople.getElementAt(i)));
 		}
-		Color c = Color.getColor(colorBox.getSelectedItem().toString());
+		Color c = Color.getColor(colorBox.getSelectedItem().toString().toUpperCase());
 		iface.tmpAct = iface.nieuwAct(gc, durationMin, chosenArtist, descriptiontxt.getText(), genretxt.getText(), c);
-		iface.addAct("", iface.tmpAct);
-		for(int i = 0; i<chosenArtist.size();i++)
-		{
-			if(!chosenArtist.isEmpty())
-			System.out.println("\n"+chosenArtist.get(i).getName());
-			else if(chosenArtist.isEmpty())
-				System.out.println("hij is leeg??");
-		}
+		iface.addAct(t., iface.tmpAct);
 		this.frame.dispose();
 	}
 
