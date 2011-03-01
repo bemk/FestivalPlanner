@@ -12,7 +12,15 @@ abstract class TimeLine {
 
 	public Act getAct(int a)
 	{
-		return acts.get(a);
+//		return acts.get(a);
+		for (Act i : acts)
+		{
+			if (i.ID() == a)
+			{
+				return i;
+			}
+		}
+		return null;
 	}
 	public ArrayList <Integer> getAllActs()
 	{
@@ -36,11 +44,6 @@ abstract class TimeLine {
 	public void addAct(Act a)
 	{
 		acts.add(a);
-	}
-	public void sort()
-	{
-		Collections.sort(acts, new Act());
-		System.out.println("THE SORTING FUNCTION HASN'T BEEN TESTED!!!");
 	}
 	public int ID()
     {
