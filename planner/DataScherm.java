@@ -481,8 +481,7 @@ public class DataScherm implements DocumentListener
 			chosenArtist.add(iface.addressBook.searchArtist((String)chosenPeople.getElementAt(i)));
 		}
 		Color c = Color.getColor(colorBox.getSelectedItem().toString().toUpperCase());
-		iface.tmpAct = iface.nieuwAct(gc, durationMin, chosenArtist, descriptiontxt.getText(), genretxt.getText(), c);
-		iface.addAct(stage, iface.tmpAct);
+		iface.newAct(gc, durationMin, chosenArtist, descriptiontxt.getText(), genretxt.getText(), c, stage);
 		gui.drawAct(stage);
 		this.frame.dispose();
 	}

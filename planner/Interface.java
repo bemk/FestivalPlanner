@@ -7,20 +7,29 @@ public class Interface
 	protected AddressBook addressBook = new AddressBook();
 	protected Artist tmpArtist;
 	protected Act tmpAct;
+	private ArrayList<TimeLine> timelines = new ArrayList<TimeLine>();
 
+	public ArrayList<Integer> getAllActs()
+	{
+		ArrayList<Integer> retval = new ArrayList<Integer>();
+		for (TimeLine i : timelines)
+		{
+			if (i instanceof Act)
+			{
+				retval.add(i.ID());
+			}
+		}
+		return retval;
+	}
 	
 	//Planning
 	public int newStage(String name)
 	{
 		Stage tmpStage = new Stage(name);
 		planning.addStage(tmpStage);
+		timelines.add(tmpStage);
 		return tmpStage.ID();
 	}
-
-    public void removeStage(Stage s)
-    {
-    	planning.removeStage(s);
-    }
     public void removeStage(String s)
     {
     	planning.removeStage(s);
@@ -28,13 +37,20 @@ public class Interface
 
     public void removeStage(int s)
     {
-    	Stage tmp = null;
-    	for (Iterator<Stage> p = planning.getAllStages().iterator(); p.hasNext(); tmp = p.next())
+    	for (Stage i : planning.getAllStages())
     	{
-    		if (tmp.ID() == s)
+    		if (i.ID() == s)
     		{
-    			planning.removeStage(tmp);
-    			return;
+    			planning.removeStage(i);
+    			break;
+    		}
+    	}
+    	for (TimeLine i : timelines)
+    	{
+    		if (i.ID() == s)
+    		{
+    			timelines.remove(i);
+    			break;
     		}
     	}
     }
@@ -72,18 +88,16 @@ public class Interface
     
     public void removeAct(int stage, int ListNo)
     {
-    	 planning.getStage(stage).removeAct(ListNo);
-    }
-     
-    public void addAct(int stage, Act a)
-    {
-    	 planning.getStage(stage).addAct(a);
+    	planning.getStage(stage).removeAct(ListNo);
     }
     
     //Act
-    public Act nieuwAct(GregorianCalendar startTime, int duration, ArrayList<Artist> artist, String description, String genre, Color c)
+    public int newAct(GregorianCalendar startTime, int duration, ArrayList<Artist> artist, String description, String genre, Color c, int stage)
     {
-    	 return new Act(startTime,duration,artist,description,genre,c);
+    	 Act tmpAct = new Act(startTime,duration,artist,description,genre,c);
+    	 Stage tmpStage = findStage(stage);
+    	 tmpStage.addAct(tmpAct);
+    	 return tmpAct.ID();
     }
     public void setStartTime(int stage, int act, GregorianCalendar c)
     {

@@ -3,6 +3,12 @@ import java.util.*;
 
 abstract class TimeLine {
 	private ArrayList<Act> acts = new ArrayList<Act>();
+    private final int ID = serial;
+    private static int serial = 0;
+    public TimeLine()
+    {
+    	serial++;
+    }
 
 	public Act getAct(int a)
 	{
@@ -30,5 +36,8 @@ abstract class TimeLine {
 		Collections.sort(acts, new Act());
 		System.out.println("THE SORTING FUNCTION HASN'T BEEN TESTED!!!");
 	}
-	abstract int ID();
+	public int ID()
+    {
+    	return this.ID;
+    }
 }
