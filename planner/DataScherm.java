@@ -481,7 +481,7 @@ public class DataScherm implements DocumentListener
 		}
 		Color c = Color.getColor(colorBox.getSelectedItem().toString().toUpperCase());
 		iface.tmpAct = iface.nieuwAct(gc, durationMin, chosenArtist, descriptiontxt.getText(), genretxt.getText(), c);
-		iface.addAct(t., iface.tmpAct);
+	//	iface.addAct(iface.tmpAct);
 		this.frame.dispose();
 	}
 

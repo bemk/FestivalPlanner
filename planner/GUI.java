@@ -405,9 +405,9 @@ public class GUI
 		
 	}
 
-	protected void addAct() 
+	protected void addAct(TimePanel t) 
 	{
-		new DataScherm(iface);
+		new DataScherm(iface, t);
 	}
 	private void redrawStages()
 	{

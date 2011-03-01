@@ -110,7 +110,7 @@ public class TimePanel extends JPanel
 	    {
 	    	public void actionPerformed(ActionEvent e)
 	    	{
-	    		gui.addAct();
+	    		gui.addAct(arg);
 	    	}
 	    });
 	    popupMenu1.add(addAct);
