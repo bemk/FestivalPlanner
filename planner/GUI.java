@@ -202,7 +202,7 @@ public class GUI
 	public void updateScore(int i)
 	{
 		this.score = i;
-		rating.setScore(iface.getArtist(i).getRating());
+		rating.setScore(iface.getRating(i));
 		rating.repaint();
 	}
 
