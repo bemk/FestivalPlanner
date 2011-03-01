@@ -126,21 +126,16 @@ public class Interface
     	 return planning.getStage(stage).getAct(act).getDuration();
     }
     
-    public void addArtist(int stage, int act, Artist a)
+    public void addArtist(int stage, int act, int Artist)
     {
-    	 planning.getStage(stage).getAct(act).addArtist(a);
+    	planning.getStage(stage).getAct(act).addArtist(findArtist(Artist));
     }
      
-    public void removeArtist(int stage, int act, Artist a)
+    public void removeArtist(int stage, int act, int a)
     {
-    	 planning.getStage(stage).getAct(act).removeArtist(a);
+    	 planning.getStage(stage).getAct(act).removeArtist(findArtist(a));
     }
-     
-    public void removeArtist(int stage, int act, int i)
-    {
-    	 planning.getStage(stage).getAct(act).removeArtist(i);
-    }
-     
+    
     public void setDescription(int stage, int act, String s)
     {
     	planning.getStage(stage).getAct(act).setDescription(s);
@@ -183,23 +178,6 @@ public class Interface
     	addressBook.addArtist(tmpArtist);
     	return tmpArtist.ID();
     }
-    
-//    public Artist getArtist(int id)
-//    {
-//    	for (Artist i : addressBook.getAllArtists())
-//    	{
-//    		if (i.ID() == id)
-//    		{
-//    			return i;
-//    		}
-//    	}
-//    	return null;
-//    }
-
-//    public void addArtist(Artist a)
-//    {
-//    	 addressBook.addArtist(a);
-//    }
 
     public void removeArtist(int n)
     {
@@ -225,42 +203,42 @@ public class Interface
  
     public void setName(int i, String n)
     {
-    	 addressBook.getArtist(i).setName(n);
+    	 findArtist(i).setName(n);
     }
 	
     public String getName(int i)
     {
-    	 return addressBook.getArtist(i).getName();
+    	 return findArtist(i).getName();
     }
      
     public void setPreferences(int i, String p)
     {
-    	 addressBook.getArtist(i).setPreferences(p);
+    	findArtist(i).setPreferences(p);
     }
      
     public String getPreferences(int i)
     {
-    	 return addressBook.getArtist(i).getPreferences();
+    	 return findArtist(i).getPreferences();
     }
      
     public void setComments(int i, String c)
     {
-    	 addressBook.getArtist(i).setComments(c);
+    	findArtist(i).setComments(c);
     }
      
     public String getComments(int i)
     {
-    	 return addressBook.getArtist(i).getComments();
+    	 return findArtist(i).getComments();
     }
      
     public void setRating(int i, int r)
     {
-    	 addressBook.getArtist(i).setRating(r);
+    	 findArtist(i).setRating(r);
     }
      
     public int getRating(int i)
     {
-    	return addressBook.getArtist(i).getRating();
+    	return findArtist(i).getRating();
     }
     
     private Artist findArtist(int id)
@@ -272,6 +250,7 @@ public class Interface
     			return i;
     		}
     	}
+    	return null;
     }
     
     private Stage findStage (int id)
