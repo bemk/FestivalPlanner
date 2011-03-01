@@ -1,4 +1,5 @@
 
-public class Path {
+public abstract class Path extends Sprite {
+	
 
 }

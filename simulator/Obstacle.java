@@ -1,4 +1,4 @@
 
-public class Obstacle {
+public abstract class Obstacle extends Sprite{
 
 }

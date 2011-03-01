@@ -1,4 +1,4 @@
 
-public class Person {
+public abstract class Person extends Sprite {
 
 }
