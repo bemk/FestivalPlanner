@@ -44,11 +44,11 @@ public class DataScherm implements DocumentListener
 	private JLabel label;
 	private Interface iface;
 	private GregorianCalendar gc;
-	private int stage;
+	private TimePanel stage;
 	private GUI gui;
 	
 
-	public DataScherm(Interface iface, int stage, GUI gui)
+	public DataScherm(Interface iface, TimePanel stage, GUI gui)
 	{
 		this.gui = gui;
 		this.stage = stage;
@@ -480,9 +480,47 @@ public class DataScherm implements DocumentListener
 		{
 			chosenArtist.add(iface.addressBook.searchArtist((String)chosenPeople.getElementAt(i)));
 		}
-		Color c = Color.getColor(colorBox.getSelectedItem().toString().toUpperCase());
-		iface.newAct(gc, durationMin, chosenArtist, descriptiontxt.getText(), genretxt.getText(), c, stage);
-		gui.drawAct(stage);
+		Color c = null;
+		switch(colorBox.getSelectedIndex())
+		{
+		case 0 : 
+			c = Color.BLACK;
+			break;
+		case 1 : 
+			c = Color.GRAY;
+			break;
+		case 2 :
+			c = Color.YELLOW;
+			break;
+		case 3 :
+			c = Color.RED;
+			break;
+		case 4 :
+			c = Color.ORANGE;
+			break;
+		case 5 :
+			c = Color.BLUE;
+			break;
+		case 6 :
+			c = Color.GREEN;
+			break;
+		case 7 :
+			c = Color.PINK;
+			break;
+		case 8 :
+			c = Color.CYAN;
+			break;
+		case 9 :
+			c = Color.MAGENTA;
+			break;
+		default :
+			c = Color.BLACK;
+			break;
+		}
+		iface.newAct(gc, durationMin, chosenArtist, descriptiontxt.getText(), genretxt.getText(), c, stage.getID());
+		stage.update();
+		stage.repaint();
+		
 		this.frame.dispose();
 	}
 

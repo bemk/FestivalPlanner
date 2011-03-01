@@ -113,7 +113,7 @@ public class TimePanel extends JPanel implements MouseListener, MouseMotionListe
 	    {
 	    	public void actionPerformed(ActionEvent e)
 	    	{
-	    		gui.addAct(stage);
+	    		gui.addAct(arg);
 	    	}
 	    });
 	    popupMenu1.add(addAct);
@@ -184,6 +184,11 @@ public class TimePanel extends JPanel implements MouseListener, MouseMotionListe
 			g2.drawLine(i*(this.getWidth()/24), this.getHeight()/2-this.getHeight()/8, i*(this.getWidth()/24), (this.getHeight()/2)+(this.getHeight()/8));
 		}
 		g2.drawString(title, 4, 3*(this.getHeight()/8));
+		for(int act : acts)
+		{
+			ActPaint tmp = new ActPaint(act, iface, this);
+			tmp.paintComponent(g2);
+		}
 		
 		// TODO add act drawing code.
 	}

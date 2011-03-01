@@ -20,7 +20,7 @@ public class GUI
 	private static GUI gui1;
 	private String s;
 	private Interface iface = new Interface();
-	private ArrayList<TimePanel> timelines = new ArrayList<TimePanel>();
+	protected ArrayList<TimePanel> timelines = new ArrayList<TimePanel>();
 	private JPanel time = new JPanel();
 	private int timeSize = 0;
 	
@@ -405,7 +405,7 @@ public class GUI
 		
 	}
 
-	protected void addAct(int stage) 
+	protected void addAct(TimePanel stage) 
 	{
 		new DataScherm(iface, stage, this);
 		
@@ -423,7 +423,7 @@ public class GUI
 			}
 		}
 	}
-	private void redrawStages()
+	public void redrawStages()
 	{
 		TimePanel j = null; //Language quirk
 		for (Iterator<TimePanel> i = timelines.iterator(); i.hasNext();) // Loop through all the timelines
