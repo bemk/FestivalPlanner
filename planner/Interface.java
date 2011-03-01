@@ -86,9 +86,16 @@ public class Interface
     	return findStage(stage).getAllActs();
     }
     
-    public void removeAct(int stage, int ListNo)
+    public void removeAct(int stage, int id)
     {
-    	planning.getStage(stage).removeAct(ListNo);
+    	planning.getStage(stage).removeAct(id);
+    	for (TimeLine i : timelines)
+    	{
+    		if (i.ID() == id && i instanceof Act)
+    		{
+    			timelines.remove(i);
+    		}
+    	}
     }
     
     //Act
@@ -118,7 +125,7 @@ public class Interface
     {
     	 return planning.getStage(stage).getAct(act).getDuration();
     }
-     
+    
     public void addArtist(int stage, int act, Artist a)
     {
     	 planning.getStage(stage).getAct(act).addArtist(a);
@@ -170,40 +177,52 @@ public class Interface
 
      
     //AddressBook
-    public Artist getArtist(int id)
+    public int newArtist(String name, int rating, String comments)
     {
-        return addressBook.getArtist(id);
+    	Artist tmpArtist = new Artist(name, comments, rating);
+    	addressBook.addArtist(tmpArtist);
+    	return tmpArtist.ID();
     }
+    
+//    public Artist getArtist(int id)
+//    {
+//    	for (Artist i : addressBook.getAllArtists())
+//    	{
+//    		if (i.ID() == id)
+//    		{
+//    			return i;
+//    		}
+//    	}
+//    	return null;
+//    }
 
-    public void addArtist(Artist a)
-    {
-    	 addressBook.addArtist(a);
-    }
-
-    public void removeArtist(Artist a)
-    {
-    	 addressBook.removeArtist(a);
-    }
+//    public void addArtist(Artist a)
+//    {
+//    	 addressBook.addArtist(a);
+//    }
 
     public void removeArtist(int n)
     {
-    	 addressBook.removeArtist(n);
+    	Artist tmp = findArtist(n);
+    	if (tmp!= null)
+    	{
+    		addressBook.removeArtist(tmp);
+    	}
     }
 
-    public ArrayList<Artist> getAllArtists()
+    public ArrayList<Integer> getAllArtists()
     {
-    	 return addressBook.getAllArtists();
+    	ArrayList<Integer> artists = new ArrayList<Integer>();
+    	for (Artist i : addressBook.getAllArtists())
+    	{
+    		artists.add(i.ID());
+    	}
+    	return artists;
     }
     	 
      
     //Artist
-     
-    public Artist newArtist(String name, String preferences, int rating)
-    {
-    	 return new Artist(name,preferences,rating);
-    	 
-    	 
-    }
+ 
     public void setName(int i, String n)
     {
     	 addressBook.getArtist(i).setName(n);
@@ -242,6 +261,17 @@ public class Interface
     public int getRating(int i)
     {
     	return addressBook.getArtist(i).getRating();
+    }
+    
+    private Artist findArtist(int id)
+    {
+    	for (Artist i : addressBook.getAllArtists())
+    	{
+    		if (i.ID() == id)
+    		{
+    			return i;
+    		}
+    	}
     }
     
     private Stage findStage (int id)

@@ -25,7 +25,13 @@ abstract class TimeLine {
 	}
 	public void removeAct(int a)
 	{
-		acts.remove(a);
+		for (Act i : acts)
+		{
+			if (i.ID() == a)
+			{
+				acts.remove(i);
+			}
+		}
 	}
 	public void addAct(Act a)
 	{
