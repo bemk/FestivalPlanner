@@ -45,12 +45,12 @@ public class DataScherm implements DocumentListener
 	private JLabel label;
 	private Interface iface;
 	private GregorianCalendar gc;
-	private TimePanel t;
+	private int stage;
 	
 
-	public DataScherm(Interface iface, TimePanel t)
+	public DataScherm(Interface iface, int stage)
 	{
-		this.t = t;
+		this.stage = stage;
 		this.iface = iface;
 		frame = new JFrame("Add act");
 		frame.setLocationRelativeTo(null);
@@ -481,24 +481,24 @@ public class DataScherm implements DocumentListener
 		}
 		Color c = Color.getColor(colorBox.getSelectedItem().toString().toUpperCase());
 		iface.tmpAct = iface.nieuwAct(gc, durationMin, chosenArtist, descriptiontxt.getText(), genretxt.getText(), c);
-	//	iface.addAct(iface.tmpAct);
+		iface.addAct(stage, iface.tmpAct);
 		this.frame.dispose();
 	}
 
 	@Override
-	public void changedUpdate(DocumentEvent arg0) {
+	public void changedUpdate(DocumentEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void insertUpdate(DocumentEvent arg0) {
+	public void insertUpdate(DocumentEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void removeUpdate(DocumentEvent arg0) {
+	public void removeUpdate(DocumentEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

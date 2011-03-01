@@ -110,7 +110,7 @@ public class TimePanel extends JPanel
 	    {
 	    	public void actionPerformed(ActionEvent e)
 	    	{
-	    		gui.addAct(arg);
+	    		gui.addAct(stage);
 	    	}
 	    });
 	    popupMenu1.add(addAct);
@@ -162,6 +162,11 @@ public class TimePanel extends JPanel
 	public String getTitle()
 	{
 		return title;
+	}
+	
+	public int getID()
+	{
+		return stage;
 	}
 	
 	public void paintComponent(Graphics g)

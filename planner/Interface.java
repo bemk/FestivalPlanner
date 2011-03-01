@@ -38,7 +38,7 @@ public class Interface
     		}
     	}
     }
-    public Stage getStage(String s)
+    public Stage getStage(int s)
     {
     	return planning.getStage(s);
     }
@@ -54,7 +54,7 @@ public class Interface
     	tmp.setName(name);
 
     }
-    public int getID(String stage)
+    public int getID(int stage)
     {
     	 return planning.getStage(stage).ID();
     }
@@ -70,12 +70,12 @@ public class Interface
     	return findStage(stage).getAllActs();
     }
     
-    public void removeAct(String stage, int ListNo)
+    public void removeAct(int stage, int ListNo)
     {
     	 planning.getStage(stage).removeAct(ListNo);
     }
      
-    public void addAct(String stage, Act a)
+    public void addAct(int stage, Act a)
     {
     	 planning.getStage(stage).addAct(a);
     }
@@ -85,71 +85,71 @@ public class Interface
     {
     	 return new Act(startTime,duration,artist,description,genre,c);
     }
-    public void setStartTime(String stage, int act, GregorianCalendar c)
+    public void setStartTime(int stage, int act, GregorianCalendar c)
     {
     	 planning.getStage(stage).getAct(act).setStartTime(c);
     }
      
-    public Calendar getStartTime(String stage, int act)
+    public Calendar getStartTime(int stage, int act)
     {
     	 return planning.getStage(stage).getAct(act).getStartTime();
     }
      
-    public void setDuration(String stage, int act, int d)
+    public void setDuration(int stage, int act, int d)
     {
     	 planning.getStage(stage).getAct(act).setDuration(d);
     }
      
-    public int getDuration(String stage, int act)
+    public int getDuration(int stage, int act)
     {
     	 return planning.getStage(stage).getAct(act).getDuration();
     }
      
-    public void addArtist(String stage, int act, Artist a)
+    public void addArtist(int stage, int act, Artist a)
     {
     	 planning.getStage(stage).getAct(act).addArtist(a);
     }
      
-    public void removeArtist(String stage, int act, Artist a)
+    public void removeArtist(int stage, int act, Artist a)
     {
     	 planning.getStage(stage).getAct(act).removeArtist(a);
     }
      
-    public void removeArtist(String stage, int act, int i)
+    public void removeArtist(int stage, int act, int i)
     {
     	 planning.getStage(stage).getAct(act).removeArtist(i);
     }
      
-    public void setDescription(String stage, int act, String s)
+    public void setDescription(int stage, int act, String s)
     {
     	planning.getStage(stage).getAct(act).setDescription(s);
     }
      
-    public String getDescription(String stage, int act)
+    public String getDescription(int stage, int act)
     {
     	 return planning.getStage(stage).getAct(act).getDescription();
     }
      
-    public void setGenre(String stage, int act, String s)
+    public void setGenre(int stage, int act, String s)
     {
     	 planning.getStage(stage).getAct(act).setGenre(s);
     }
      
-    public String getGenre(String stage, int act)
+    public String getGenre(int stage, int act)
     {
     	 return planning.getStage(stage).getAct(act).getGenre();
     }
      
-    public void setColor(String stage, int act, Color c)
+    public void setColor(int stage, int act, Color c)
     {
     	 planning.getStage(stage).getAct(act).setColor(c);
     }
-    public Color getColor(String stage, int act)
+    public Color getColor(int stage, int act)
     {
          return planning.getStage(stage).getAct(act).getColor();
     }
     
-    public void findStage(String stage, int act)
+    public void findStage(int stage, int act)
     {
     	 planning.getStage(stage).getAct(act).findStage();
     }
