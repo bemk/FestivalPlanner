@@ -70,10 +70,10 @@ public class Interface
     	tmp.setName(name);
 
     }
-    public int getID(int stage)
-    {
-    	 return planning.getStage(stage).ID();
-    }
+//    public int getID(int stage)
+//    {
+//    	 return planning.getStage(stage).ID();
+//    }
 
     public Act getAct(int stage , int ListNo)
     {
@@ -88,7 +88,7 @@ public class Interface
     
     public void removeAct(int stage, int id)
     {
-    	planning.getStage(stage).removeAct(id);
+    	findStage(stage).removeAct(id);
     	for (TimeLine i : timelines)
     	{
     		if (i.ID() == id && i instanceof Act)
@@ -108,67 +108,67 @@ public class Interface
     }
     public void setStartTime(int stage, int act, GregorianCalendar c)
     {
-    	 planning.getStage(stage).getAct(act).setStartTime(c);
+    	findStage(stage).getAct(act).setStartTime(c);
     }
      
     public Calendar getStartTime(int stage, int act)
     {
-    	 return planning.getStage(stage).getAct(act).getStartTime();
+    	 return findStage(stage).getAct(act).getStartTime();
     }
      
     public void setDuration(int stage, int act, int d)
     {
-    	 planning.getStage(stage).getAct(act).setDuration(d);
+    	findStage(stage).getAct(act).setDuration(d);
     }
      
     public int getDuration(int stage, int act)
     {
-    	 return planning.getStage(stage).getAct(act).getDuration();
+    	 return findStage(stage).getAct(act).getDuration();
     }
     
     public void addArtist(int stage, int act, int Artist)
     {
-    	planning.getStage(stage).getAct(act).addArtist(findArtist(Artist));
+    	findStage(stage).getAct(act).addArtist(findArtist(Artist));
     }
      
     public void removeArtist(int stage, int act, int a)
     {
-    	 planning.getStage(stage).getAct(act).removeArtist(findArtist(a));
+    	findStage(stage).getAct(act).removeArtist(findArtist(a));
     }
     
     public void setDescription(int stage, int act, String s)
     {
-    	planning.getStage(stage).getAct(act).setDescription(s);
+    	findStage(stage).getAct(act).setDescription(s);
     }
      
     public String getDescription(int stage, int act)
     {
-    	 return planning.getStage(stage).getAct(act).getDescription();
+    	 return findStage(stage).getAct(act).getDescription();
     }
      
     public void setGenre(int stage, int act, String s)
     {
-    	 planning.getStage(stage).getAct(act).setGenre(s);
+    	 findStage(stage).getAct(act).setGenre(s);
     }
      
     public String getGenre(int stage, int act)
     {
-    	 return planning.getStage(stage).getAct(act).getGenre();
+    	 return findStage(stage).getAct(act).getGenre();
     }
      
     public void setColor(int stage, int act, Color c)
     {
-    	 planning.getStage(stage).getAct(act).setColor(c);
+    	 findStage(stage).getAct(act).setColor(c);
     }
     public Color getColor(int stage, int act)
     {
-         return planning.getStage(stage).getAct(act).getColor();
+         return findStage(stage).getAct(act).getColor();
     }
     
-    public void findStage(int stage, int act)
-    {
-    	 planning.getStage(stage).getAct(act).findStage();
-    }
+//    public void findStage(int stage, int act)
+//    {
+//    	 planning.getStage(stage).getAct(act).findStage();
+//    }
 
      
     //AddressBook
