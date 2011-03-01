@@ -255,14 +255,13 @@ public class Interface
     
     private Stage findStage (int id)
     {
-    	Stage tmp = null;
-    	for (Iterator<Stage> i = planning.getAllStages().iterator(); i.hasNext();tmp = i.next())
+    	for (TimeLine i : timelines)
     	{
-    		if (tmp.ID()==id)
+    		if (i.ID() == id && i instanceof Stage)
     		{
-    			return tmp;
+    			return (Stage)i;
     		}
-    	}
+    	} 
     	return null;
     }
 }
