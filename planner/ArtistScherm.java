@@ -118,8 +118,7 @@ public class ArtistScherm
 	
 	public void save()
 	{
-		iface.tmpArtist = new Artist(nametxt.getText(),preferencetxt.getText(),tmprating);
-		iface.addArtist(iface.tmpArtist);
+		 iface.newArtist(nametxt.getText(), tmprating, preferencetxt.getText());
 		frame.dispose();
 	}
 }
