@@ -1,7 +1,7 @@
 
 public class EHBO extends Building {
 
-	private String url = "Images/EHBO.png";
+	private String url = "FP/EHBO.png";
 	
 	public EHBO(int x, int y)
 	{

@@ -1,11 +1,13 @@
 import java.awt.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 
 public abstract class Sprite {
 
 protected Point coordinates = new Point(0,0);
-protected ImageIcon imageIcon;
+protected ArrayList<ImageIcon> imageIcons = new ArrayList<ImageIcon>();
 
 public void setCoordinates(int x, int y)
 {
@@ -38,15 +40,11 @@ public int getY()
 	return this.coordinates.y;
 }
 
-public void setImageIcon(String url)
+public void addImageIcon(ImageIcon i)
 {
-	imageIcon = new ImageIcon(this.getClass().getResource(url));
-}
-
-
-public ImageIcon getImageIcon()
-{
-	return this.imageIcon;
+	imageIcons.add(i);
 }
 
 }
+
+
