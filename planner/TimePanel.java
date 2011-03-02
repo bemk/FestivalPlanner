@@ -51,7 +51,6 @@ public class TimePanel extends JPanel implements MouseListener, MouseMotionListe
 		this.setPreferredSize(new Dimension(width, height));
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
-		
 		popupMenu1();
 		
 	}
@@ -185,7 +184,7 @@ public class TimePanel extends JPanel implements MouseListener, MouseMotionListe
 		}
 		g2.drawString(title, 4, 3*(this.getHeight()/8));
 		AffineTransform tr = new AffineTransform();
-		tr.translate(0, height());
+		tr.translate(0, height()/2);
 		g2.transform(tr);
 		for(int act : acts)
 		{
