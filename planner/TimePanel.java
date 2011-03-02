@@ -6,7 +6,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
 
-public class TimePanel extends JPanel implements MouseListener, MouseMotionListener
+public class TimePanel extends JPanel implements MouseListener, MouseMotionListener, TimeLinePanel
 {
 	private static final long serialVersionUID = 4466302497626327762L;
 	private JPopupMenu popupMenu1;
@@ -226,5 +226,14 @@ public class TimePanel extends JPanel implements MouseListener, MouseMotionListe
 	public void mouseReleased(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public double height()
+	{
+		return (double)this.getHeight();
+	}
+	public double width()
+	{
+		return (double)this.getWidth();
 	}
 }
