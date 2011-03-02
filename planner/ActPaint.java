@@ -17,6 +17,7 @@ public class ActPaint implements TimeLinePanel
 	private double height;
 	private double width;
 	private double startX;
+	private double topY;
 	public ActPaint(int act, Interface iface, TimePanel t)
 	{
 		this.t = t;
@@ -24,7 +25,8 @@ public class ActPaint implements TimeLinePanel
 		this.stage = t.getID();
 		this.act = act;
 		
-		this.height = t.getHeight()/10*9;
+		this.height = t.height()/10*9;
+		this.topY = -this.height/2;
 		Calendar tmpStart = iface.getStartTime(stage, act);
 		int tmpHr = tmpStart.get(Calendar.HOUR);
 		int tmpMin = tmpStart.get(Calendar.MINUTE);
@@ -50,7 +52,8 @@ public class ActPaint implements TimeLinePanel
 			System.out.println((t.width()/7.9)/iface.getDuration(stage, act)*100+ "duration");
 			System.out.println(100-((t.width()/7.9)/((iface.getStartTime(stage, act).getMaximum(GregorianCalendar.HOUR_OF_DAY)*60)+(iface.getStartTime(stage, act).getMaximum(GregorianCalendar.MINUTE)))*100)+ " startTime");
 		}
-		s = new RoundRectangle2D.Double((t.width()+650)/((iface.getStartTime(stage, act).getMaximum(GregorianCalendar.HOUR_OF_DAY)*60)+(iface.getStartTime(stage, act).getMaximum(GregorianCalendar.MINUTE))), t.height()/20*1.5,100-((t.width()/+650)/iface.getDuration(stage, act)), t.height()/20 * 19 , 10 ,10);
+//		s = new RoundRectangle2D.Double((t.width()+650)/((iface.getStartTime(stage, act).getMaximum(GregorianCalendar.HOUR_OF_DAY)*60)+(iface.getStartTime(stage, act).getMaximum(GregorianCalendar.MINUTE))), t.height()/20*1.5,100-((t.width()/+650)/iface.getDuration(stage, act)), t.height()/20 * 19 , 10 ,10);
+		s = new RoundRectangle2D.Double(startX, topY, width, height, 10, 10);
 		g2.setColor(iface.getColor(stage, act));
 		g2.draw(s);
 		g2.fill(s);
