@@ -183,15 +183,14 @@ public class TimePanel extends JPanel implements MouseListener, MouseMotionListe
 			g2.drawLine(i*(this.getWidth()/24), this.getHeight()/2-this.getHeight()/8, i*(this.getWidth()/24), (this.getHeight()/2)+(this.getHeight()/8));
 		}
 		g2.drawString(title, 4, 3*(this.getHeight()/8));
-		AffineTransform tr = new AffineTransform();
-		tr.translate(0, height()/2);
-		g2.transform(tr);
+
+		g2.translate(0, height()/2);
 		for(int act : acts)
 		{
 			ActPaint tmp = new ActPaint(act, iface, this);
 			tmp.paintComponent(g2);
 		}
-		
+		g2.translate(0,-height()/2);
 		// TODO add act drawing code.
 	}
 	@Override
