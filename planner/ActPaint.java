@@ -26,9 +26,11 @@ public class ActPaint implements TimeLinePanel
 		this.topY = -this.height/2;
 		Calendar tmpStart = iface.getStartTime(stage, act);
 		int tmpHr = tmpStart.get(Calendar.HOUR_OF_DAY);
-		System.out.printf("hours: %d\n", tmpHr);
 		int tmpMin = tmpStart.get(Calendar.MINUTE);
-		System.out.printf("Minutes: %d\n\n", tmpMin);
+		if (Interface.dbg)
+		{
+			System.out.printf("Time\t%d:%d\n\n", tmpHr, tmpMin);
+		}
 		tmpMin += (tmpHr*60);
 		startX = (t.width()/1440)*tmpMin;
 		width = t.width()/1400*iface.getDuration(stage, act);
