@@ -27,9 +27,9 @@ public class ActPaint
 	
 	public void paintComponent(Graphics2D g2)
 	{
-		System.out.println((t.getWidth()/7.9)/iface.getDuration(stage, act)*100+ "duration");
+		System.out.println((t.getWidth()/7.9)/iface.getDuration(stage, act)+ "duration");
 		System.out.println(100-((t.getWidth()/7.9)/((iface.getStartTime(stage, act).getMaximum(GregorianCalendar.HOUR_OF_DAY)*60)+(iface.getStartTime(stage, act).getMaximum(GregorianCalendar.MINUTE)))*100)+ " startTime");
-	s = new RoundRectangle2D.Double((t.getWidth()+650)/((iface.getStartTime(stage, act).getMaximum(GregorianCalendar.HOUR_OF_DAY)*60)+(iface.getStartTime(stage, act).getMaximum(GregorianCalendar.MINUTE))), t.getHeight()/20*1.5,100-((t.getWidth()/+650)/iface.getDuration(stage, act)), t.getHeight()/20 * 19 , 10 ,10);
+	s = new RoundRectangle2D.Double((t.getWidth()+650)-((iface.getStartTime(stage, act).getMaximum(GregorianCalendar.HOUR_OF_DAY)*60)+(iface.getStartTime(stage, act).getMaximum(GregorianCalendar.MINUTE))), t.getHeight()/20*1.5,100-((t.getWidth()/+650)-iface.getDuration(stage, act)), t.getHeight()/20 * 19 , 10 ,10);
 	g2.setColor(iface.getColor(stage, act));
 	g2.draw(s);
 	g2.fill(s);
