@@ -30,7 +30,7 @@ public class ActPaint implements TimeLinePanel
 		this.stage = t.getID();
 		this.act = act;
 		
-		this.height = t.height()/4;
+		this.height = t.height()/10*9;
 		this.topY = -this.height/2;
 		Calendar tmpStart = iface.getStartTime(stage, act);
 		int tmpHr = tmpStart.get(Calendar.HOUR_OF_DAY);

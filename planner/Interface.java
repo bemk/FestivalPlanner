@@ -8,7 +8,7 @@ public class Interface
 	protected Artist tmpArtist;
 	protected Act tmpAct;
 	private ArrayList<TimeLine> timelines = new ArrayList<TimeLine>();
-	public static final boolean dbg = true; // Togles debug info
+	public static final boolean dbg = true;
 
 	public ArrayList<Integer> getAllActs()
 	{
