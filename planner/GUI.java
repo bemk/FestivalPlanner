@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
 import java.io.*;
 import java.util.*;
 
@@ -23,6 +24,7 @@ public class GUI
 	protected ArrayList<TimePanel> timelines = new ArrayList<TimePanel>();
 	private JPanel time = new JPanel();
 	private int timeSize = 0;
+
 	
     public static void main(String[] args)
     {
@@ -423,6 +425,7 @@ public class GUI
 			}
 		}
 	}
+	
 	public void redrawStages()
 	{
 		TimePanel j = null; //Language quirk
