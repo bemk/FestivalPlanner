@@ -187,6 +187,7 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
 		Graphics2D g2 = (Graphics2D) g;
 		g.setColor(Color.red);
 		g2.drawLine(0, this.getHeight()/2, this.getWidth(), this.getHeight()/2);
+		g2.translate(0, height()/2);
 		for(int i = -this.getWidth();i<24;i++)
 		{
 			g2.drawLine(i*(this.getWidth()/24), this.getHeight()/2-this.getHeight()/8, i*(this.getWidth()/24), (this.getHeight()/2)+(this.getHeight()/8));
