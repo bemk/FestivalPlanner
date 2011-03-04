@@ -1,11 +1,6 @@
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.geom.*;
 import java.util.*;
-
-import javax.swing.JPanel;
 
 public class ActPaint implements TimeLinePanel
 {
