@@ -1,11 +1,6 @@
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.geom.*;
 import java.util.*;
-
-import javax.swing.JPanel;
 
 public class ActPaint implements TimeLinePanel
 {
@@ -30,7 +25,7 @@ public class ActPaint implements TimeLinePanel
 		this.stage = t.getID();
 		this.act = act;
 		
-		this.height = t.height()/10*9;
+		this.height = t.height()/4;
 		this.topY = -this.height/2;
 		Calendar tmpStart = iface.getStartTime(stage, act);
 		int tmpHr = tmpStart.get(Calendar.HOUR_OF_DAY);

@@ -23,7 +23,7 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
     private Interface iface;
 	protected ArrayList<Shape> shapes = new ArrayList<Shape>();
 	
-	private int dragObject = -1;
+	private Shape dragObject = null;
 	private Point lastMousePosition = null;
     
 	public TimePanel(GUI gui)
@@ -204,11 +204,10 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
 	}
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		if(dragObject != -1)
+		if(dragObject != null)
 		{
-			
 			System.out.println("hij vind hem wel met draggen");
-			Shape s = shapes.get(dragObject);
+			Shape s = (dragObject);
 			AffineTransform tr = new AffineTransform();
 			if(((e.getModifiers() & MouseEvent.BUTTON1_MASK) != 0))
 			{
@@ -221,7 +220,7 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
 				tr.translate(-s.getBounds().getCenterX(), -s.getBounds().getCenterX());
 			}
 			s = tr.createTransformedShape(s);
-			shapes.set(dragObject, s);
+			shapes.set(shapes.indexOf(dragObject), s);
 			lastMousePosition = e.getPoint();
 		}
 		repaint();
@@ -250,13 +249,19 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
-		for(int i = 0; i < shapes.size(); i++)
+//		for(int i = 0; i < shapes.size(); i++)
+		if (Interface.dbg)
 		{
-			if(shapes.get(i).contains(e.getPoint()))
+			System.out.printf("\nX coord:\t%f\nY coord:\t%f\n", e.getPoint().getX(), e.getPoint().getY()/this.height());
+		}
+		for (Shape s : shapes)
+		{
+			Point tmpPoint = new Point(e.getPoint().x, (int)(e.getPoint().y/this.height()));
+			if(s.contains(tmpPoint))
 			{
 				System.out.println("pressed");
-				dragObject = i;
-				lastMousePosition = e.getPoint();
+				dragObject = s;
+				lastMousePosition = tmpPoint;
 				break;
 			}
 		}
@@ -266,6 +271,7 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
 		// TODO Auto-generated method stub
+		this.dragObject = null;
 		
 	}
 	
