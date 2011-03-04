@@ -56,6 +56,7 @@ public class ActPaint implements TimeLinePanel
 	
 	public void paintComponent(Graphics2D g2)
 	{
+
 		if (Interface.dbg)
 		{
 //			System.out.println((t.width()/7.9)/iface.getDuration(stage, act)*100+ " duration");
