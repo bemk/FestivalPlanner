@@ -194,12 +194,13 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
 		}
 		g2.drawString(title, 4, 3*(this.getHeight()/8));
 
-		
+		g2.translate(0, height()/2);
 		for(int act : acts)
 		{
 			ActPaint a = new ActPaint(act, iface, this);
 			a.paintComponent(g2);
 		}
+		g2.translate(0,-height()/2);
 		
 		// TODO add act drawing code.
 	}
