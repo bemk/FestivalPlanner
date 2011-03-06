@@ -220,6 +220,15 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
 				tr.translate(-s.getBounds().getCenterX(), -s.getBounds().getCenterX());
 			}
 			s = tr.createTransformedShape(s);
+			if (s==null)
+			{
+				System.out.printf("S was null\n");
+				System.exit(0);
+			} else if (!shapes.contains(dragObject))
+			{
+				System.out.printf("Shapes didn't have the object");
+				System.exit(0);
+			}
 			shapes.set(shapes.indexOf(dragObject), s);
 			lastMousePosition = e.getPoint();
 		}
