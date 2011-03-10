@@ -12,11 +12,13 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
 	private static final long serialVersionUID = 4466302497626327762L;
 	private JPopupMenu popupMenu1;
 	public String title;
+	private Shape s;
 	protected GUI gui;
     private JMenuItem editAct;
     private TimePanel arg;
     private boolean drawn = false;
     private Graphics g;
+    private boolean dragged = false;
     private boolean removed = false;
     private int stage;
     private ArrayList<Integer> acts = new ArrayList<Integer>();
@@ -194,46 +196,47 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
 		g2.drawString(title, 4, 3*(this.getHeight()/8));
 
 		g2.translate(0, height()/2);
+		if(!dragged)
+		{
 		for(int act : acts)
 		{
 			ActPaint a = new ActPaint(act, iface, this);
 			a.paintComponent(g2);
 		}
+		}
+		else if(dragged)
+		{
+			ActPaint a = new ActPaint(this);
+			a.paintComponent(s,g2);
+		}
+		dragged = false;
 		g2.translate(0,-height()/2);
 		// TODO add act drawing code.
 	}
+	
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		if(dragObject != null)
 		{
-			System.out.println("hij vind hem wel met draggen");
-			Shape s = (dragObject);
+			
+			s = dragObject;
+			dragged = true;
 			AffineTransform tr = new AffineTransform();
 			if(((e.getModifiers() & MouseEvent.BUTTON1_MASK) != 0))
 			{
 				tr.translate(e.getPoint().x - lastMousePosition.x, e.getPoint().y - lastMousePosition.y);
-			}
-			else
-			{
-				tr.translate(s.getBounds().getCenterX(), s.getBounds().getCenterY());
-				tr.rotate(e.getPoint().x - lastMousePosition.x/100.0);
-				tr.translate(-s.getBounds().getCenterX(), -s.getBounds().getCenterX());
+				System.out.println("hij vind hem wel met draggen");
 			}
 			s = tr.createTransformedShape(s);
-			if (s==null)
-			{
-				System.out.printf("S was null\n");
-				System.exit(0);
-			} else if (!shapes.contains(dragObject))
-			{
-				System.out.printf("Shapes didn't have the object");
-				System.exit(0);
-			}
+			if(shapes.contains(dragObject))
 			shapes.set(shapes.indexOf(dragObject), s);
 			lastMousePosition = e.getPoint();
+			this.repaint();
+			this.updateUI(); 
+			//shapes.remove(dragObject);
+			//this.updateUI();
 		}
-		repaint();
-		updateUI();
+		
 		
 	}
 	@Override
@@ -259,13 +262,13 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
 	@Override
 	public void mousePressed(MouseEvent e) {
 //		for(int i = 0; i < shapes.size(); i++)
-		if (Interface.dbg)
-		{
-			System.out.printf("\nX coord:\t%f\nY coord:\t%f\n", e.getPoint().getX(), e.getPoint().getY()/this.height());
-		}
+//		if (Interface.dbg)
+//		{
+//			System.out.printf("\nX coord:\t%f\nY coord:\t%f\n", e.getPoint().getX(), e.getPoint().getY()/this.height());
+//		}
 		for (Shape s : shapes)
 		{
-			Point tmpPoint = new Point(e.getPoint().x, (int)(e.getPoint().y/this.height()));
+			Point tmpPoint = new Point(e.getPoint().x, (int) ((int)(e.getPoint().y)/this.height()));
 			if(s.contains(tmpPoint))
 			{
 				System.out.println("pressed");
@@ -274,7 +277,6 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
 				break;
 			}
 		}
-		
 	}
 	
 	@Override
