@@ -15,7 +15,11 @@ public class ActPaint implements TimeLinePanel
 	private double width;
 	private double startX;
 	private double topY;
+	public ActPaint(TimePanel t)
 	
+	{
+		this.t = t;
+	}
 	
 	public ActPaint(int act, Interface iface, TimePanel t)
 	{
@@ -51,7 +55,6 @@ public class ActPaint implements TimeLinePanel
 	
 	public void paintComponent(Graphics2D g2)
 	{
-
 		if (Interface.dbg)
 		{
 //			System.out.println((t.width()/7.9)/iface.getDuration(stage, act)*100+ " duration");
@@ -63,6 +66,14 @@ public class ActPaint implements TimeLinePanel
 		s = new RoundRectangle2D.Double(startX, topY, width, height, 10, 10);
 		t.shapes.add(s);
 		g2.setColor(iface.getColor(stage, act));
+		g2.draw(s);
+		g2.fill(s);
+	}
+	
+	public void paintComponent(Shape s, Graphics2D g2)
+	{
+		g2.setColor(Color.BLACK);
+		t.shapes.add(s);
 		g2.draw(s);
 		g2.fill(s);
 	}
