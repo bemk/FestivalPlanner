@@ -101,168 +101,12 @@ public class DataScherm
 	dateyr = new JTextField(dateInputY);
 	datem = new JTextField(dateInputM);
 	dated = new JTextField(dateInputD);
-	dateyr.addKeyListener(new KeyListener()
-	{
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-			number = false;
-			if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE ||
-					e.getKeyCode() == KeyEvent.VK_DELETE || 
-					e.getKeyCode() == KeyEvent.VK_ENTER ||
-					e.getKeyCode() == KeyEvent.VK_0 ||
-					e.getKeyCode() == KeyEvent.VK_1 ||
-					e.getKeyCode() == KeyEvent.VK_2 ||
-					e.getKeyCode() == KeyEvent.VK_3 ||
-					e.getKeyCode() == KeyEvent.VK_4 ||
-					e.getKeyCode() == KeyEvent.VK_5 ||
-					e.getKeyCode() == KeyEvent.VK_6 ||
-					e.getKeyCode() == KeyEvent.VK_7 ||
-					e.getKeyCode() == KeyEvent.VK_8 ||
-					e.getKeyCode() == KeyEvent.VK_9 ||
-					e.getKeyCode() == KeyEvent.VK_NUM_LOCK ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD0 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD1 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD2 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD3 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD4 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD5 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD6 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD7 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD8 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD9)
-			{
-				number = true;
-				System.out.println(e.getKeyChar());
-			}
-			else if (!number)
-			{
-				try {
-					Robot robot = new Robot();
-					robot.keyPress(KeyEvent.VK_BACK_SPACE);
-				} catch (AWTException e1) {
-					
-				}
-			}
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-		}
-
-		@Override
-		public void keyTyped(KeyEvent e) {
-		}
-		
-	});
-	datem.addKeyListener(new KeyListener()
-	{
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-			number = false;
-			if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE ||
-					e.getKeyCode() == KeyEvent.VK_DELETE || 
-					e.getKeyCode() == KeyEvent.VK_ENTER ||
-					e.getKeyCode() == KeyEvent.VK_0 ||
-					e.getKeyCode() == KeyEvent.VK_1 ||
-					e.getKeyCode() == KeyEvent.VK_2 ||
-					e.getKeyCode() == KeyEvent.VK_3 ||
-					e.getKeyCode() == KeyEvent.VK_4 ||
-					e.getKeyCode() == KeyEvent.VK_5 ||
-					e.getKeyCode() == KeyEvent.VK_6 ||
-					e.getKeyCode() == KeyEvent.VK_7 ||
-					e.getKeyCode() == KeyEvent.VK_8 ||
-					e.getKeyCode() == KeyEvent.VK_9 ||
-					e.getKeyCode() == KeyEvent.VK_NUM_LOCK ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD0 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD1 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD2 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD3 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD4 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD5 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD6 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD7 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD8 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD9)
-			{
-				number = true;
-				System.out.println(e.getKeyChar());
-			}
-			else if (!number)
-			{
-				try {
-					Robot robot = new Robot();
-					robot.keyPress(KeyEvent.VK_BACK_SPACE);
-				} catch (AWTException e1) {
-					
-				}
-			}
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-		}
-
-		@Override
-		public void keyTyped(KeyEvent e) {
-		}
-		
-	});
-	dated.addKeyListener(new KeyListener()
-	{
-
-		@Override
-		public void keyPressed(KeyEvent e) {
-			number = false;
-			if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE ||
-					e.getKeyCode() == KeyEvent.VK_DELETE || 
-					e.getKeyCode() == KeyEvent.VK_ENTER ||
-					e.getKeyCode() == KeyEvent.VK_0 ||
-					e.getKeyCode() == KeyEvent.VK_1 ||
-					e.getKeyCode() == KeyEvent.VK_2 ||
-					e.getKeyCode() == KeyEvent.VK_3 ||
-					e.getKeyCode() == KeyEvent.VK_4 ||
-					e.getKeyCode() == KeyEvent.VK_5 ||
-					e.getKeyCode() == KeyEvent.VK_6 ||
-					e.getKeyCode() == KeyEvent.VK_7 ||
-					e.getKeyCode() == KeyEvent.VK_8 ||
-					e.getKeyCode() == KeyEvent.VK_9 ||
-					e.getKeyCode() == KeyEvent.VK_NUM_LOCK ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD0 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD1 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD2 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD3 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD4 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD5 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD6 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD7 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD8 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD9)
-			{
-				number = true;
-				System.out.println(e.getKeyChar());
-			}
-			else if (!number)
-			{
-				try {
-					Robot robot = new Robot();
-					robot.keyPress(KeyEvent.VK_BACK_SPACE);
-				} catch (AWTException e1) {
-					
-				}
-			}
-		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-		}
-
-		@Override
-		public void keyTyped(KeyEvent e) {
-		}
-		
-	});
+	dateyr.addKeyListener(new IntListener());
+	dateyr.addMouseListener(new TextFieldMouseListener());
+	datem.addMouseListener(new TextFieldMouseListener());
+	dated.addMouseListener(new TextFieldMouseListener());
+	datem.addKeyListener(new IntListener());
+	dated.addKeyListener(new IntListener());
 	Datum.setLabelFor(dated);
 	datum.add(dated);
 	datum.add(datem);
@@ -301,114 +145,10 @@ public class DataScherm
 		startTimehr = new JTextField("Hour");
 		startTimemin = new JTextField("Minute");
 		beginTijd.setLabelFor(startTimehr);
-		startTimehr.addKeyListener(new KeyListener()
-		{
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				number = false;
-				if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE ||
-						e.getKeyCode() == KeyEvent.VK_DELETE || 
-						e.getKeyCode() == KeyEvent.VK_ENTER ||
-						e.getKeyCode() == KeyEvent.VK_0 ||
-						e.getKeyCode() == KeyEvent.VK_1 ||
-						e.getKeyCode() == KeyEvent.VK_2 ||
-						e.getKeyCode() == KeyEvent.VK_3 ||
-						e.getKeyCode() == KeyEvent.VK_4 ||
-						e.getKeyCode() == KeyEvent.VK_5 ||
-						e.getKeyCode() == KeyEvent.VK_6 ||
-						e.getKeyCode() == KeyEvent.VK_7 ||
-						e.getKeyCode() == KeyEvent.VK_8 ||
-						e.getKeyCode() == KeyEvent.VK_9 ||
-						e.getKeyCode() == KeyEvent.VK_NUM_LOCK ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD0 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD1 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD2 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD3 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD4 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD5 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD6 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD7 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD8 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD9)
-				{
-					number = true;
-					System.out.println(e.getKeyChar());
-				}
-				else if (!number)
-				{
-					try {
-						Robot robot = new Robot();
-						robot.keyPress(KeyEvent.VK_BACK_SPACE);
-					} catch (AWTException e1) {
-						
-					}
-				}
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-			}
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-			}
-			
-		});
-		startTimemin.addKeyListener(new KeyListener()
-		{
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				number = false;
-				if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE ||
-						e.getKeyCode() == KeyEvent.VK_DELETE || 
-						e.getKeyCode() == KeyEvent.VK_ENTER ||
-						e.getKeyCode() == KeyEvent.VK_0 ||
-						e.getKeyCode() == KeyEvent.VK_1 ||
-						e.getKeyCode() == KeyEvent.VK_2 ||
-						e.getKeyCode() == KeyEvent.VK_3 ||
-						e.getKeyCode() == KeyEvent.VK_4 ||
-						e.getKeyCode() == KeyEvent.VK_5 ||
-						e.getKeyCode() == KeyEvent.VK_6 ||
-						e.getKeyCode() == KeyEvent.VK_7 ||
-						e.getKeyCode() == KeyEvent.VK_8 ||
-						e.getKeyCode() == KeyEvent.VK_9 ||
-						e.getKeyCode() == KeyEvent.VK_NUM_LOCK ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD0 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD1 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD2 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD3 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD4 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD5 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD6 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD7 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD8 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD9)
-				{
-					number = true;
-					System.out.println(e.getKeyChar());
-				}
-				else if (!number)
-				{
-					try {
-						Robot robot = new Robot();
-						robot.keyPress(KeyEvent.VK_BACK_SPACE);
-					} catch (AWTException e1) {
-						
-					}
-				}
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-			}
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-			}
-			
-		});
+		startTimehr.addKeyListener(new IntListener());
+		startTimehr.addMouseListener(new TextFieldMouseListener());
+		startTimemin.addKeyListener(new IntListener());
+		startTimemin.addMouseListener(new TextFieldMouseListener());
 		tijd.add(startTimehr);
 		tijd.add(startTimemin);
 		JLabel eindTijd = new JLabel("Endtime:");
@@ -416,114 +156,10 @@ public class DataScherm
 		endTimehr = new JTextField("Hour");
 		endTimemin = new JTextField("Minute");
 		eindTijd.setLabelFor(endTimehr);
-		endTimehr.addKeyListener(new KeyListener()
-		{
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				number = false;
-				if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE ||
-						e.getKeyCode() == KeyEvent.VK_DELETE || 
-						e.getKeyCode() == KeyEvent.VK_ENTER ||
-						e.getKeyCode() == KeyEvent.VK_0 ||
-						e.getKeyCode() == KeyEvent.VK_1 ||
-						e.getKeyCode() == KeyEvent.VK_2 ||
-						e.getKeyCode() == KeyEvent.VK_3 ||
-						e.getKeyCode() == KeyEvent.VK_4 ||
-						e.getKeyCode() == KeyEvent.VK_5 ||
-						e.getKeyCode() == KeyEvent.VK_6 ||
-						e.getKeyCode() == KeyEvent.VK_7 ||
-						e.getKeyCode() == KeyEvent.VK_8 ||
-						e.getKeyCode() == KeyEvent.VK_9 ||
-						e.getKeyCode() == KeyEvent.VK_NUM_LOCK ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD0 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD1 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD2 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD3 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD4 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD5 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD6 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD7 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD8 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD9)
-				{
-					number = true;
-					System.out.println(e.getKeyChar());
-				}
-				else if (!number)
-				{
-					try {
-						Robot robot = new Robot();
-						robot.keyPress(KeyEvent.VK_BACK_SPACE);
-					} catch (AWTException e1) {
-						
-					}
-				}
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-			}
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-			}
-			
-		});
-		startTimemin.addKeyListener(new KeyListener()
-		{
-
-			@Override
-			public void keyPressed(KeyEvent e) {
-				number = false;
-				if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE ||
-						e.getKeyCode() == KeyEvent.VK_DELETE || 
-						e.getKeyCode() == KeyEvent.VK_ENTER ||
-						e.getKeyCode() == KeyEvent.VK_0 ||
-						e.getKeyCode() == KeyEvent.VK_1 ||
-						e.getKeyCode() == KeyEvent.VK_2 ||
-						e.getKeyCode() == KeyEvent.VK_3 ||
-						e.getKeyCode() == KeyEvent.VK_4 ||
-						e.getKeyCode() == KeyEvent.VK_5 ||
-						e.getKeyCode() == KeyEvent.VK_6 ||
-						e.getKeyCode() == KeyEvent.VK_7 ||
-						e.getKeyCode() == KeyEvent.VK_8 ||
-						e.getKeyCode() == KeyEvent.VK_9 ||
-						e.getKeyCode() == KeyEvent.VK_NUM_LOCK ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD0 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD1 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD2 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD3 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD4 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD5 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD6 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD7 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD8 ||
-						e.getKeyCode() == KeyEvent.VK_NUMPAD9)
-				{
-					number = true;
-					System.out.println(e.getKeyChar());
-				}
-				else if (!number)
-				{
-					try {
-						Robot robot = new Robot();
-						robot.keyPress(KeyEvent.VK_BACK_SPACE);
-					} catch (AWTException e1) {
-						
-					}
-				}
-			}
-
-			@Override
-			public void keyReleased(KeyEvent e) {
-			}
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-			}
-			
-		});
+		endTimehr.addKeyListener(new IntListener());
+		endTimehr.addMouseListener(new TextFieldMouseListener());
+		endTimemin.addKeyListener(new IntListener());
+		endTimemin.addMouseListener(new TextFieldMouseListener());
 		tijd.add(endTimehr);
 		tijd.add(endTimemin);
 		return tijd;
@@ -813,4 +449,61 @@ public class DataScherm
 	}
 }
 
+class TextFieldMouseListener extends MouseAdapter
+{
+	@Override
+	public void mouseClicked(MouseEvent e)
+	{
+		((JTextField)e.getSource()).setText("");
+	}
+}
+
+class IntListener extends KeyAdapter
+{
+	private boolean number = false;
+	
+
+		@Override
+		public void keyPressed(KeyEvent e) 
+		{
+			number = false;
+			if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE ||
+					e.getKeyCode() == KeyEvent.VK_DELETE || 
+					e.getKeyCode() == KeyEvent.VK_ENTER ||
+					e.getKeyCode() == KeyEvent.VK_0 ||
+					e.getKeyCode() == KeyEvent.VK_1 ||
+					e.getKeyCode() == KeyEvent.VK_2 ||
+					e.getKeyCode() == KeyEvent.VK_3 ||
+					e.getKeyCode() == KeyEvent.VK_4 ||
+					e.getKeyCode() == KeyEvent.VK_5 ||
+					e.getKeyCode() == KeyEvent.VK_6 ||
+					e.getKeyCode() == KeyEvent.VK_7 ||
+					e.getKeyCode() == KeyEvent.VK_8 ||
+					e.getKeyCode() == KeyEvent.VK_9 ||
+					e.getKeyCode() == KeyEvent.VK_NUM_LOCK ||
+					e.getKeyCode() == KeyEvent.VK_NUMPAD0 ||
+					e.getKeyCode() == KeyEvent.VK_NUMPAD1 ||
+					e.getKeyCode() == KeyEvent.VK_NUMPAD2 ||
+					e.getKeyCode() == KeyEvent.VK_NUMPAD3 ||
+					e.getKeyCode() == KeyEvent.VK_NUMPAD4 ||
+					e.getKeyCode() == KeyEvent.VK_NUMPAD5 ||
+					e.getKeyCode() == KeyEvent.VK_NUMPAD6 ||
+					e.getKeyCode() == KeyEvent.VK_NUMPAD7 ||
+					e.getKeyCode() == KeyEvent.VK_NUMPAD8 ||
+					e.getKeyCode() == KeyEvent.VK_NUMPAD9)
+			{
+				number = true;
+				System.out.println(e.getKeyChar());
+			}
+			else if (!number)
+			{
+				try {
+					Robot robot = new Robot();
+					robot.keyPress(KeyEvent.VK_BACK_SPACE);
+				} catch (AWTException e1) {
+					
+				}
+			}
+		}
+}
 
