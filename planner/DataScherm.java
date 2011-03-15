@@ -1,7 +1,10 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.text.ParseException;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.JFormattedTextField.AbstractFormatter;
+import javax.swing.JFormattedTextField.AbstractFormatterFactory;
 import javax.swing.event.*;
 import javax.swing.filechooser.*;
 import javax.swing.text.*;
@@ -19,8 +22,9 @@ public class DataScherm
 	private String dateInputD = "Day";
 	private JTextArea descriptiontxt;
 	private JTextArea preferencestxt;
-	private JTextField dateyr, datem,dated;
-	private JTextField startTimehr, startTimemin, endTimemin, endTimehr;
+	private JFormattedTextField dateyr, datem,dated;
+	private JFormattedTextField startTimehr, startTimemin, endTimemin, endTimehr;
+	private String startHr = "", startMin = "", endHr = "", endMin = "";
 	private Object[] Names;
 	private int tmprating;
 	private JComboBox namebox;
@@ -41,9 +45,11 @@ public class DataScherm
 	private GregorianCalendar gc;
 	private TimePanel stage;
 	private GUI gui;
+	private AbstractFormatter intFilter;
+	private AbstractFormatterFactory filter;
 	
 
-	public DataScherm(Interface iface, TimePanel stage, GUI gui)
+	public DataScherm(Interface iface, TimePanel stage, GUI gui) throws ParseException
 	{
 		this.gui = gui;
 		this.stage = stage;
@@ -70,6 +76,8 @@ public class DataScherm
 		frame.setAlwaysOnTop(true);
 		frame.setResizable(false);
 		frame.setVisible(true);
+		this.intFilter = new MaskFormatter("##");
+		this.filter = new DefaultFormatterFactory(this.intFilter);
 	}
 	
 	public void addNamen()
@@ -98,15 +106,18 @@ public class DataScherm
 	datum.setLayout(box(datum,'x'));
 	JLabel Datum = new JLabel("Date:");
 	datum.add(Datum);
-	dateyr = new JTextField(dateInputY);
-	datem = new JTextField(dateInputM);
-	dated = new JTextField(dateInputD);
-	dateyr.addKeyListener(new IntListener());
+	dateyr = new JFormattedTextField(new Integer(0));
+	dateyr.setText("YYYY");
+	datem = new JFormattedTextField(new Integer(0));
+	datem.setText("MM");
+	dated = new JFormattedTextField(new Integer(0));
+	dated.setText("DD");
+	//dateyr.addKeyListener(new IntListener());
 	dateyr.addMouseListener(new TextFieldMouseListener());
 	datem.addMouseListener(new TextFieldMouseListener());
 	dated.addMouseListener(new TextFieldMouseListener());
-	datem.addKeyListener(new IntListener());
-	dated.addKeyListener(new IntListener());
+	//datem.addKeyListener(new IntListener());
+	//dated.addKeyListener(new IntListener());
 	Datum.setLabelFor(dated);
 	datum.add(dated);
 	datum.add(datem);
@@ -142,23 +153,32 @@ public class DataScherm
 		tijd.setLayout(box(tijd,'x'));
 		JLabel beginTijd = new JLabel("StartTime:");
 		tijd.add(beginTijd);
-		startTimehr = new JTextField("Hour");
-		startTimemin = new JTextField("Minute");
+		startTimehr = new JFormattedTextField(new Integer(0));
+		startTimehr.setText("Hour");
+		startTimemin = new JFormattedTextField(new Integer(0));
+		startTimemin.setText("Minute");
 		beginTijd.setLabelFor(startTimehr);
-		startTimehr.addKeyListener(new IntListener());
+		/*startTimehr.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e)
+			{
+				listener(e.getKeyChar(), startTimehr, startHr);
+			}
+		});*/
 		startTimehr.addMouseListener(new TextFieldMouseListener());
-		startTimemin.addKeyListener(new IntListener());
+		//startTimemin.addKeyListener(new IntListener());
 		startTimemin.addMouseListener(new TextFieldMouseListener());
 		tijd.add(startTimehr);
 		tijd.add(startTimemin);
 		JLabel eindTijd = new JLabel("Endtime:");
 		tijd.add(eindTijd);
-		endTimehr = new JTextField("Hour");
-		endTimemin = new JTextField("Minute");
+		endTimehr = new JFormattedTextField(new Integer(0));
+		endTimehr.setText("Hour");
+		endTimemin = new JFormattedTextField(new Integer(0));
+		endTimemin.setText("Minute");
 		eindTijd.setLabelFor(endTimehr);
-		endTimehr.addKeyListener(new IntListener());
+		//endTimehr.addKeyListener(new IntListener());
 		endTimehr.addMouseListener(new TextFieldMouseListener());
-		endTimemin.addKeyListener(new IntListener());
+		//endTimemin.addKeyListener(new IntListener());
 		endTimemin.addMouseListener(new TextFieldMouseListener());
 		tijd.add(endTimehr);
 		tijd.add(endTimemin);
@@ -447,6 +467,29 @@ public class DataScherm
 		
 		this.frame.dispose();
 	}
+	
+	protected void listener(char key, JTextField tf, String txt)
+	{
+		switch (key)
+		{
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+				txt = txt+key;
+				tf.setText(txt);
+				break;
+			default:
+				break;
+		}
+	}
+		
 }
 
 class TextFieldMouseListener extends MouseAdapter
@@ -461,49 +504,46 @@ class TextFieldMouseListener extends MouseAdapter
 class IntListener extends KeyAdapter
 {
 	private boolean number = false;
-	
-
-		@Override
-		public void keyPressed(KeyEvent e) 
+	@Override
+	public void keyPressed(KeyEvent e) 
+	{
+		number = false;
+		if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE ||
+				e.getKeyCode() == KeyEvent.VK_DELETE || 
+				e.getKeyCode() == KeyEvent.VK_ENTER ||
+				e.getKeyCode() == KeyEvent.VK_0 ||
+				e.getKeyCode() == KeyEvent.VK_1 ||
+				e.getKeyCode() == KeyEvent.VK_2 ||
+				e.getKeyCode() == KeyEvent.VK_3 ||
+				e.getKeyCode() == KeyEvent.VK_4 ||
+				e.getKeyCode() == KeyEvent.VK_5 ||
+				e.getKeyCode() == KeyEvent.VK_6 ||
+				e.getKeyCode() == KeyEvent.VK_7 ||
+				e.getKeyCode() == KeyEvent.VK_8 ||
+				e.getKeyCode() == KeyEvent.VK_9 ||
+				e.getKeyCode() == KeyEvent.VK_NUM_LOCK ||
+				e.getKeyCode() == KeyEvent.VK_NUMPAD0 ||
+				e.getKeyCode() == KeyEvent.VK_NUMPAD1 ||
+				e.getKeyCode() == KeyEvent.VK_NUMPAD2 ||
+				e.getKeyCode() == KeyEvent.VK_NUMPAD3 ||
+				e.getKeyCode() == KeyEvent.VK_NUMPAD4 ||
+				e.getKeyCode() == KeyEvent.VK_NUMPAD5 ||
+				e.getKeyCode() == KeyEvent.VK_NUMPAD6 ||
+				e.getKeyCode() == KeyEvent.VK_NUMPAD7 ||
+				e.getKeyCode() == KeyEvent.VK_NUMPAD8 ||
+				e.getKeyCode() == KeyEvent.VK_NUMPAD9)
 		{
-			number = false;
-			if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE ||
-					e.getKeyCode() == KeyEvent.VK_DELETE || 
-					e.getKeyCode() == KeyEvent.VK_ENTER ||
-					e.getKeyCode() == KeyEvent.VK_0 ||
-					e.getKeyCode() == KeyEvent.VK_1 ||
-					e.getKeyCode() == KeyEvent.VK_2 ||
-					e.getKeyCode() == KeyEvent.VK_3 ||
-					e.getKeyCode() == KeyEvent.VK_4 ||
-					e.getKeyCode() == KeyEvent.VK_5 ||
-					e.getKeyCode() == KeyEvent.VK_6 ||
-					e.getKeyCode() == KeyEvent.VK_7 ||
-					e.getKeyCode() == KeyEvent.VK_8 ||
-					e.getKeyCode() == KeyEvent.VK_9 ||
-					e.getKeyCode() == KeyEvent.VK_NUM_LOCK ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD0 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD1 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD2 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD3 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD4 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD5 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD6 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD7 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD8 ||
-					e.getKeyCode() == KeyEvent.VK_NUMPAD9)
-			{
-				number = true;
-				System.out.println(e.getKeyChar());
-			}
-			else if (!number)
-			{
-				try {
-					Robot robot = new Robot();
-					robot.keyPress(KeyEvent.VK_BACK_SPACE);
-				} catch (AWTException e1) {
-					
-				}
+			number = true;
+			System.out.println(e.getKeyChar());
+		}
+		else if (!number)
+		{
+			try {
+				Robot robot = new Robot();
+				robot.keyPress(KeyEvent.VK_BACK_SPACE);
+			} catch (AWTException e1) {
+				
 			}
 		}
+	}
 }
-
