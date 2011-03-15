@@ -107,8 +107,11 @@ public class DataScherm
 	JLabel Datum = new JLabel("Date:");
 	datum.add(Datum);
 	dateyr = new JFormattedTextField(new Integer(0));
+	dateyr.setText("YYYY");
 	datem = new JFormattedTextField(new Integer(0));
+	datem.setText("MM");
 	dated = new JFormattedTextField(new Integer(0));
+	dated.setText("DD");
 	//dateyr.addKeyListener(new IntListener());
 	dateyr.addMouseListener(new TextFieldMouseListener());
 	datem.addMouseListener(new TextFieldMouseListener());
@@ -151,7 +154,9 @@ public class DataScherm
 		JLabel beginTijd = new JLabel("StartTime:");
 		tijd.add(beginTijd);
 		startTimehr = new JFormattedTextField(new Integer(0));
+		startTimehr.setText("Hour");
 		startTimemin = new JFormattedTextField(new Integer(0));
+		startTimemin.setText("Minute");
 		beginTijd.setLabelFor(startTimehr);
 		/*startTimehr.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e)
@@ -167,7 +172,9 @@ public class DataScherm
 		JLabel eindTijd = new JLabel("Endtime:");
 		tijd.add(eindTijd);
 		endTimehr = new JFormattedTextField(new Integer(0));
+		endTimehr.setText("Hour");
 		endTimemin = new JFormattedTextField(new Integer(0));
+		endTimemin.setText("Minute");
 		eindTijd.setLabelFor(endTimehr);
 		//endTimehr.addKeyListener(new IntListener());
 		endTimehr.addMouseListener(new TextFieldMouseListener());
