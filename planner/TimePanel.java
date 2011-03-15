@@ -6,7 +6,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
 
-public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, MouseMotionListener
+public class TimePanel extends JPanel implements TimeLinePanel
 {
 
 	private static final long serialVersionUID = 4466302497626327762L;
@@ -14,6 +14,7 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
 	public String title;
 	private Shape s;
 	protected GUI gui;
+	private JMenuItem removeAct;
     private JMenuItem editAct;
     private TimePanel arg;
     private boolean drawn = false;
@@ -24,9 +25,9 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
     private ArrayList<Integer> acts = new ArrayList<Integer>();
     private Interface iface;
 	protected ArrayList<Shape> shapes = new ArrayList<Shape>();
-	
-	private Shape dragObject = null;
-	private Point lastMousePosition = null;
+	private Shape SelectedObject = null;
+	//private Shape dragObject = null;
+	//private Point lastMousePosition = null;
     
 	public TimePanel(GUI gui)
 	{
@@ -43,13 +44,40 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
 		this.addMouseListener(new MouseListener(){
 			public void mouseReleased(MouseEvent e)
 			{
-				if(e.getButton() == MouseEvent.BUTTON3)
+				for (Shape s : shapes)
+				{
+					Point tmpPoint = new Point(e.getPoint().x, (int) ((int)(e.getPoint().y)/arg.height()));
+					if(e.getButton() == MouseEvent.BUTTON3 && s.contains(tmpPoint))
+					{
+						if(s != null)
+						SelectedObject = s;
+						removeAct.setEnabled(true);
+						editAct.setEnabled(true);
+						popupMenu1.show(e.getComponent(),e.getX(),e.getY());
+						break;
+					}
+					else
+					{
+						
+						if(e.getButton() == MouseEvent.BUTTON3)
+						{
+							removeAct.setEnabled(false);
+							editAct.setEnabled(false);
+							popupMenu1.show(e.getComponent(), e.getX(), e.getY());
+							break;
+						}
+					}
+				}
+				if(e.getButton() == MouseEvent.BUTTON3 && SelectedObject == null)
 				{
 					if(e.getButton() == MouseEvent.BUTTON3)
-						popupMenu1.show(e.getComponent(), e.getX(),e.getY());
+					{
+						removeAct.setEnabled(false);
+						editAct.setEnabled(false);
+						popupMenu1.show(e.getComponent(), e.getX(), e.getY());
+					}
 				}
 			}
-
 			public void mouseClicked(MouseEvent arg0) {}
 			public void mouseEntered(MouseEvent arg0) {}
 			public void mouseExited(MouseEvent arg0) {}
@@ -59,10 +87,10 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
 		this.setPreferredSize(new Dimension(width, height));
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
-		this.addMouseListener(this);
-		this.addMouseMotionListener(this);
+//		this.addMouseListener(this);
+//		this.addMouseMotionListener(this);
 		
-		popupMenu1();
+		popupMenu();
 		
 	}
 	
@@ -89,7 +117,7 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
 		this.removed = removed;
 	}
 	
-	public JPopupMenu popupMenu1(){
+	public JPopupMenu popupMenu(){
 	    popupMenu1 = new JPopupMenu();
 	    JMenuItem addArtist = new JMenuItem("Add Artist");
 		addArtist.addActionListener(new ActionListener()
@@ -127,7 +155,7 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
 	    	}
 	    });
 	    popupMenu1.add(addAct);
-	    JMenuItem removeAct = new JMenuItem("Remove Act");
+	    removeAct = new JMenuItem("Remove Act");
 	    removeAct.addActionListener(new ActionListener()
 	    {
 	    	public void actionPerformed(ActionEvent e)
@@ -214,77 +242,77 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
 		// TODO add act drawing code.
 	}
 	
-	@Override
-	public void mouseDragged(MouseEvent e) {
-		if(dragObject != null)
-		{
-			
-			s = dragObject;
-			dragged = true;
-			AffineTransform tr = new AffineTransform();
-			if(((e.getModifiers() & MouseEvent.BUTTON1_MASK) != 0))
-			{
-				tr.translate(e.getPoint().x - lastMousePosition.x, e.getPoint().y - lastMousePosition.y);
-				System.out.println("hij vind hem wel met draggen");
-			}
-			s = tr.createTransformedShape(s);
-			if(shapes.contains(dragObject))
-			shapes.set(shapes.indexOf(dragObject), s);
-			lastMousePosition = e.getPoint();
-			this.repaint();
-			this.updateUI(); 
-			//shapes.remove(dragObject);
-			//this.updateUI();
-		}
-		
-		
-	}
-	@Override
-	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mousePressed(MouseEvent e) {
-//		for(int i = 0; i < shapes.size(); i++)
-//		if (Interface.dbg)
+//	@Override
+//	public void mouseDragged(MouseEvent e) {
+//		if(dragObject != null)
 //		{
-//			System.out.printf("\nX coord:\t%f\nY coord:\t%f\n", e.getPoint().getX(), e.getPoint().getY()/this.height());
+//			
+//			s = dragObject;
+//			dragged = true;
+//			AffineTransform tr = new AffineTransform();
+//			if(((e.getModifiers() & MouseEvent.BUTTON1_MASK) != 0))
+//			{
+//				tr.translate(e.getPoint().x - lastMousePosition.x, e.getPoint().y - lastMousePosition.y);
+//				System.out.println("hij vind hem wel met draggen");
+//			}
+//			s = tr.createTransformedShape(s);
+//			if(shapes.contains(dragObject))
+//			shapes.set(shapes.indexOf(dragObject), s);
+//			lastMousePosition = e.getPoint();
+//			this.repaint();
+//			this.updateUI(); 
+//			//shapes.remove(dragObject);
+//			//this.updateUI();
 //		}
-		for (Shape s : shapes)
-		{
-			Point tmpPoint = new Point(e.getPoint().x, (int) ((int)(e.getPoint().y)/this.height()));
-			if(s.contains(tmpPoint))
-			{
-				System.out.println("pressed");
-				dragObject = s;
-				lastMousePosition = tmpPoint;
-				break;
-			}
-		}
-	}
-	
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		this.dragObject = null;
-		
-	}
+//		
+//		
+//	}
+//	@Override
+//	public void mouseMoved(MouseEvent e) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//	@Override
+//	public void mouseClicked(MouseEvent e) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//	@Override
+//	public void mouseEntered(MouseEvent e) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//	@Override
+//	public void mouseExited(MouseEvent e) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//	@Override
+//	public void mousePressed(MouseEvent e) {
+////		for(int i = 0; i < shapes.size(); i++)
+////		if (Interface.dbg)
+////		{
+////			System.out.printf("\nX coord:\t%f\nY coord:\t%f\n", e.getPoint().getX(), e.getPoint().getY()/this.height());
+////		}
+//		for (Shape s : shapes)
+//		{
+//			Point tmpPoint = new Point(e.getPoint().x, (int) ((int)(e.getPoint().y)/this.height()));
+//			if(s.contains(tmpPoint))
+//			{
+//				System.out.println("pressed");
+//				dragObject = s;
+//				lastMousePosition = tmpPoint;
+//				break;
+//			}
+//		}
+//	}
+//	
+//	@Override
+//	public void mouseReleased(MouseEvent arg0) {
+//		// TODO Auto-generated method stub
+//		this.dragObject = null;
+//		
+//	}
 	
 	
 	public double height()

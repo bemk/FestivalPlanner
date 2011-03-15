@@ -1,11 +1,11 @@
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.*;
 
-public class Interface
+public class Interface implements Serializable
 {
 	protected Planning planning = new Planning();
 	protected AddressBook addressBook = new AddressBook();
-	protected Artist tmpArtist;
 	protected Act tmpAct;
 	private ArrayList<TimeLine> timelines = new ArrayList<TimeLine>();
 	public static final boolean dbg = true;
@@ -173,11 +173,30 @@ public class Interface
 
      
     //AddressBook
-    public int newArtist(String name, int rating, String comments)
+    public int newArtist(String name, int rating, String preferences)
     {
-    	Artist tmpArtist = new Artist(name, comments, rating);
+    	Artist tmpArtist = new Artist(name, preferences, rating);
     	addressBook.addArtist(tmpArtist);
     	return tmpArtist.ID();
+    }
+    
+    public void editArtist(String name, int rating, String preferences, int id)
+    {
+    	Artist tmpArtist = new Artist(name,preferences,rating);
+    	int i = 0;
+    	int place = -1;
+    	for (Artist a : addressBook.getAllArtists())
+    	{
+    		if(a.equals(findArtist(id)))
+    		{
+    			place = i;
+    		}
+    		else
+    		{
+    			i++;
+    		}
+    	}
+    	addressBook.editArtist(place, tmpArtist);
     }
 
     public void removeArtist(int n)
@@ -242,7 +261,7 @@ public class Interface
     	return findArtist(i).getRating();
     }
     
-    private Artist findArtist(int id)
+    public Artist findArtist(int id)
     {
     	for (Artist i : addressBook.getAllArtists())
     	{
