@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
+import java.util.LinkedList;
 
 import javax.swing.JPanel;
 
@@ -21,6 +22,7 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 	private int dragY;
 	private boolean canDrag = false;
 	private Building buildingSelection;
+	private LinkedList<Building> buildings = new LinkedList<Building>();
 
 	
 	public Board()
@@ -33,9 +35,12 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 	
 	public void initSimulator()
 	{
-		ehbo = new EHBO(100, 100);
-		snackBar = new Snackbar(200, 100);
-		stage = new StagePicture(300, 200);
+		addEHBO(100, 100);
+		addEHBO(50, 100);
+		addSnackBar(200, 300);
+		addSnackBar(400, 300);
+		addStage(300, 200);
+		addStage(300, 80);
 		animator = new Thread();
 		animator.start();
 	}
@@ -47,10 +52,36 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 		g2.setColor(Color.green);
 		g2.fillRect(0, 0, 640, 480);
 		g2.setColor(null);
-		g2.drawImage(ehbo.getImageIcon().getImage(), ehbo.getX(), ehbo.getY(), this);
-		g2.drawImage(snackBar.getImageIcon().getImage(), snackBar.getX(), snackBar.getY(), this);
-		g2.drawImage(stage.getImageIcon().getImage(), stage.getX(), stage.getY(), this);
+		for(Building building: buildings)
+		{
+			drawBuilding(building, g2);
+		}
 		g2.dispose();
+	}
+	
+	public void drawBuilding(Building building, Graphics2D g2)
+	{
+		g2.drawImage(building.getImageIcon().getImage(), building.getX(), building.getY(), this);
+	}
+	
+	public void addEHBO(int x, int y)
+	{
+		buildings.add(new EHBO(x, y));
+	}
+	
+	public void addSnackBar(int x, int y)
+	{
+		buildings.add(new Snackbar(x, y));
+	}
+	
+	public void addStage(int x, int y)
+	{
+		buildings.add(new StagePicture(x, y));
+	}
+	
+	public void removeBuilding(Building building)
+	{
+		buildings.remove(building);
 	}
 	
 	public void run() {		
@@ -59,19 +90,15 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 
 	public void mouseDragged(MouseEvent e) {
 		if (canDrag) {
-			if(buildingSelection == ehbo)
+		for (Building b : buildings)
+		{
+			if (buildingSelection == b)
 			{
-			moveDragBuilding(ehbo, e.getX(), e.getY());
+				moveDragBuilding(b, e.getX(), e.getY());
+				break;
 			}
-			else if(buildingSelection == snackBar)
-			{
-			moveDragBuilding(snackBar, e.getX(), e.getY());
-			}
-			else if(buildingSelection == stage)
-			{
-			moveDragBuilding(stage, e.getX(), e.getY());
-			}
-            this.repaint(); 
+		}
+		this.repaint();
 		}
 	}
 	
@@ -90,10 +117,10 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 	public void mouseExited(MouseEvent e) {}
 
 	public void mousePressed(MouseEvent e) {
-       checkDragBuilding(ehbo, e.getX(), e.getY());
-       checkDragBuilding(snackBar, e.getX(), e.getY());
-       checkDragBuilding(stage, e.getX(), e.getY());
- 
+       for(Building building: buildings)
+       {
+		checkDragBuilding(building, e.getX(), e.getY());
+       }
 	}
 	
 	public void checkDragBuilding(Building building, int x, int y)
@@ -105,7 +132,6 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 	            dragY = y - building.getY(); 
 	            buildingSelection = building;
 	        }
-	       System.out.println(buildingSelection);
 	}
 
 	public void mouseReleased(MouseEvent e) {
