@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.io.*;
+import java.text.ParseException;
 import java.util.*;
 
 public class GUI 
@@ -409,7 +410,11 @@ public class GUI
 
 	protected void addAct(TimePanel stage) 
 	{
-		new DataScherm(iface, stage, this);
+		try {
+			new DataScherm(iface, stage, this);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+		}
 		
 	}
 	
