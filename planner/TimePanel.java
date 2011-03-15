@@ -69,6 +69,21 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
 	public void update()
 	{
 		acts = iface.getAllActs(stage);
+		Integer a = null;
+		for(Iterator<Integer> i = acts.iterator(); i.hasNext(); a = i.next())
+		{
+			Calendar act = iface.getStartTime(stage, a);
+			System.out.printf("calendar ptr:\t%d\n", act);
+			if (act == null)
+			{
+				System.exit(1);
+			}
+			if (!(gui.getDate().get(Calendar.DAY_OF_YEAR) == act.get(Calendar.DAY_OF_YEAR)
+					&& gui.getDate().get(Calendar.YEAR) == act.get(Calendar.YEAR)))
+			{
+				acts.remove(a);
+			}
+		}
 		repaint();
 	}
 	
