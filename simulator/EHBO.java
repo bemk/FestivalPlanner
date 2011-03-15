@@ -1,5 +1,5 @@
 
-public class EHBO extends Building {
+public class EHBO extends Building{
 
 	private String url = "FP/EHBO.png";
 	
@@ -8,6 +8,8 @@ public class EHBO extends Building {
 		super.coordinates.setLocation(x, y);
 		setImageIcon(url);
 	}
+
+	}
 	
 
-}
+

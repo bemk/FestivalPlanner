@@ -7,6 +7,8 @@ import javax.swing.*;
 public abstract class Sprite {
 
 protected Point coordinates = new Point(0,0);
+protected int height;
+protected int width;
 protected ArrayList<ImageIcon> imageIcons = new ArrayList<ImageIcon>();
 
 public void setCoordinates(int x, int y)
@@ -45,6 +47,25 @@ public void addImageIcon(ImageIcon i)
 	imageIcons.add(i);
 }
 
+public void setHeight(int height)
+{
+	this.height = height;
+}
+
+public int getHeight()
+{
+	return this.height;
+}
+
+public void setWidth(int width)
+{
+	this.width = width;
+}
+
+public int getWidth()
+{
+	return this.width;
+}
 }
 
 
