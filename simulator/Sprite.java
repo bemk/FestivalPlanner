@@ -47,6 +47,11 @@ public void addImageIcon(ImageIcon i)
 	imageIcons.add(i);
 }
 
+public ArrayList<ImageIcon> getImageIcons()
+{
+	return this.imageIcons;
+}
+
 public void setHeight(int height)
 {
 	this.height = height;
