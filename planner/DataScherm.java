@@ -409,7 +409,7 @@ public class DataScherm implements Serializable
 		}
 		else
 		{
-			return null;
+			return str;
 		}
 	}
 	
@@ -425,16 +425,21 @@ public class DataScherm implements Serializable
 	{
 		System.out.printf("year:\t%s\n"+
 				"month:\t%s\n" +
-				"day:\t%s\n", dateyr.getText(), datem.getText(), dated.getText());
+				"day:\t%s\n", removeComma(dateyr.getText()), removeComma(datem.getText()), removeComma(dated.getText()));
 //		Integer.valueOf(dateyr.getText());
+		
+		System.out.printf("year\t%d\n" +
+				"month\t%d\n" +
+				"day\t%d\n",
+				parseLocale(dateyr.getText()),parseLocale(datem.getText()), parseLocale(dated.getText()));
 
 		gc = new GregorianCalendar( parseLocale(dateyr.getText()),
-									parseLocale(datem.getText()),
+									parseLocale(datem.getText())-1,
 									parseLocale(dated.getText()),
 									parseLocale(startTimehr.getText()),
 									parseLocale(startTimemin.getText()));
-		gc.add(Calendar.DAY_OF_YEAR, 1);
-		gc.add(Calendar.DAY_OF_YEAR, -1); // Force the updating of the calendar fields for later use.
+		System.out.printf("yr\t%d\nmth\t%d\nday\t%d\n",
+				gc.get(Calendar.YEAR), gc.get(Calendar.MONTH), gc.get(Calendar.DAY_OF_MONTH));
 		if (gc == null)
 		{
 			System.exit(0);
