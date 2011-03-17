@@ -1,7 +1,7 @@
 
 public class Snackbar extends Building{
 	
-private String url = "FP/.png";
+private String url = "FP/eten.png";
 	
 	public Snackbar(int x, int y)
 	{

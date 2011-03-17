@@ -1,7 +1,7 @@
 
 public class Road extends Path{
 
-private String url = "FP/.png";
+private String url = "FP/path.png";
 	
 	public Road(int x, int y)
 	{
