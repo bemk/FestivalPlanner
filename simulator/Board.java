@@ -51,19 +51,13 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 		addSnackBar(400, 300);
 		addStage(300, 200);
 		addStage(300, 80);
-		for(int i = 0; i <= 160; i+=4)
+		for(int i = 0; i <= 100; i+=4)
 		{
 			for(int t = 0; t <=100; t+=4)
 			{
-			Random random = new Random();
-			if(random.nextInt()%2 == 0)
-			{
 		    addVisitor(t, i);
 			}
-			else
-			addVisitor(t, i);
 			}
-		}
 	    for(Person person: people)
 	    {
 			Random random = new Random();
@@ -74,8 +68,6 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 			else
 				person.setStatus(3);
 	    }
-		addVisitor(500, 100);
-		addVisitor(488, 100);
 		animator = new Thread(this, "1");
 		animator.start();
 	}
@@ -189,7 +181,15 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 	
 	public void drawPerson(Person person, Graphics2D g2)
 	{
-		g2.drawImage(person.getImageIcons().get(person.getStatus()).getImage(), person.getX(), person.getY(), this);
+		if(person.getStatus() == 2)
+		{
+			g2.setColor(Color.blue);
+		}
+		else
+			g2.setColor(Color.pink);
+		
+		g2.fillRect(person.getX(), person.getY(), 4, 4);
+		g2.setColor(null);
 	}
 	
 	
@@ -253,6 +253,21 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 	}
 	
 	
+	public boolean checkPeople(Visitor visitor)
+	{
+		boolean collision = false;
+		for(Person p: people)
+		{
+			if(p.getX() == visitor.getX() && p.getY() == visitor.getY())
+			{
+				collision = true;
+				break;
+			}
+		}
+		return collision;
+	}
+	
+	
 	//Movement methods
 	public void moveDragBuilding(Building building, int x, int y)
 	{
@@ -264,27 +279,29 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 	{
 		int x = mouseX/4 * 4;
 		int y = mouseY/4 * 4;
-		Person otherPersonLeft = new Visitor(person.getX()-4, person.getY());
-		Person otherPersonRight = new Visitor(person.getX()+4, person.getY());
-		Person otherPersonUp = new Visitor(person.getX(), person.getY()-4);
-		Person otherPersonDown = new Visitor(person.getX(), person.getY()+4);
-		if(x < person.getX() && (!people.contains(otherPersonLeft)))
+		Visitor otherPersonLeft = new Visitor(person.getX()-4, person.getY());
+		Visitor otherPersonRight = new Visitor(person.getX()+4, person.getY());
+		Visitor otherPersonUp = new Visitor(person.getX(), person.getY()-4);
+		Visitor otherPersonDown = new Visitor(person.getX(), person.getY()+4);
+		if(x < person.getX() && (!checkPeople(otherPersonLeft)))
 		{
 			person.act("LEFT", 4);
 		}
-		else if(x > person.getX() && (!people.contains(otherPersonRight)))
+		else if(x > person.getX() && (!checkPeople(otherPersonRight)))
 		{
 			person.act("RIGHT", 4);
 		}
-		if(y < person.getY() && (!people.contains(otherPersonUp)))
+		if(y < person.getY() && (!checkPeople(otherPersonUp)))
 		{
 			person.act("UP", 4);
 		}
-		else if(y > person.getY() && (!people.contains(otherPersonDown)))
+		else if(y > person.getY() && (!checkPeople(otherPersonDown)))
 		{
 			person.act("DOWN", 4);
 		}
 	}
+	
+	
 
 	//mouseDrag method
 	public void mouseDragged(MouseEvent e) {
