@@ -99,18 +99,22 @@ public class TimePanel extends JPanel implements TimeLinePanel, Serializable
 	{
 		acts = iface.getAllActs(stage);
 		Integer a = null;
-		for(Iterator<Integer> i = acts.iterator(); i.hasNext(); a = i.next())
+		Iterator<Integer> i = acts.iterator();
+		while(i.hasNext())
 		{
+			try{
+			a = i.next();
 			Calendar act = iface.getStartTime(stage, a);
-			System.out.printf("calendar ptr:\t%d\n", act);
-			if (act == null)
+			if (gui.getDate().get(Calendar.DAY_OF_MONTH) != act.get(Calendar.DAY_OF_MONTH)
+					|| gui.getDate().get(Calendar.MONTH) != act.get(Calendar.MONTH)
+					|| gui.getDate().get(Calendar.YEAR) != act.get(Calendar.YEAR))
 			{
-				System.exit(1);
+				i.remove();
 			}
-			if (!(gui.getDate().get(Calendar.DAY_OF_YEAR) == act.get(Calendar.DAY_OF_YEAR)
-					&& gui.getDate().get(Calendar.YEAR) == act.get(Calendar.YEAR)))
+			} catch (Exception e)
 			{
-				acts.remove(a);
+				System.out.println(e.getLocalizedMessage());
+				break;
 			}
 		}
 		repaint();

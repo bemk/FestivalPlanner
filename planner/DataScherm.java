@@ -433,6 +433,8 @@ public class DataScherm implements Serializable
 									parseLocale(dated.getText()),
 									parseLocale(startTimehr.getText()),
 									parseLocale(startTimemin.getText()));
+		gc.add(Calendar.DAY_OF_YEAR, 1);
+		gc.add(Calendar.DAY_OF_YEAR, -1); // Force the updating of the calendar fields for later use.
 		if (gc == null)
 		{
 			System.exit(0);
