@@ -1,8 +1,9 @@
 import java.awt.*;
 import java.awt.geom.*;
+import java.io.Serializable;
 import java.util.*;
 
-public class ActPaint implements TimeLinePanel
+public class ActPaint implements TimeLinePanel, Serializable
 {
 	private static final long serialVersionUID = 1L;
 	private int act;
