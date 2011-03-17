@@ -7,7 +7,7 @@ import java.io.*;
 import java.text.ParseException;
 import java.util.*;
 
-public class GUI 
+public class GUI implements Serializable
 {
 	private GridBagLayout gridbag = new GridBagLayout();
     private GridBagConstraints c = new GridBagConstraints();
@@ -18,6 +18,7 @@ public class GUI
 	private JTextArea preference;
 	private JTextArea descriptionText;
 	private StarPanel rating;
+	private boolean open = false;
 	private JPanel wensen;
 	private JPanel description;
 	private static GUI gui1;
@@ -54,6 +55,18 @@ public class GUI
         frame.setResizable(false);
         frame.setVisible(true);
         timeSize = time.getHeight()/2;
+        Object[] options = {"Open", "New"};
+        int optionPane =JOptionPane.showConfirmDialog(null,
+                "Do you want to open a previous Planner?\n Or do you want to open a new planner?"
+        		+"\n\n To Open a previous click Yes,\n for a new one click No.",
+                "Open or New?",
+                JOptionPane.YES_NO_OPTION);
+        if(optionPane == JOptionPane.YES_OPTION)
+        {
+        	open = true;
+        	open();
+        }
+        else
         addStage(); // TODO ask for new planning or to load stored one.
     }
     
@@ -386,6 +399,7 @@ public class GUI
 
     protected void save() {
     	try{
+    		
     		JFileChooser fc = new JFileChooser();
     		fc.setAcceptAllFileFilterUsed(false);
     		fc.addChoosableFileFilter(new AgnFilter());
@@ -420,12 +434,27 @@ public class GUI
     			ObjectInputStream s = new ObjectInputStream(f);
     			Interface i = (Interface) s.readObject();
     			setIface(i);
+    			openStages();
+    			redrawStages();
 			}
     		catch (Exception e)
 			{
-    			e.printStackTrace();
+    			e.printStackTrace(); 
 			}
 	}
+    
+    private void openStages()
+    {
+    	for (TimeLine tl : iface.timelines)
+    	{
+    		this.timelines.add(new TimePanel(this, time.getWidth(), timeSize, tl.getName(), tl.ID(), iface));
+    	}
+    	redrawStages();
+    	for (TimePanel tp : this.timelines)
+    	{
+    		tp.update();
+    	}
+    }
 
     private void setIface(Interface iface)
     {
@@ -495,19 +524,6 @@ public class GUI
 		}
 		
 		
-	}
-	
-	public void drawAct(int stage)
-	{
-		System.out.println(stage);
-		TimePanel j = null;
-		for(TimePanel i : timelines)
-		{
-			if(i.getID() == stage)
-			{
-				j=i;
-			}
-		}
 	}
 	
 	public void redrawStages()

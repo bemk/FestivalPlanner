@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.*;
 import javax.swing.*;
@@ -9,7 +10,7 @@ import javax.swing.event.*;
 import javax.swing.filechooser.*;
 import javax.swing.text.*;
 
-public class DataScherm
+public class DataScherm implements Serializable
 {
 	private boolean number = false;
 	private Container content;

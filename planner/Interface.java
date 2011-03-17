@@ -2,12 +2,12 @@ import java.awt.Color;
 import java.io.Serializable;
 import java.util.*;
 
+@SuppressWarnings("serial")
 public class Interface implements Serializable
 {
 	protected Planning planning = new Planning();
 	protected AddressBook addressBook = new AddressBook();
-	protected Act tmpAct;
-	private ArrayList<TimeLine> timelines = new ArrayList<TimeLine>();
+	protected ArrayList<TimeLine> timelines = new ArrayList<TimeLine>();
 	public static final boolean dbg = true;
 
 	public ArrayList<Integer> getAllActs()

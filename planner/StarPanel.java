@@ -1,9 +1,11 @@
 import java.awt.*;
+import java.io.Serializable;
+
 import javax.swing.*;
 
 
 @SuppressWarnings("serial")
-public class StarPanel extends JPanel
+public class StarPanel extends JPanel implements Serializable
 {
 	private ImageIcon star_gray = new ImageIcon(this.getClass().getResource("Images/star_gray.png"));
 	private ImageIcon star_yellow = new ImageIcon(this.getClass().getResource("Images/star_yellow.png"));

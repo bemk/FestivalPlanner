@@ -1,11 +1,12 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 //import java.util.ArrayList;
 import javax.swing.*;
 
 
-public class ArtistScherm 
+public class ArtistScherm implements Serializable
 {
 	private JFrame frame;
 	private Container content;

@@ -4,9 +4,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
 
 
-public class TimePanel extends JPanel implements TimeLinePanel
+public class TimePanel extends JPanel implements TimeLinePanel, Serializable
 {
 
 	private static final long serialVersionUID = 4466302497626327762L;

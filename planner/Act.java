@@ -134,4 +134,9 @@ public class Act extends TimeLine implements Serializable, Comparator
 				return 0;
 			}
 		}
+
+		@Override
+		public String getName() {
+			return null;
+		}
 }
