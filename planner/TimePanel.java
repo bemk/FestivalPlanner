@@ -9,7 +9,10 @@ import java.io.Serializable;
 
 public class TimePanel extends JPanel implements TimeLinePanel, Serializable
 {
-
+	protected ArrayList<ActPaint> actPaints = new ArrayList<ActPaint>();
+	private ActPaint aP = null;
+	private int Y;
+	private int X;
 	private static final long serialVersionUID = 4466302497626327762L;
 	private JPopupMenu popupMenu1;
 	public String title;
@@ -26,7 +29,7 @@ public class TimePanel extends JPanel implements TimeLinePanel, Serializable
     private ArrayList<Integer> acts = new ArrayList<Integer>();
     private Interface iface;
 	protected ArrayList<Shape> shapes = new ArrayList<Shape>();
-	private Shape SelectedObject = null;
+	protected Shape SelectedObject = null;
 	//private Shape dragObject = null;
 	//private Point lastMousePosition = null;
     
@@ -54,6 +57,17 @@ public class TimePanel extends JPanel implements TimeLinePanel, Serializable
 						SelectedObject = s;
 						removeAct.setEnabled(true);
 						editAct.setEnabled(true);
+						X = e.getX();
+						Y = e.getY();
+						for(ActPaint ap : actPaints)
+						{
+							if(X >= ap.getStartX() && X <= (ap.getStartX() + ap.getWidth()))
+							{
+								aP = ap;
+								break;
+							}
+						}
+						System.out.println("Y = " + Y);
 						popupMenu1.show(e.getComponent(),e.getX(),e.getY());
 						break;
 					}
@@ -95,9 +109,15 @@ public class TimePanel extends JPanel implements TimeLinePanel, Serializable
 		
 	}
 	
+	public int getStage()
+	{
+		return stage;
+	}
+	
 	public void update()
 	{
 		acts = iface.getAllActs(stage);
+		shapes.clear();
 		repaint();
 	}
 	
@@ -146,6 +166,7 @@ public class TimePanel extends JPanel implements TimeLinePanel, Serializable
 				gui.editArtist();
 			}
 		});
+		popupMenu1.addSeparator();
 		popupMenu1.add(editArtist);
 	    JMenuItem addAct = new JMenuItem("Add Act");
 	    addAct.addActionListener(new ActionListener()
@@ -161,7 +182,7 @@ public class TimePanel extends JPanel implements TimeLinePanel, Serializable
 	    {
 	    	public void actionPerformed(ActionEvent e)
 	    	{
-	    		gui.removeAct();
+	    		gui.removeAct(aP,arg);
 	    	}
 	    });
 	    
@@ -172,7 +193,7 @@ public class TimePanel extends JPanel implements TimeLinePanel, Serializable
 	    {
 	    	public void actionPerformed(ActionEvent e)
 	    	{
-	    		gui.editAct();
+	    		gui.editAct(aP);
 	    	}
 	    });
 	    editAct.setEnabled(false);
