@@ -228,6 +228,7 @@ public class GUI implements Serializable
 			public void actionPerformed(ActionEvent e)
 			{	
 				date.add(Calendar.DAY_OF_YEAR, 1);
+				
 			}
 		});
 		links.addActionListener(new ActionListener(){
@@ -540,6 +541,14 @@ public class GUI implements Serializable
 		}
 		
 		
+	}
+	
+	private void updateActs()
+	{
+		for (TimePanel p : timelines)
+		{
+			p.update();
+		}
 	}
 	
 	public void redrawStages()
