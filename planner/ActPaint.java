@@ -17,9 +17,33 @@ public class ActPaint implements TimeLinePanel, Serializable
 	private double startX;
 	private double topY;
 	public ActPaint(TimePanel t)
-	
 	{
 		this.t = t;
+	}
+	
+	public double getStartX()
+	{
+		return startX;
+	}
+	
+	public double getWidth()
+	{
+		return width;
+	}
+	
+	public double getTopY()
+	{
+		return topY;
+	}
+	
+	public double getHeight()
+	{
+		return height;
+	}
+	
+	public int getActID()
+	{
+		return act;
 	}
 	
 	public ActPaint(int act, Interface iface, TimePanel t)
@@ -42,7 +66,7 @@ public class ActPaint implements TimeLinePanel, Serializable
 		tmpMin += (tmpHr*60);
 		startX = (t.width()/1440)*tmpMin;
 		width = t.width()/1400*iface.getDuration(stage, act);
-		
+		t.actPaints.add(this);
 	}
 	
 	public double height()

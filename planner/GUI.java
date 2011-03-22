@@ -520,14 +520,23 @@ public class GUI implements Serializable
 		redrawStages(); // paint the time panel to screen.
 	}
 
-	protected void editAct() 
+	protected void editAct(ActPaint ap) 
 	{
 		
 	}
 
-	protected void removeAct() 
+	protected void removeAct(ActPaint ap, TimePanel t) 
 	{
-		
+		if(ap == null)
+		{
+			System.out.println("ap = null");
+		}
+		if(t == null)
+		{
+			System.out.println("\n t = null");
+		}
+		iface.removeAct(t.getStage(), ap.getActID());
+		t.update();
 	}
 
 	protected void addAct(TimePanel stage) 
