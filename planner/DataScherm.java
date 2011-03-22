@@ -393,17 +393,62 @@ public class DataScherm implements Serializable
 		return buttons;
 	}
 	
+	public String removeComma(String str)
+	{
+		String ret="";
+		if (str.contains(",") || str.contains("."))
+		{
+			for (int i = 0; i < str.length(); i++)
+			{
+				if (str.charAt(i)!=','||str.charAt(i)=='.')
+				{
+					ret += str.charAt(i);
+				}
+			}
+			return ret;
+		}
+		else
+		{
+			return str;
+		}
+	}
+	
+	private int parseLocale(String str){
+		try {
+			return Integer.parseInt(removeComma(str));
+		} catch (Exception e) {
+			return -1;
+		}
+	}
+	
 	public void save()
 	{
-		gc = new GregorianCalendar( Integer.parseInt(dateyr.getText()),
-									Integer.parseInt(datem.getText()),
-									Integer.parseInt(dated.getText()),
-									Integer.parseInt(startTimehr.getText()),
-									Integer.parseInt(startTimemin.getText()));
-		int endTimeTmpHr = Integer.parseInt(endTimehr.getText());
-		int endTimeTmpMin = Integer.parseInt(endTimemin.getText());
-		int startTimeTmpHr = Integer.parseInt(startTimehr.getText());
-		int startTimeTmpMin = Integer.parseInt(startTimemin.getText());
+		System.out.printf("year:\t%s\n"+
+				"month:\t%s\n" +
+				"day:\t%s\n", removeComma(dateyr.getText()), removeComma(datem.getText()), removeComma(dated.getText()));
+//		Integer.valueOf(dateyr.getText());
+		
+		System.out.printf("year\t%d\n" +
+				"month\t%d\n" +
+				"day\t%d\n",
+				parseLocale(dateyr.getText()),parseLocale(datem.getText()), parseLocale(dated.getText()));
+
+		gc = new GregorianCalendar( parseLocale(dateyr.getText()),
+									parseLocale(datem.getText())-1,
+									parseLocale(dated.getText()),
+									parseLocale(startTimehr.getText()),
+									parseLocale(startTimemin.getText()));
+		System.out.printf("yr\t%d\nmth\t%d\nday\t%d\n",
+				gc.get(Calendar.YEAR), gc.get(Calendar.MONTH), gc.get(Calendar.DAY_OF_MONTH));
+		if (gc == null)
+		{
+			System.exit(0);
+		}
+		int endTimeTmpHr = parseLocale(endTimehr.getText());
+		int endTimeTmpMin = parseLocale(endTimemin.getText());
+		int startTimeTmpHr = parseLocale(startTimehr.getText());
+		int startTimeTmpMin = parseLocale(startTimemin.getText());
+		
 		
 		if (endTimeTmpHr < startTimeTmpHr)
 		{

@@ -27,6 +27,7 @@ public class GUI implements Serializable
 	protected ArrayList<TimePanel> timelines = new ArrayList<TimePanel>();
 	private JPanel time = new JPanel();
 	private int timeSize = 0;
+	private Calendar date;
 
 	
     public static void main(String[] args)
@@ -68,9 +69,13 @@ public class GUI implements Serializable
         }
         else
         addStage(); // TODO ask for new planning or to load stored one.
+        this.date = new GregorianCalendar();
     }
     
-	
+	public Calendar getDate()
+	{
+		return this.date;
+	}
 	
 	public void addArtist()
 	{
@@ -219,7 +224,19 @@ public class GUI implements Serializable
 		c.weightx = 0.5;
 		frame.add(Datum, c);
 		
-		
+		rechts.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{	
+				date.add(Calendar.DAY_OF_YEAR, 1);
+				
+			}
+		});
+		links.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				date.add(Calendar.DAY_OF_YEAR, -1);
+			}
+		});
 		
 	}
 
@@ -533,6 +550,14 @@ public class GUI implements Serializable
 		}
 		
 		
+	}
+	
+	private void updateActs()
+	{
+		for (TimePanel p : timelines)
+		{
+			p.update();
+		}
 	}
 	
 	public void redrawStages()
