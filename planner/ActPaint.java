@@ -21,6 +21,11 @@ public class ActPaint implements TimeLinePanel, Serializable
 		this.t = t;
 	}
 	
+	public TimePanel getTimePanel()
+	{
+		return t;
+	}
+	
 	public double getStartX()
 	{
 		return startX;
@@ -66,7 +71,6 @@ public class ActPaint implements TimeLinePanel, Serializable
 		tmpMin += (tmpHr*60);
 		startX = (t.width()/1440)*tmpMin;
 		width = t.width()/1400*iface.getDuration(stage, act);
-		t.actPaints.add(this);
 	}
 	
 	public double height()
@@ -90,6 +94,7 @@ public class ActPaint implements TimeLinePanel, Serializable
 //		s = new RoundRectangle2D.Double((t.width()+650)/((iface.getStartTime(stage, act).getMaximum(GregorianCalendar.HOUR_OF_DAY)*60)+(iface.getStartTime(stage, act).getMaximum(GregorianCalendar.MINUTE))), t.height()/20*1.5,100-((t.width()/+650)/iface.getDuration(stage, act)), t.height()/20 * 19 , 10 ,10);
 		s = new RoundRectangle2D.Double(startX, topY, width, height, 10, 10);
 		t.shapes.add(s);
+		t.actPaints.add(this);
 		g2.setColor(iface.getColor(stage, act));
 		g2.draw(s);
 		g2.fill(s);

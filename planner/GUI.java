@@ -522,21 +522,15 @@ public class GUI implements Serializable
 
 	protected void editAct(ActPaint ap) 
 	{
-		
+		Act tmpAct = iface.getAct(ap.getTimePanel().getStage(), ap.getActID());
+		System.out.println(tmpAct.getGenre());
+		new DataScherm(iface,tmpAct);
 	}
 
 	protected void removeAct(ActPaint ap, TimePanel t) 
 	{
-		if(ap == null)
-		{
-			System.out.println("ap = null");
-		}
-		if(t == null)
-		{
-			System.out.println("\n t = null");
-		}
-		iface.removeAct(t.getStage(), ap.getActID());
-		t.update();
+			iface.removeAct(t.getStage(), ap.getActID());
+			t.update();
 	}
 
 	protected void addAct(TimePanel stage) 
