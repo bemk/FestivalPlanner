@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -24,10 +25,11 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 	private Building buildingSelection;
 	private LinkedList<Building> buildings = new LinkedList<Building>();
 	private LinkedList<Path> paths = new LinkedList<Path>();
-	private LinkedList<Person> people = new LinkedList<Person>();
+	private LinkedList<Visitor> people = new LinkedList<Visitor>();
 	private Legenda legenda;
-	private int mouseX;
-	private int mouseY;
+	private int destinationX;
+	private int destinationY;
+	private boolean moved;
 	
 	
 	//Constructor
@@ -63,10 +65,10 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 			Random random = new Random();
 			if(random.nextInt()%2 == 0)
 			{
-				person.setStatus(2);
+				person.setAppearance(2);
 			}
 			else
-				person.setStatus(3);
+				person.setAppearance(3);
 	    }
 		animator = new Thread(this, "1");
 		animator.start();
@@ -137,13 +139,13 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 		g2.fillRect(0, 0, 720, 480);
 		g2.setColor(Color.black);
 		drawRaster(g2);
-		for(Building building: buildings)
-		{
-			drawBuilding(building, g2);
-		}
 		for(Person person: people)
 		{
 			drawPerson(person, g2);
+		}
+		for(Building building: buildings)
+		{
+			drawBuilding(building, g2);
 		}
 		g2.dispose();
 	}
@@ -181,7 +183,7 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 	
 	public void drawPerson(Person person, Graphics2D g2)
 	{
-		if(person.getStatus() == 2)
+		if(person.getAppearance() == 2)
 		{
 			g2.setColor(Color.blue);
 		}
@@ -197,9 +199,9 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 	public void run() {		
 		while(true)
 		{
-		for(Person person: people)
+		for(Visitor visitor: people)
 		{
-			movePerson(person);
+			movePerson(visitor);
 		}
 		repaint();
 		
@@ -267,6 +269,12 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 		return collision;
 	}
 	
+	public void checkOccupationBuilding(Building building)
+	{
+
+	}
+	
+	
 	
 	//Movement methods
 	public void moveDragBuilding(Building building, int x, int y)
@@ -275,34 +283,150 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 		building.setY(y - dragY);
 	}
 	
-	public void movePerson(Person person)
+	public void movePerson(Visitor visitor)
 	{
-		int x = mouseX/4 * 4;
-		int y = mouseY/4 * 4;
-		Visitor otherPersonLeft = new Visitor(person.getX()-4, person.getY());
-		Visitor otherPersonRight = new Visitor(person.getX()+4, person.getY());
-		Visitor otherPersonUp = new Visitor(person.getX(), person.getY()-4);
-		Visitor otherPersonDown = new Visitor(person.getX(), person.getY()+4);
-		if(x < person.getX() && (!checkPeople(otherPersonLeft)))
+		Point p = searchNearestDestination(visitor.getDestination(), visitor);
+		Point space = getAvailableSpace((int)(p.getX()), (int)(p.getY()));
+		int x = (int) (space.getX()/4 * 4);
+		int y = (int) (space.getY()/4 * 4);
+
+		Visitor otherPersonLeft = new Visitor(visitor.getX()-4, visitor.getY());
+		Visitor otherPersonRight = new Visitor(visitor.getX()+4, visitor.getY());
+		Visitor otherPersonUp = new Visitor(visitor.getX(), visitor.getY()-4);
+		Visitor otherPersonDown = new Visitor(visitor.getX(), visitor.getY()+4);
+		boolean moved = false;
+		if(visitor.getStatus() != "DestinationReached")
 		{
-			person.act("LEFT", 4);
-		}
-		else if(x > person.getX() && (!checkPeople(otherPersonRight)))
-		{
-			person.act("RIGHT", 4);
-		}
-		if(y < person.getY() && (!checkPeople(otherPersonUp)))
-		{
-			person.act("UP", 4);
-		}
-		else if(y > person.getY() && (!checkPeople(otherPersonDown)))
-		{
-			person.act("DOWN", 4);
+			if(x < visitor.getX() && (!checkPeople(otherPersonLeft)))
+			{
+				visitor.act("LEFT", 4);
+				moved = true;
+			}
+			else if(x+24 > visitor.getX() && (!checkPeople(otherPersonRight)))
+			{
+				visitor.act("RIGHT", 4);
+				moved = true;
+			}
+			if(y < visitor.getY() && (!checkPeople(otherPersonUp)))
+			{
+				visitor.act("UP", 4);
+				moved = true;
+			}
+			else if(y+24 > visitor.getY() && (!checkPeople(otherPersonDown)))
+			{
+				visitor.act("DOWN", 4);
+				moved = true;
+			}
+			if(visitor.getX() == x && visitor.getY() == y && moved)
+			{
+				visitor.setStatus("DestinationReached");
+			}
+			if(!moved)
+			{
+				visitor.increaseTimesTried();
+			}
+			else
+			{
+				visitor.resetTimesTried();
+			}
 		}
 	}
 	
+	//Methods for behavior
+	public void destinationChange(Visitor visitor)
+	{
+		Random random = new Random();
+		if(random.nextInt()%2 == 0)
+		{
+			visitor.setDestination("EHBO");
+		}
+		else
+		{
+			visitor.setDestination("SnackBar");
+		}
+	}
 	
+	public void changeDestinationPeople()
+	{
+		for(Visitor visitor: people)
+		{
+			destinationChange(visitor);
+			visitor.setStatus(null);
+		}
+	}
+	
+	public Point searchNearestDestination(String destination, Visitor visitor)
+	{
+		int x = 1000;
+		int y = 1000;
+		int difference;
+		int difference2;
+		int visitorXY = visitor.getX()+visitor.getY();
+		for(Building building: buildings)
+		{
+			int buildingXY = building.getX()+building.getY();
+			//Calculate differences
+			if(visitorXY > buildingXY)
+			{
+				difference = visitorXY - buildingXY;
+			}
+			else
+			{
+				difference = buildingXY - visitorXY;
+			}
+			if(visitorXY > x+y)
+			{
+				difference2 = visitorXY - x+y;
+			}
+			else
+			{
+				difference2 = x+y - visitorXY;
+			}
+			//Destination chooser
+			if(destination == "EHBO" && building instanceof EHBO)
+			{
+				if(difference < difference2)
+				{
+					x = building.getX();
+					y = building.getY();
+				}
+			}
+			if(destination == "SnackBar" && building instanceof Snackbar)
+			{
+				if(difference < difference2)
+				{
+					x = building.getX();
+					y = building.getY();
+				}
+			}
+		}
+		return new Point(x,y);
+	}
+	
+	public Point getAvailableSpace(int x, int y)
+	{
+		Point space = new Point();
+		boolean breaker = false;
+		for(int i = x; i <= x+24; i+=4)
+		{
+			for(int t = y; t <= y+24; t+=4)
+			{
+				if(!checkPeople(new Visitor(i, t)))
+				{
+				space = new Point(i, t);
+				breaker = true;
+				break;
+				}
+			}
+			if(breaker)
+			{
+				break;
+			}
+		}
+		return space;
+	}
 
+	
 	//mouseDrag method
 	public void mouseDragged(MouseEvent e) {
 		if (canDrag) {
@@ -339,12 +463,29 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 	}
 
 	
-    //Not used
-	public void mouseMoved(MouseEvent e) {
-		mouseX = e.getX();
-		mouseY = e.getY();
+	//mouseClick method
+	public void mouseClicked(MouseEvent e) 
+	{
+		if(e.getButton() == MouseEvent.BUTTON3)
+		{
+			for(Building building: buildings)
+			{
+				if(building.getX() == e.getX()/24*24 && building.getY() == e.getY()/24*24)
+				{
+					destinationX = building.getX();
+					destinationY = building.getY();
+					break;
+				}
+			}
+		}
+		if(e.getButton() == MouseEvent.BUTTON1)	
+		{
+			changeDestinationPeople();
+		}
 	}
-	public void mouseClicked(MouseEvent e) {}
+	
+	 //Not used
+	public void mouseMoved(MouseEvent e) {}
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
 	

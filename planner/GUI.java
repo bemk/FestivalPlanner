@@ -28,6 +28,7 @@ public class GUI implements Serializable
 	private JPanel time = new JPanel();
 	private int timeSize = 0;
 	private Calendar date;
+	private JLabel datum;
 
 	
     public static void main(String[] args)
@@ -38,6 +39,7 @@ public class GUI implements Serializable
     public GUI()
     {
     	//popupMenu1();
+        this.date = new GregorianCalendar();
     	frame = new JFrame("Festival Planner");
         content = frame.getContentPane();
         content.setLayout(gridbag);
@@ -69,7 +71,6 @@ public class GUI implements Serializable
         }
         else
         addStage(); // TODO ask for new planning or to load stored one.
-        this.date = new GregorianCalendar();
     }
     
 	public Calendar getDate()
@@ -205,7 +206,7 @@ public class GUI implements Serializable
 		JButton links = new JButton(new ImageIcon(this.getClass().getResource("Images/button_left.png")));
 		rechts.setSize(50, 50);
 		links.setSize(50, 50);
-		JLabel datum = new JLabel(datetxt);
+		datum = new JLabel(datetxt);
 		c.gridx = 1;
 		c.gridy = 1;
 		c.weightx = 0.002;
@@ -224,22 +225,32 @@ public class GUI implements Serializable
 		c.weightx = 0.5;
 		frame.add(Datum, c);
 		
+		updateDatum();
+		
 		rechts.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{	
 				date.add(Calendar.DAY_OF_YEAR, 1);
-				
+				updateActs();
+				updateDatum();
 			}
 		});
 		links.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e)
 			{
 				date.add(Calendar.DAY_OF_YEAR, -1);
+				updateActs();
+				updateDatum();
 			}
 		});
 		
 	}
 
+	private void updateDatum()
+	{
+		datum.setText(date.get(Calendar.DAY_OF_MONTH) + " - " + Integer.toString(date.get(Calendar.MONTH)+1) + " - " + date.get(Calendar.YEAR));
+	}
+	
 	private void initTimeline() {
 		c.fill = GridBagConstraints.BOTH;
     	time.setLayout(new BoxLayout(time,BoxLayout.Y_AXIS));
@@ -542,8 +553,6 @@ public class GUI implements Serializable
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 	}
 	
 	private void updateActs()
