@@ -1,7 +1,9 @@
 //package fp;
+import java.io.Serializable;
 import java.util.*;
 
-abstract class TimeLine {
+abstract class TimeLine implements Serializable 
+{
 	private ArrayList<Act> acts = new ArrayList<Act>();
     private final int ID = serial;
     private static int serial = 0;
@@ -9,6 +11,8 @@ abstract class TimeLine {
     {
     	serial++;
     }
+    
+    public abstract String getName();
 
 	public Act getAct(int a)
 	{
@@ -33,13 +37,9 @@ abstract class TimeLine {
 	}
 	public void removeAct(int a)
 	{
-		for (Act i : acts)
-		{
-			if (i.ID() == a)
-			{
-				acts.remove(i);
-			}
-		}
+		Act j = getAct(a);
+		if(j != null)
+		acts.remove(j);
 	}
 	public void addAct(Act a)
 	{

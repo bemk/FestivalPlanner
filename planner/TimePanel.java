@@ -4,16 +4,21 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
 
 
-public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, MouseMotionListener
+public class TimePanel extends JPanel implements TimeLinePanel, Serializable
 {
-
+	protected ArrayList<ActPaint> actPaints = new ArrayList<ActPaint>();
+	private ActPaint aP = null;
+	private int Y;
+	private int X;
 	private static final long serialVersionUID = 4466302497626327762L;
 	private JPopupMenu popupMenu1;
 	public String title;
 	private Shape s;
 	protected GUI gui;
+	private JMenuItem removeAct;
     private JMenuItem editAct;
     private TimePanel arg;
     private boolean drawn = false;
@@ -24,9 +29,9 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
     private ArrayList<Integer> acts = new ArrayList<Integer>();
     private Interface iface;
 	protected ArrayList<Shape> shapes = new ArrayList<Shape>();
-	
-	private Shape dragObject = null;
-	private Point lastMousePosition = null;
+	protected Shape SelectedObject = null;
+	//private Shape dragObject = null;
+	//private Point lastMousePosition = null;
     
 	public TimePanel(GUI gui)
 	{
@@ -43,13 +48,51 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
 		this.addMouseListener(new MouseListener(){
 			public void mouseReleased(MouseEvent e)
 			{
-				if(e.getButton() == MouseEvent.BUTTON3)
+				for (Shape s : shapes)
+				{
+					Point tmpPoint = new Point(e.getPoint().x, (int) ((int)(e.getPoint().y)/arg.height()));
+					if(e.getButton() == MouseEvent.BUTTON3 && s.contains(tmpPoint))
+					{
+						if(s != null)
+						SelectedObject = s;
+						removeAct.setEnabled(true);
+						editAct.setEnabled(true);
+						X = e.getX();
+						Y = e.getY();
+						for(ActPaint ap : actPaints)
+						{
+							if(true)
+							{
+								aP = ap;
+								break;
+							}
+						}
+						System.out.println("Y = " + Y);
+						popupMenu1.show(e.getComponent(),e.getX(),e.getY());
+						break;
+					}
+					else
+					{
+						
+						if(e.getButton() == MouseEvent.BUTTON3)
+						{
+							removeAct.setEnabled(false);
+							editAct.setEnabled(false);
+							popupMenu1.show(e.getComponent(), e.getX(), e.getY());
+							break;
+						}
+					}
+				}
+				if(e.getButton() == MouseEvent.BUTTON3 && SelectedObject == null)
 				{
 					if(e.getButton() == MouseEvent.BUTTON3)
-						popupMenu1.show(e.getComponent(), e.getX(),e.getY());
+					{
+						removeAct.setEnabled(false);
+						editAct.setEnabled(false);
+						popupMenu1.show(e.getComponent(), e.getX(), e.getY());
+					}
 				}
 			}
-
 			public void mouseClicked(MouseEvent arg0) {}
 			public void mouseEntered(MouseEvent arg0) {}
 			public void mouseExited(MouseEvent arg0) {}
@@ -59,16 +102,41 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
 		this.setPreferredSize(new Dimension(width, height));
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
-		this.addMouseListener(this);
-		this.addMouseMotionListener(this);
+//		this.addMouseListener(this);
+//		this.addMouseMotionListener(this);
 		
-		popupMenu1();
+		popupMenu();
 		
+	}
+	
+	public int getStage()
+	{
+		return stage;
 	}
 	
 	public void update()
 	{
 		acts = iface.getAllActs(stage);
+		Integer a = null;
+		Iterator<Integer> i = acts.iterator();
+		while(i.hasNext())
+		{
+			try{
+			a = i.next();
+			Calendar act = iface.getStartTime(stage, a);
+			if (gui.getDate().get(Calendar.DAY_OF_MONTH) != act.get(Calendar.DAY_OF_MONTH)
+					|| gui.getDate().get(Calendar.MONTH) != act.get(Calendar.MONTH)
+					|| gui.getDate().get(Calendar.YEAR) != act.get(Calendar.YEAR))
+			{
+				i.remove();
+			}
+			} catch (Exception e)
+			{
+				System.out.println(e.getLocalizedMessage());
+				break;
+			}
+		}
+		shapes.clear();
 		repaint();
 	}
 	
@@ -89,7 +157,7 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
 		this.removed = removed;
 	}
 	
-	public JPopupMenu popupMenu1(){
+	public JPopupMenu popupMenu(){
 	    popupMenu1 = new JPopupMenu();
 	    JMenuItem addArtist = new JMenuItem("Add Artist");
 		addArtist.addActionListener(new ActionListener()
@@ -117,6 +185,7 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
 				gui.editArtist();
 			}
 		});
+		popupMenu1.addSeparator();
 		popupMenu1.add(editArtist);
 	    JMenuItem addAct = new JMenuItem("Add Act");
 	    addAct.addActionListener(new ActionListener()
@@ -127,12 +196,12 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
 	    	}
 	    });
 	    popupMenu1.add(addAct);
-	    JMenuItem removeAct = new JMenuItem("Remove Act");
+	    removeAct = new JMenuItem("Remove Act");
 	    removeAct.addActionListener(new ActionListener()
 	    {
 	    	public void actionPerformed(ActionEvent e)
 	    	{
-	    		gui.removeAct();
+	    		gui.removeAct(aP,arg);
 	    	}
 	    });
 	    
@@ -143,7 +212,7 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
 	    {
 	    	public void actionPerformed(ActionEvent e)
 	    	{
-	    		gui.editAct();
+	    		gui.editAct(aP);
 	    	}
 	    });
 	    editAct.setEnabled(false);
@@ -214,77 +283,77 @@ public class TimePanel extends JPanel implements TimeLinePanel, MouseListener, M
 		// TODO add act drawing code.
 	}
 	
-	@Override
-	public void mouseDragged(MouseEvent e) {
-		if(dragObject != null)
-		{
-			
-			s = dragObject;
-			dragged = true;
-			AffineTransform tr = new AffineTransform();
-			if(((e.getModifiers() & MouseEvent.BUTTON1_MASK) != 0))
-			{
-				tr.translate(e.getPoint().x - lastMousePosition.x, e.getPoint().y - lastMousePosition.y);
-				System.out.println("hij vind hem wel met draggen");
-			}
-			s = tr.createTransformedShape(s);
-			if(shapes.contains(dragObject))
-			shapes.set(shapes.indexOf(dragObject), s);
-			lastMousePosition = e.getPoint();
-			this.repaint();
-			this.updateUI(); 
-			//shapes.remove(dragObject);
-			//this.updateUI();
-		}
-		
-		
-	}
-	@Override
-	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mousePressed(MouseEvent e) {
-//		for(int i = 0; i < shapes.size(); i++)
-//		if (Interface.dbg)
+//	@Override
+//	public void mouseDragged(MouseEvent e) {
+//		if(dragObject != null)
 //		{
-//			System.out.printf("\nX coord:\t%f\nY coord:\t%f\n", e.getPoint().getX(), e.getPoint().getY()/this.height());
+//			
+//			s = dragObject;
+//			dragged = true;
+//			AffineTransform tr = new AffineTransform();
+//			if(((e.getModifiers() & MouseEvent.BUTTON1_MASK) != 0))
+//			{
+//				tr.translate(e.getPoint().x - lastMousePosition.x, e.getPoint().y - lastMousePosition.y);
+//				System.out.println("hij vind hem wel met draggen");
+//			}
+//			s = tr.createTransformedShape(s);
+//			if(shapes.contains(dragObject))
+//			shapes.set(shapes.indexOf(dragObject), s);
+//			lastMousePosition = e.getPoint();
+//			this.repaint();
+//			this.updateUI(); 
+//			//shapes.remove(dragObject);
+//			//this.updateUI();
 //		}
-		for (Shape s : shapes)
-		{
-			Point tmpPoint = new Point(e.getPoint().x, (int) ((int)(e.getPoint().y)/this.height()));
-			if(s.contains(tmpPoint))
-			{
-				System.out.println("pressed");
-				dragObject = s;
-				lastMousePosition = tmpPoint;
-				break;
-			}
-		}
-	}
-	
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		this.dragObject = null;
-		
-	}
+//		
+//		
+//	}
+//	@Override
+//	public void mouseMoved(MouseEvent e) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//	@Override
+//	public void mouseClicked(MouseEvent e) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//	@Override
+//	public void mouseEntered(MouseEvent e) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//	@Override
+//	public void mouseExited(MouseEvent e) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//	@Override
+//	public void mousePressed(MouseEvent e) {
+////		for(int i = 0; i < shapes.size(); i++)
+////		if (Interface.dbg)
+////		{
+////			System.out.printf("\nX coord:\t%f\nY coord:\t%f\n", e.getPoint().getX(), e.getPoint().getY()/this.height());
+////		}
+//		for (Shape s : shapes)
+//		{
+//			Point tmpPoint = new Point(e.getPoint().x, (int) ((int)(e.getPoint().y)/this.height()));
+//			if(s.contains(tmpPoint))
+//			{
+//				System.out.println("pressed");
+//				dragObject = s;
+//				lastMousePosition = tmpPoint;
+//				break;
+//			}
+//		}
+//	}
+//	
+//	@Override
+//	public void mouseReleased(MouseEvent arg0) {
+//		// TODO Auto-generated method stub
+//		this.dragObject = null;
+//		
+//	}
 	
 	
 	public double height()

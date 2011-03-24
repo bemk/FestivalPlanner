@@ -134,4 +134,19 @@ public class Act extends TimeLine implements Serializable, Comparator
 				return 0;
 			}
 		}
+		
+		public ArrayList<String> getArtistNames()
+		{
+			ArrayList<String> tmpStringArrayList = new ArrayList<String>();
+			for(Artist a : artists)
+			{
+				tmpStringArrayList.add(a.getName());
+			}
+			return tmpStringArrayList;
+		}
+
+		@Override
+		public String getName() {
+			return null;
+		}
 }

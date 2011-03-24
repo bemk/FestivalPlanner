@@ -1,8 +1,9 @@
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.Serializable;
 
-public class PopUpMenu{
+public class PopUpMenu implements Serializable{
   JPopupMenu Pmenu;
   JMenuItem menuItem;
   public static void main(String[] args) {

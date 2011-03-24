@@ -1,16 +1,33 @@
+import java.awt.Color;
+import java.awt.geom.Rectangle2D;
 
 public class Visitor extends Person {
 
-private String url = "FP/.png";
-private String url2 = "FP/.png";
+	private int timesTried;
 	
-	public Visitor(int x, int y, String url, String url2)
+	public Visitor(int x, int y)
 	{
 		super.coordinates.setLocation(x, y);
-		setImageIcon(url);
-		addImageIcon(getImageIcon());
-		setImageIcon(url2);
-		addImageIcon(getImageIcon());
+	}
+	
+	public void increaseTimesTried()
+	{
+		timesTried++;
+	}
+	
+	public void resetTimesTried()
+	{
+		timesTried = 0;
+	}
+	
+	public void setTimesTried(int time)
+	{
+		this.timesTried = time;
+	}
+	
+	public int getTimesTried()
+	{
+		return this.timesTried;
 	}
 	
 }

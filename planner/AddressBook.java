@@ -24,6 +24,10 @@ public class AddressBook implements Serializable
         	}
         	return tmp;
         }
+        public void editArtist(int index, Artist tmp)
+        {
+        	this.artists.set(index, tmp);
+        }
         public void addArtist(Artist a)
         {
                 this.artists.add(a);
