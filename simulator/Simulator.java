@@ -7,9 +7,9 @@ import javax.swing.JFrame;
 
 public class Simulator extends JFrame{
 	
-	public Simulator()
+	public Simulator(Interface iface)
 	{
-		add(new Board());
+		add(new Board(iface));
 		setTitle("Simulatie");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	    setSize(726, 485);
@@ -21,7 +21,7 @@ public class Simulator extends JFrame{
 	
 	public static void main(String[] args)
 	{
-		new Simulator();
+		new Simulator(new Interface());
 	}
 
 

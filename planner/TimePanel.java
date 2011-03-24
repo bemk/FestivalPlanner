@@ -61,7 +61,7 @@ public class TimePanel extends JPanel implements TimeLinePanel, Serializable
 						Y = e.getY();
 						for(ActPaint ap : actPaints)
 						{
-							if(X >= ap.getStartX() && X <= (ap.getStartX() + ap.getWidth()))
+							if(true)
 							{
 								aP = ap;
 								break;
