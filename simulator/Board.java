@@ -30,11 +30,13 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 	private int destinationX;
 	private int destinationY;
 	private boolean moved;
+	private Interface iface;
 	
 	
 	//Constructor
-	public Board()
+	public Board(Interface iface)
 	{
+		this.iface = iface;
 		initSimulator();
 		setDoubleBuffered(true);
 		addMouseListener(this);

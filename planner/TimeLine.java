@@ -37,13 +37,9 @@ abstract class TimeLine implements Serializable
 	}
 	public void removeAct(int a)
 	{
-		for (Act i : acts)
-		{
-			if (i.ID() == a)
-			{
-				acts.remove(i);
-			}
-		}
+		Act j = getAct(a);
+		if(j != null)
+		acts.remove(j);
 	}
 	public void addAct(Act a)
 	{
