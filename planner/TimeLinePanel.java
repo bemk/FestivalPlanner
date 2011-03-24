@@ -1,5 +1,6 @@
 
-public interface TimeLinePanel {
+public interface TimeLinePanel
+{
 	public double height();
 	public double width();
 }

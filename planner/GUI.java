@@ -1,11 +1,13 @@
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.io.*;
+import java.text.ParseException;
 import java.util.*;
 
-public class GUI 
+public class GUI implements Serializable
 {
 	private GridBagLayout gridbag = new GridBagLayout();
     private GridBagConstraints c = new GridBagConstraints();
@@ -16,6 +18,7 @@ public class GUI
 	private JTextArea preference;
 	private JTextArea descriptionText;
 	private StarPanel rating;
+	private boolean open = false;
 	private JPanel wensen;
 	private JPanel description;
 	private static GUI gui1;
@@ -24,6 +27,8 @@ public class GUI
 	protected ArrayList<TimePanel> timelines = new ArrayList<TimePanel>();
 	private JPanel time = new JPanel();
 	private int timeSize = 0;
+	private Calendar date;
+	private JLabel datum;
 
 	
     public static void main(String[] args)
@@ -34,6 +39,7 @@ public class GUI
     public GUI()
     {
     	//popupMenu1();
+        this.date = new GregorianCalendar();
     	frame = new JFrame("Festival Planner");
         content = frame.getContentPane();
         content.setLayout(gridbag);
@@ -52,10 +58,25 @@ public class GUI
         frame.setResizable(false);
         frame.setVisible(true);
         timeSize = time.getHeight()/2;
+        Object[] options = {"Open", "New"};
+        int optionPane =JOptionPane.showConfirmDialog(null,
+                "Do you want to open a previous Planner?\n Or do you want to open a new planner?"
+        		+"\n\n To Open a previous click Yes,\n for a new one click No.",
+                "Open or New?",
+                JOptionPane.YES_NO_OPTION);
+        if(optionPane == JOptionPane.YES_OPTION)
+        {
+        	open = true;
+        	open();
+        }
+        else
         addStage(); // TODO ask for new planning or to load stored one.
     }
     
-	
+	public Calendar getDate()
+	{
+		return this.date;
+	}
 	
 	public void addArtist()
 	{
@@ -64,9 +85,71 @@ public class GUI
 	
 	public void removeArtist()
 	{
+		final JFrame frame = new JFrame();
+		frame.setLocationRelativeTo(null);
+		frame.setLayout(new GridLayout(2,0));
+		frame.getContentPane().add(new JLabel("Name"));
+		final JTextField field = new JTextField();
+		frame.getContentPane().add(field);
+		JButton oke = new JButton("Oke");
+		oke.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				s = field.getText();
+				for(int i : iface.getAllArtists())
+				{
+					if(iface.findArtist(i).getName().equals(s))
+					{
+						iface.removeArtist(i);
+						frame.dispose();
+					}
+					else
+					{
+						errorFrame();
+					}
+				}
+				
+			}
+		});
+		frame.getContentPane().add(oke);
+		JButton cancel = new JButton("Cancel");
+		cancel.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				frame.dispose();
+			}
+		});
+		frame.getContentPane().add(cancel);
+		frame.setSize(200,75);
+		frame.setResizable(false);
+		GraphicsEnvironment GE = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        Point p = GE.getCenterPoint();
+        Point o= new Point((int) (p.getX() -100),(int) ((p.getY() -37)));
+        frame.setLocation(o);
+		frame.setVisible(true);
 		
 	}
-	
+	public void errorFrame()
+	{
+		final JFrame frame2 = new JFrame();
+		frame2.setLocationRelativeTo(null);
+		frame2.setLayout(new GridLayout(2,0));
+		frame2.getContentPane().add(new JLabel("The name you've search is not in the database. Please try a different name!"));
+		JButton button = new JButton("oke");
+		button.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				frame2.dispose();
+			}
+		});
+		frame2.getContentPane().add(button);
+		frame2.setSize(450,75);
+		frame2.setResizable(false);
+		frame2.setAlwaysOnTop(true);
+		frame2.setVisible(true);
+	}
 	public void editArtist()
 	{
 		
@@ -82,6 +165,18 @@ public class GUI
 			public void actionPerformed(ActionEvent e)
 			{
 				s = field.getText();
+
+				for(int i : iface.getAllArtists())
+				{
+					if(iface.findArtist(i).getName().equals(s))
+					{
+						new ArtistScherm(iface,i);
+					}
+					else
+					{
+						errorFrame();
+					}
+				}
 				frame.dispose();
 			}
 		});
@@ -111,7 +206,7 @@ public class GUI
 		JButton links = new JButton(new ImageIcon(this.getClass().getResource("Images/button_left.png")));
 		rechts.setSize(50, 50);
 		links.setSize(50, 50);
-		JLabel datum = new JLabel(datetxt);
+		datum = new JLabel(datetxt);
 		c.gridx = 1;
 		c.gridy = 1;
 		c.weightx = 0.002;
@@ -130,10 +225,32 @@ public class GUI
 		c.weightx = 0.5;
 		frame.add(Datum, c);
 		
+		updateDatum();
 		
+		rechts.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{	
+				date.add(Calendar.DAY_OF_YEAR, 1);
+				updateActs();
+				updateDatum();
+			}
+		});
+		links.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e)
+			{
+				date.add(Calendar.DAY_OF_YEAR, -1);
+				updateActs();
+				updateDatum();
+			}
+		});
 		
 	}
 
+	private void updateDatum()
+	{
+		datum.setText(date.get(Calendar.DAY_OF_MONTH) + " - " + Integer.toString(date.get(Calendar.MONTH)+1) + " - " + date.get(Calendar.YEAR));
+	}
+	
 	private void initTimeline() {
 		c.fill = GridBagConstraints.BOTH;
     	time.setLayout(new BoxLayout(time,BoxLayout.Y_AXIS));
@@ -296,6 +413,17 @@ public class GUI
         file.addSeparator();
         file.add(exit);
         menuBar.add(file);
+        JMenu simulator = new JMenu("Simulator");
+        JMenuItem activate = new JMenuItem("Run");
+        activate.addActionListener(new ActionListener()
+        {
+        	public void actionPerformed(ActionEvent e)
+        	{
+        		activate();
+        	}
+        });
+        simulator.add(activate);
+        menuBar.add(simulator);
         frame.setJMenuBar(menuBar);
     }
 
@@ -303,55 +431,75 @@ public class GUI
     	System.exit(0);
 
     }
-
+    
+   private void activate()
+   {
+	   new Simulator(iface);
+   }
+    
     protected void save() {
     	try{
-    		FileDialog fd = new FileDialog(new Frame(), 
-    	        "Save As...", FileDialog.SAVE);
-    		  fd.setVisible(true);
-    	      String filePath = new String( fd.getDirectory() + fd.getFile() );
-
-    	      //  Create a stream for writing.
-    	      FileOutputStream fos = new FileOutputStream( filePath );
-
-    	      //  create an object that can write to that file.
-    	      ObjectOutputStream outStream = 
-    	        new ObjectOutputStream( fos );
-    	      
-				outStream.writeObject(iface.addressBook);
-				outStream.writeObject(iface.planning);
-				outStream.flush();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
+    		
+    		JFileChooser fc = new JFileChooser();
+    		fc.setAcceptAllFileFilterUsed(false);
+    		fc.addChoosableFileFilter(new AgnFilter());
+            int returnVal =	fc.showSaveDialog(frame);
+            if(returnVal != JFileChooser.APPROVE_OPTION) 
+            	{
+            		return; // geannuleerd
+            	}
+            	File selectedFile = new File(fc.getSelectedFile().getAbsolutePath()+".pln");
+            	FileOutputStream f = new FileOutputStream(selectedFile); 
+            	ObjectOutputStream s = new ObjectOutputStream(f); 
+            	s.writeObject(iface);
+                s.flush(); 
+    		}
+            catch (IOException io)
+                 { 
+            		io.printStackTrace();
+                 }
     }
-
+    	
     protected void open() {
     	try {
-    	 FileDialog fd = new FileDialog( new Frame(), "Open...",
-    	          FileDialog.LOAD );
-    	      fd.setVisible(true);
-    	      String filePath = new String( fd.getDirectory() + fd.getFile() );
-
-    	      //  Create a stream for reading.
-    	      FileInputStream fis = new FileInputStream( filePath );
-
-    	      //  create an object that can read from that file.
-    	      ObjectInputStream inStream = new ObjectInputStream( fis );
-
-    	      // Retrieve the Serializable object.
-    	      
-				iface.addressBook = (AddressBook) inStream.readObject();
-				iface.planning = (Planning) inStream.readObject();
+    			JFileChooser fc = new JFileChooser();
+    			fc.addChoosableFileFilter(new AgnFilter());
+    			int returnVal = fc.showOpenDialog(frame);
+    			if(returnVal == JFileChooser.CANCEL_OPTION)
+    			{
+    				return;
+    			}
+    			File selectedFile = fc.getSelectedFile();
+    			FileInputStream f = new FileInputStream(selectedFile);
+    			ObjectInputStream s = new ObjectInputStream(f);
+    			Interface i = (Interface) s.readObject();
+    			setIface(i);
+    			openStages();
+    			redrawStages();
 			}
     		catch (Exception e)
 			{
-    			e.printStackTrace();
+    			e.printStackTrace(); 
 			}
 	}
+    
+    private void openStages()
+    {
+    	for (TimeLine tl : iface.timelines)
+    	{
+    		this.timelines.add(new TimePanel(this, time.getWidth(), timeSize, tl.getName(), tl.ID(), iface));
+    	}
+    	redrawStages();
+    	for (TimePanel tp : this.timelines)
+    	{
+    		tp.update();
+    	}
+    }
 
+    private void setIface(Interface iface)
+    {
+    	this.iface = iface;
+    }
     protected void nieuw() 
     {
        gui1 = this;
@@ -395,34 +543,35 @@ public class GUI
 		redrawStages(); // paint the time panel to screen.
 	}
 
-	protected void editAct() 
+	protected void editAct(ActPaint ap) 
 	{
-		// TODO Auto-generated method stub
-		
+		Act tmpAct = iface.getAct(ap.getTimePanel().getStage(), ap.getActID());
+		System.out.println(tmpAct.getGenre());
+		new DataScherm(iface,tmpAct);
 	}
 
-	protected void removeAct() 
+	protected void removeAct(ActPaint ap, TimePanel t) 
 	{
-		// TODO Auto-generated method stub
-		
+			iface.removeAct(t.getStage(), ap.getActID());
+			t.update();
 	}
 
 	protected void addAct(TimePanel stage) 
 	{
-		new DataScherm(iface, stage, this);
 		
+		try {
+			new DataScherm(iface, stage, this);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
-	public void drawAct(int stage)
+	private void updateActs()
 	{
-		System.out.println(stage);
-		TimePanel j = null;
-		for(TimePanel i : timelines)
+		for (TimePanel p : timelines)
 		{
-			if(i.getID() == stage)
-			{
-				j=i;
-			}
+			p.update();
 		}
 	}
 	
@@ -442,4 +591,43 @@ public class GUI
     	}
 		time.updateUI(); // Do the actual redrawing.
 	}
+
 }
+class AgnFilter extends FileFilter {
+
+    //Accept all directories and agn files.
+	 public boolean accept(File f) {
+	        if (f.isDirectory()) {
+	            return true;
+	        }
+
+	        String extension = getExtension(f);
+	        if (extension != null) {
+	            if (extension.equals("pln")) {
+	                    return true;
+	            } else {
+	                return false;
+	            }
+	        }
+
+	        return false;
+	    }
+
+	    //The description of this filter
+	    public String getDescription() {
+	        return ".pln";
+	    }
+	    
+	    public static String getExtension(File f) {
+	        String ext = null;
+	        String s = f.getName();
+	        int i = s.lastIndexOf('.');
+
+	        if (i > 0 &&  i < s.length() - 1) {
+	            ext = s.substring(i+1).toLowerCase();
+	        }
+	        return ext;
+	    }
+}
+
+

@@ -1,8 +1,9 @@
 import java.awt.*;
 import java.awt.geom.*;
+import java.io.Serializable;
 import java.util.*;
 
-public class ActPaint implements TimeLinePanel
+public class ActPaint implements TimeLinePanel, Serializable
 {
 	private static final long serialVersionUID = 1L;
 	private int act;
@@ -16,9 +17,38 @@ public class ActPaint implements TimeLinePanel
 	private double startX;
 	private double topY;
 	public ActPaint(TimePanel t)
-	
 	{
 		this.t = t;
+	}
+	
+	public TimePanel getTimePanel()
+	{
+		return t;
+	}
+	
+	public double getStartX()
+	{
+		return startX;
+	}
+	
+	public double getWidth()
+	{
+		return width;
+	}
+	
+	public double getTopY()
+	{
+		return topY;
+	}
+	
+	public double getHeight()
+	{
+		return height;
+	}
+	
+	public int getActID()
+	{
+		return act;
 	}
 	
 	public ActPaint(int act, Interface iface, TimePanel t)
@@ -41,7 +71,6 @@ public class ActPaint implements TimeLinePanel
 		tmpMin += (tmpHr*60);
 		startX = (t.width()/1440)*tmpMin;
 		width = t.width()/1400*iface.getDuration(stage, act);
-		
 	}
 	
 	public double height()
@@ -65,6 +94,7 @@ public class ActPaint implements TimeLinePanel
 //		s = new RoundRectangle2D.Double((t.width()+650)/((iface.getStartTime(stage, act).getMaximum(GregorianCalendar.HOUR_OF_DAY)*60)+(iface.getStartTime(stage, act).getMaximum(GregorianCalendar.MINUTE))), t.height()/20*1.5,100-((t.width()/+650)/iface.getDuration(stage, act)), t.height()/20 * 19 , 10 ,10);
 		s = new RoundRectangle2D.Double(startX, topY, width, height, 10, 10);
 		t.shapes.add(s);
+		t.actPaints.add(this);
 		g2.setColor(iface.getColor(stage, act));
 		g2.draw(s);
 		g2.fill(s);
