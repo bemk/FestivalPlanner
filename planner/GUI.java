@@ -413,6 +413,17 @@ public class GUI implements Serializable
         file.addSeparator();
         file.add(exit);
         menuBar.add(file);
+        JMenu simulator = new JMenu("Simulator");
+        JMenuItem activate = new JMenuItem("Run");
+        activate.addActionListener(new ActionListener()
+        {
+        	public void actionPerformed(ActionEvent e)
+        	{
+        		activate();
+        	}
+        });
+        simulator.add(activate);
+        menuBar.add(simulator);
         frame.setJMenuBar(menuBar);
     }
 
@@ -421,10 +432,11 @@ public class GUI implements Serializable
 
     }
     
-   
-
-
-
+   private void activate()
+   {
+	   new Simulator(iface);
+   }
+    
     protected void save() {
     	try{
     		
