@@ -31,7 +31,7 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 	private int destinationY;
 	private boolean moved;
 	private Interface iface;
-	
+	private Map bitmap = new Map();
 	
 	//Constructor
 	public Board(Interface iface)
@@ -291,47 +291,81 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 		Point space = getAvailableSpace((int)(p.getX()), (int)(p.getY()));
 		int x = (int) (space.getX()/4 * 4);
 		int y = (int) (space.getY()/4 * 4);
-
-		Visitor otherPersonLeft = new Visitor(visitor.getX()-4, visitor.getY());
-		Visitor otherPersonRight = new Visitor(visitor.getX()+4, visitor.getY());
-		Visitor otherPersonUp = new Visitor(visitor.getX(), visitor.getY()-4);
-		Visitor otherPersonDown = new Visitor(visitor.getX(), visitor.getY()+4);
-		boolean moved = false;
-		if(visitor.getStatus() != "DestinationReached")
+		
+//		Visitor otherPersonLeft = new Visitor(visitor.getX()-4, visitor.getY());
+//		Visitor otherPersonRight = new Visitor(visitor.getX()+4, visitor.getY());
+//		Visitor otherPersonUp = new Visitor(visitor.getX(), visitor.getY()-4);
+//		Visitor otherPersonDown = new Visitor(visitor.getX(), visitor.getY()+4);
+//		boolean moved = false;
+		if (visitor.getStatus() != "DestinationReached")
 		{
-			if(x < visitor.getX() && (!checkPeople(otherPersonLeft)))
+			if (x < visitor.getX())
 			{
+				bitmap.claim((visitor.getX()/4)-1, visitor.getY()/4);
+				bitmap.free(visitor.getX()/4, visitor.getY()/4);
 				visitor.act("LEFT", 4);
-				moved = true;
 			}
-			else if(x+24 > visitor.getX() && (!checkPeople(otherPersonRight)))
+			else if (x > visitor.getX())
 			{
+				bitmap.claim(visitor.getX()/4+1, visitor.getY()/4);
+				bitmap.free(visitor.getX()/4, visitor.getY()/4);
 				visitor.act("RIGHT", 4);
-				moved = true;
 			}
-			if(y < visitor.getY() && (!checkPeople(otherPersonUp)))
+		
+			if (y < visitor.getY())
 			{
+				bitmap.claim(visitor.getX()/4, visitor.getY()/4-1);
+				bitmap.free(visitor.getX()/4, visitor.getY()/4);
 				visitor.act("UP", 4);
-				moved = true;
 			}
-			else if(y+24 > visitor.getY() && (!checkPeople(otherPersonDown)))
+			else if (y>visitor.getY())
 			{
+				bitmap.claim(visitor.getX()/4, visitor.getY()/4+1);
+				bitmap.free(visitor.getX()/4, visitor.getY()/4);
 				visitor.act("DOWN", 4);
-				moved = true;
 			}
 			if(visitor.getX() == x && visitor.getY() == y && moved)
 			{
 				visitor.setStatus("DestinationReached");
 			}
-			if(!moved)
-			{
-				visitor.increaseTimesTried();
-			}
-			else
-			{
-				visitor.resetTimesTried();
-			}
-		}
+	}
+		
+		
+//		if(visitor.getStatus() != "DestinationReached")
+//		{
+//			if(x < visitor.getX() && (!checkPeople(otherPersonLeft)))
+//			{
+//				visitor.act("LEFT", 4);
+//				moved = true;
+//			}
+//			else if(x+24 > visitor.getX() && (!checkPeople(otherPersonRight)))
+//			{
+//				visitor.act("RIGHT", 4);
+//				moved = true;
+//			}
+//			if(y < visitor.getY() && (!checkPeople(otherPersonUp)))
+//			{
+//				visitor.act("UP", 4);
+//				moved = true;
+//			}
+//			else if(y+24 > visitor.getY() && (!checkPeople(otherPersonDown)))
+//			{
+//				visitor.act("DOWN", 4);
+//				moved = true;
+//			}
+//			if(visitor.getX() == x && visitor.getY() == y && moved)
+//			{
+//				visitor.setStatus("DestinationReached");
+//			}
+//			if(!moved)
+//			{
+//				visitor.increaseTimesTried();
+//			}
+//			else
+//			{
+//				visitor.resetTimesTried();
+//			}
+//		}
 	}
 	
 	//Methods for behavior
