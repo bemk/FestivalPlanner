@@ -289,8 +289,8 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 	{
 		Point p = searchNearestDestination(visitor.getDestination(), visitor);
 		Point space = getAvailableSpace((int)(p.getX()), (int)(p.getY()));
-		int x = (int) (space.getX()/4 * 4);
-		int y = (int) (space.getY()/4 * 4);
+		int x = (int) (p.getX()/4 * 4);
+		int y = (int) (p.getY()/4 * 4);
 
 // 		Visitor otherPersonLeft = new Visitor(visitor.getX()-4, visitor.getY());
 // // 		Visitor otherPersonRight = new Visitor(visitor.getX()+4, visitor.getY());
@@ -311,31 +311,56 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 //		boolean moved = false;
 		if (visitor.getStatus() != "DestinationReached")
 		{
-			if (x < visitor.getX())
+			if (x < visitor.getX() && y < visitor.getY() && bitmap.claim((visitor.getX())-4, (visitor.getY())-4))
 			{
-				bitmap.claim((visitor.getX()/4)-1, visitor.getY()/4);
-				bitmap.free(visitor.getX()/4, visitor.getY()/4);
+				bitmap.free(visitor.getX(), visitor.getY());
+				visitor.act("LEFT", 4);
+				visitor.act("UP", 4);
+			}
+			else if (x > visitor.getX() && y < visitor.getY() && bitmap.claim((visitor.getX())+4, (visitor.getY())-4))
+			{
+				bitmap.free(visitor.getX(), visitor.getY());
+				visitor.act("RIGHT", 4);
+				visitor.act("UP", 4);
+			}
+			else if (x < visitor.getX() && y > visitor.getY() && bitmap.claim((visitor.getX())-4, (visitor.getY())+4))
+			{
+				bitmap.free(visitor.getX(), visitor.getY());
+				visitor.act("LEFT", 4);
+				visitor.act("DOWN", 4);
+			}
+			else if (x > visitor.getX() && y > visitor.getY() && bitmap.claim((visitor.getX())+4, (visitor.getY())+4))
+			{
+				bitmap.free(visitor.getX(), visitor.getY());
+				visitor.act("RIGHT", 4);
+				visitor.act("DOWN", 4);
+			}
+			else if (x < visitor.getX() && bitmap.claim((visitor.getX())-4, visitor.getY()))
+			{
+				bitmap.free(visitor.getX(), visitor.getY());
 				visitor.act("LEFT", 4);
 			}
-			else if (x > visitor.getX())
+			else if (x > visitor.getX() && bitmap.claim(visitor.getX()+4, visitor.getY()))
 			{
-				bitmap.claim(visitor.getX()/4+1, visitor.getY()/4);
-				bitmap.free(visitor.getX()/4, visitor.getY()/4);
+				bitmap.free(visitor.getX(), visitor.getY());
 				visitor.act("RIGHT", 4);
 			}
 		
-			if (y < visitor.getY())
+			else if (y < visitor.getY() && bitmap.claim(visitor.getX(), visitor.getY()-4))
 			{
-				bitmap.claim(visitor.getX()/4, visitor.getY()/4-1);
-				bitmap.free(visitor.getX()/4, visitor.getY()/4);
+				bitmap.free(visitor.getX(), visitor.getY());
 				visitor.act("UP", 4);
 			}
-			else if (y>visitor.getY())
+			else if (y>visitor.getY() && bitmap.claim(visitor.getX(), visitor.getY()+4))
 			{
-				bitmap.claim(visitor.getX()/4, visitor.getY()/4+1);
-				bitmap.free(visitor.getX()/4, visitor.getY()/4);
+				bitmap.free(visitor.getX(), visitor.getY());
 				visitor.act("DOWN", 4);
 			}
+			if(visitor.getX() == x && visitor.getY() == y && moved)
+			{
+				visitor.setStatus("DestinationReached");
+			}
+	}
 		}
 		
 		
@@ -374,7 +399,7 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 //				visitor.resetTimesTried();
 //			}
 //		}
-	}
+	
 	
 	//Methods for behavior
 	public void destinationChange(Visitor visitor)

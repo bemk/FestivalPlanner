@@ -21,11 +21,13 @@ public class Map {
 	
 	public boolean claim(int x, int y)
 	{
-		if (x/width > width || y/height > height)
+		x /= 4;
+		y /= 4;
+		if (x/block >= width || y/block >= height)
 		{
 			return false;
 		}
-		Block toGo = map.get(x/width).get(y/height);
+		Block toGo = map.get(x/block).get(y/block);
 		if (toGo.claim(x%block, y%block))
 		{
 			return true;
@@ -35,12 +37,30 @@ public class Map {
 
 	public boolean free(int x, int y)
 	{
-		if (x/width > width || y/height > height)
+		x /=4;
+		y /=4;
+		if (x/block >= width || y/block >= height)
 		{
 			return false;
 		}
-		Block toFree = map.get(x/width).get(y/height);
+		Block toFree = map.get(x/block).get(y/block);
 		if (toFree.free(x%block, y%block))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean check(int x, int y)
+	{
+		x /= 4;
+		y /= 4;
+		if (x/block >= width || y/block >= height)
+		{
+			return false;
+		}
+		Block toGo = map.get(x/block).get(y/block);
+		if (toGo.check(x%block, y%block))
 		{
 			return true;
 		}
