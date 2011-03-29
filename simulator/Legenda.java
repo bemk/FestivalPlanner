@@ -1,6 +1,8 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -11,14 +13,16 @@ import javax.swing.JPanel;
 public class Legenda extends JFrame {
 
 	private ItemBoard itemBoard = new ItemBoard();
-	
 	public Legenda()
 	{
 		add(itemBoard);
 		setTitle("Legenda");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	    setSize(100, 485);
-	    setLocationRelativeTo(null);
+	    GraphicsEnvironment GE = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        Point p = GE.getCenterPoint();
+        Point o= new Point((int) (p.getX()+372),(int) ((p.getY() -242.5)));
+        setLocation(o);
 	    setBackground(Color.blue);
 	    setVisible(true);
 	    setResizable(false);
