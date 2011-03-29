@@ -50,4 +50,20 @@ public class Map {
 		}
 		return false;
 	}
+	
+	public boolean check(int x, int y)
+	{
+		x /= 4;
+		y /= 4;
+		if (x/block >= width || y/block >= height)
+		{
+			return false;
+		}
+		Block toGo = map.get(x/block).get(y/block);
+		if (toGo.check(x%block, y%block))
+		{
+			return true;
+		}
+		return false;
+	}
 }
