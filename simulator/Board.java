@@ -158,7 +158,7 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 	{
 		int x = 0;
 	    int y = 0;
-	    for(int i = 0; i < 19; i++)
+	    for(int i = 0; i < 20; i++)
 	    {
 	    	 y = i;
 	    	 Shape s = new Rectangle(x * 24, y * 24, 24, 24);
@@ -296,6 +296,11 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 		Visitor otherPersonRight = new Visitor(visitor.getX()+4, visitor.getY());
 		Visitor otherPersonUp = new Visitor(visitor.getX(), visitor.getY()-4);
 		Visitor otherPersonDown = new Visitor(visitor.getX(), visitor.getY()+4);
+		Visitor otherPersonCornerUpLeft = new Visitor(visitor.getX()-4, visitor.getY()-4);
+		Visitor otherPersonCornerUpRight = new Visitor(visitor.getX()+4, visitor.getY()-4);
+		Visitor otherPersonCornerDownRight = new Visitor(visitor.getX()+4, visitor.getY()+4);
+		Visitor otherPersonCornerDownLeft = new Visitor(visitor.getX()-4, visitor.getY()+4);
+	
 		boolean moved = false;
 		if(visitor.getStatus() != "DestinationReached")
 		{
@@ -318,6 +323,26 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 			{
 				visitor.act("DOWN", 4);
 				moved = true;
+			}
+			else if(x < visitor.getX()&& y < visitor.getY() && (!checkPeople(otherPersonCornerUpLeft)))
+			{
+				visitor.act("UP", 4);
+				visitor.act("LEFT", 4);
+			}
+			else if(x > visitor.getX()&& y < visitor.getY() && (!checkPeople(otherPersonCornerUpRight)))
+			{
+				visitor.act("UP", 4);
+				visitor.act("RIGHT", 4);
+			}
+			else if(x > visitor.getX()&& y > visitor.getY() && (!checkPeople(otherPersonCornerDownRight)))
+			{
+				visitor.act("DOWN", 4);
+				visitor.act("RIGHT", 4);
+			}
+			else if(x < visitor.getX()&& y > visitor.getY() && (!checkPeople(otherPersonCornerDownLeft)))
+			{
+				visitor.act("DOWN", 4);
+				visitor.act("LEFT", 4);
 			}
 			if(visitor.getX() == x && visitor.getY() == y && moved)
 			{
