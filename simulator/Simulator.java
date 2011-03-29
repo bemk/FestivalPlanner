@@ -12,7 +12,7 @@ public class Simulator extends JFrame{
 		add(new Board(iface));
 		setTitle("Simulatie");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-	    setSize(726, 485);
+	    setSize(726, 505);
 	    setLocationRelativeTo(null);
 	    setBackground(Color.green);
 	    setVisible(true);
