@@ -336,31 +336,7 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 				bitmap.free(visitor.getX()/4, visitor.getY()/4);
 				visitor.act("DOWN", 4);
 			}
-			else if(x < visitor.getX()&& y < visitor.getY() && (!checkPeople(otherPersonCornerUpLeft)))
-			{
-				visitor.act("UP", 4);
-				visitor.act("LEFT", 4);
-			}
-			else if(x > visitor.getX()&& y < visitor.getY() && (!checkPeople(otherPersonCornerUpRight)))
-			{
-				visitor.act("UP", 4);
-				visitor.act("RIGHT", 4);
-			}
-			else if(x > visitor.getX()&& y > visitor.getY() && (!checkPeople(otherPersonCornerDownRight)))
-			{
-				visitor.act("DOWN", 4);
-				visitor.act("RIGHT", 4);
-			}
-			else if(x < visitor.getX()&& y > visitor.getY() && (!checkPeople(otherPersonCornerDownLeft)))
-			{
-				visitor.act("DOWN", 4);
-				visitor.act("LEFT", 4);
-			}
-			if(visitor.getX() == x && visitor.getY() == y && moved)
-			{
-				visitor.setStatus("DestinationReached");
-			}
-	}
+		}
 		
 		
 //		if(visitor.getStatus() != "DestinationReached")
