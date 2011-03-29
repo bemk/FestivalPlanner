@@ -400,7 +400,7 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 //				visitor.resetTimesTried();
 //			}
 //		}
-	}
+	
 	
 	//Methods for behavior
 	public void destinationChange(Visitor visitor)
