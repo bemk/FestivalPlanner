@@ -1,4 +1,3 @@
-
 public class Block {
 	private final static int height = 6;
 	private final static int width = 6;
@@ -30,6 +29,19 @@ public class Block {
 		if (point [x][y] == true)
 		{
 			point [x][y] = false;
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean check(int x, int y)
+	{
+		if (allowed == false)
+		{
+			return false;
+		}
+		if (point[x][y] == false)
+		{
 			return true;
 		}
 		return false;
