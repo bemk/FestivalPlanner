@@ -27,6 +27,10 @@ public class Map {
 		{
 			return false;
 		}
+		else if (x < 0 || y<0)
+		{
+			return false;
+		}
 		Block toGo = map.get(x/block).get(y/block);
 		if (toGo.claim(x%block, y%block))
 		{
@@ -43,6 +47,10 @@ public class Map {
 		{
 			return false;
 		}
+		else if (x < 0 || y<0)
+		{
+			return false;
+		}
 		Block toFree = map.get(x/block).get(y/block);
 		if (toFree.free(x%block, y%block))
 		{
@@ -56,6 +64,10 @@ public class Map {
 		x /= 4;
 		y /= 4;
 		if (x/block >= width || y/block >= height)
+		{
+			return false;
+		}
+		else if (x < 0 || y<0)
 		{
 			return false;
 		}
