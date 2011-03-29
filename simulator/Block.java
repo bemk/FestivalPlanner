@@ -8,7 +8,7 @@ public class Block {
 	{
 		for (int i = 0; i < width*height; i++)
 		{
-			point[i/width][i%height] = false;
+			point[i/width][i%width] = false;
 		}
 	}
 	
