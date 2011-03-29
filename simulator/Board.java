@@ -361,7 +361,6 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 				visitor.setStatus("DestinationReached");
 			}
 	}
-
 		}
 		
 		
