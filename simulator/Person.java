@@ -1,13 +1,15 @@
-import java.awt.geom.Rectangle2D;
-
+import java.awt.Point;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 
 public abstract class Person extends Sprite {
 	
+	protected Point wayPoint;
 	protected ImageIcon imageIcon;
 	protected String status;
 	protected String destination;
+	protected Point destinationPoint;
 	protected int appearance;
 	
 	public void setAppearance(int appearance)
@@ -18,6 +20,26 @@ public abstract class Person extends Sprite {
 	public int getAppearance()
 	{
 		return this.appearance;
+	}
+	
+	public void setDestinationPoint(Point p)
+	{
+		this.destinationPoint = p;
+	}
+	
+	public Point getDestinationPoint()
+	{
+		return this.destinationPoint;
+	}
+	
+	public void setWayPoint(Point p)
+	{
+		this.wayPoint = p;
+	}
+	
+	public Point getWayPoint()
+	{
+		return this.wayPoint;
 	}
 	
 	public void setDestination(String destination)
