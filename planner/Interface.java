@@ -60,11 +60,16 @@ public class Interface implements Serializable
     	return planning.getStage(s);
     }
 
-//    public ArrayList<Stage> getAllStages()
-//    {
-//    	return planning.getAllStages();
-//    }
-    //Stage
+    public ArrayList<String> getAllStages()
+    {
+    	ArrayList<String> ret = new ArrayList<String>();
+    	for (Stage s : planning.getAllStages())
+    	{
+    		ret.add(s.getName());
+    	}
+    	return ret;
+    }
+
     public void setNaam(int stage, String name)
     {
     	Stage tmp = findStage(stage);
