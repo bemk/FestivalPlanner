@@ -275,11 +275,6 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 	        }
 	}
 	
-	public void checkOccupationBuilding(Building building)
-	{
-		//building.
-	}
-	
 	//Movement methods
 	public void moveDragBuilding(Building building, int x, int y)
 	{
@@ -414,6 +409,11 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 		int visitorXY = visitor.getX()+visitor.getY();
 		for(Building building: buildings)
 		{
+			int buildingX = building.getX();
+			int buildingY = building.getY();
+			Point p = new Point();
+			if(!getAvailableSpace(buildingX, buildingY).equals(p))
+			{
 			int buildingXY = building.getX()+building.getY();
 			//Calculate differences
 			if(visitorXY > buildingXY)
@@ -448,6 +448,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 					x = building.getX();
 					y = building.getY();
 				}
+			}
 			}
 		}
 		return new Point(x,y);
