@@ -25,10 +25,12 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 	private Map bitmap = new Map();
 	private Timer timer;
 	private boolean paused = false;
+	private ArrayList<String> stages;
 	
 	//Constructor
 	public Board(Interface iface)
 	{
+		this.stages = new ArrayList<String>();
 		this.iface = iface;
 		initSimulator();
 		setDoubleBuffered(true);
@@ -83,15 +85,22 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 		addEHBO(50, 100);
 		addSnackBar(200, 300);
 		addSnackBar(400, 300);
-		addStage(300, 200);
-		addStage(300, 80);
+//		addStage(300, 200);
+//		addStage(300, 80);
+		
+		stages = iface.getAllStages();
+		Random r = new Random();
+		for (String s : stages)
+		{
+			addStage(r.nextInt(24*24), r.nextInt(24*24));
+		}
 		for(int i = 0; i <= 100; i+=4)
 		{
 			for(int t = 0; t <=100; t+=4)
 			{
 		    addVisitor(t, i);
 			}
-			}
+		}
 	    for(Person person: people)
 	    {
 			Random random = new Random();
