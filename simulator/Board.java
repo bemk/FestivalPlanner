@@ -1,23 +1,15 @@
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Random;
-
+import java.util.*;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 import javax.swing.text.html.HTMLDocument.Iterator;
 
 
-public class Board extends JPanel implements Runnable, MouseListener, MouseMotionListener{
+public class Board extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener{
 	
+	private int delay = 100;
 	private Thread animator;
 	private int dragX;
 	private int dragY;
@@ -31,6 +23,8 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 	private int destinationY;
 	private Interface iface;
 	private Map bitmap = new Map();
+	private Timer timer;
+	private boolean paused = false;
 	
 	//Constructor
 	public Board(Interface iface)
@@ -40,9 +34,46 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 		setDoubleBuffered(true);
 		addMouseListener(this);
 		addMouseMotionListener(this);
+		addMouseWheelListener(this);
 		legenda = new Legenda();
+		this.timer = new Timer(delay, new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				run();
+			}
+		});
+		this.timer.start();
 	}
 	
+	
+	public void speedUp()
+	{
+		delay -= 20;
+		if (delay <= 0)
+		{
+			delay = 1;
+		}
+		timer.setDelay(delay);
+	}
+	
+	public void slowDown()
+	{
+		delay += 20;
+		timer.setDelay(delay);
+	}
+	
+	public void pause()
+	{
+		timer.stop();
+		paused = true;
+	}
+	
+	public void go()
+	{
+		timer.start();
+		paused = false;
+	}
 	
 	//Initialize method
 	public void initSimulator()
@@ -71,8 +102,6 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 			else
 				person.setAppearance(3);
 	    }
-		animator = new Thread(this, "1");
-		animator.start();
 	}
 	
 	
@@ -197,21 +226,12 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 	
 	
 	//Run method
-	public void run() {		
-		while(true)
-		{
+	public void run() {			
 		for(Visitor visitor: people)
 		{
 			movePerson(visitor);
 		}
-		repaint();
-		
-		try {
-			Thread.sleep(100);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		}
+		repaint();		
 	}
 	
 	//Object checks
@@ -257,7 +277,7 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 	
 	public void checkOccupationBuilding(Building building)
 	{
-
+		//building.
 	}
 	
 	//Movement methods
@@ -500,6 +520,16 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 	//mouseClick method
 	public void mouseClicked(MouseEvent e) 
 	{
+		if(e.getButton() == MouseEvent.BUTTON2)
+		{
+			if(!paused)
+			{
+				pause();
+			}
+			else {
+				go();
+			}
+		}
 		if(e.getButton() == MouseEvent.BUTTON3)
 		{
 			for(Building building: buildings)
@@ -522,6 +552,21 @@ public class Board extends JPanel implements Runnable, MouseListener, MouseMotio
 	public void mouseMoved(MouseEvent e) {}
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
+
+
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		if(e.getWheelRotation() < 0)
+		{
+			if(!paused)
+			slowDown();
+		}
+		else if(e.getWheelRotation() > 0)
+		{
+			if(!paused)
+			speedUp();
+		}
+	}
 	
 
 	
