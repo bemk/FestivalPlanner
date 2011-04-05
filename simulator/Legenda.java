@@ -5,6 +5,8 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Rectangle2D;
+import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -33,6 +35,11 @@ public class Legenda extends JFrame {
 		return itemBoard.getSelection();
 	}
 	
+	public void resetSelection()
+	{
+		itemBoard.resetSelection();
+	}
+	
 	public boolean RightClicked()
 	{
 		if(itemBoard.rightClicked())
@@ -50,8 +57,9 @@ public class Legenda extends JFrame {
 	class ItemBoard extends JPanel implements MouseListener
 	{
 		private EHBO ehbo = new EHBO(10, 120);
-		private Snackbar snackBar = new Snackbar(10, 168);;
-		private StagePicture stage = new StagePicture(10, 216);
+		private Snackbar snackBar = new Snackbar(10, 160);;
+		private StagePicture stage = new StagePicture(10, 200);
+		private Rectangle2D river = new Rectangle2D.Double(10, 240, 24, 24); 
 		public String selection = "Selection: ";
 		public boolean rightClicked = false;
 		
@@ -59,6 +67,12 @@ public class Legenda extends JFrame {
 		{
 			setDoubleBuffered(true);
 			addMouseListener(this);
+		}
+		
+		public void resetSelection()
+		{
+			this.selection = "Selection: ";
+			repaint();
 		}
 		
 		public String getSelection()
@@ -86,6 +100,9 @@ public class Legenda extends JFrame {
 			g2.drawImage(ehbo.getImageIcon().getImage(), ehbo.getX(), ehbo.getY(), this);
 			g2.drawImage(snackBar.getImageIcon().getImage(), snackBar.getX(), snackBar.getY(), this);
 			g2.drawImage(stage.getImageIcon().getImage(), stage.getX(), stage.getY(), this);
+			g2.setColor(new Color(0, 125, 255));
+			g2.fill(river);
+			g2.setColor(Color.BLACK);
 			g2.drawString(selection, 0, 50);
 		}
 
@@ -95,6 +112,7 @@ public class Legenda extends JFrame {
 			checkBuilding(ehbo, e.getX(), e.getY());
 			checkBuilding(snackBar, e.getX(), e.getY());
 			checkBuilding(stage, e.getX(), e.getY());
+			checkBorder(river, e.getX(), e.getY());
 			repaint();
 			if (e.getButton() == MouseEvent.BUTTON3)
 			{
@@ -119,6 +137,15 @@ public class Legenda extends JFrame {
 	            {
 	            	selection = "Selection: Stage";
 	            }
+	        }
+		}
+		
+		public void checkBorder(Rectangle2D a, int x, int y)
+		{
+			if (x >= a.getX() && x <= (a.getX() + a.getWidth())
+	                && y >= a.getY() && y <= (a.getY() + a.getHeight())) 
+			{
+	           	selection = "Selection: River";
 	        }
 		}
 
