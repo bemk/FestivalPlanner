@@ -10,7 +10,6 @@ import javax.swing.text.html.HTMLDocument.Iterator;
 public class Board extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener{
 	
 	private int delay = 100;
-	private Thread animator;
 	private int dragX;
 	private int dragY;
 	private boolean canDrag = false;
