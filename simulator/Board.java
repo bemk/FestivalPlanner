@@ -292,7 +292,6 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 	        }
 	}
 	
-<<<<<<< .mine
 	public boolean checkOccupationBuilding(Building building)
 	{
 		Rectangle2D r2 = new Rectangle2D.Double(building.getX(), building.getY(), building.getWidth(), building.getHeight());
@@ -316,9 +315,6 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 		else
 			return false;
 	}
-	
-=======
->>>>>>> .r286
 	
 	//Movement methods
 	public void moveDragBuilding(Building building, int x, int y)
@@ -454,16 +450,8 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 		int visitorXY = visitor.getX()+visitor.getY();
 		for(Building building: buildings)
 		{
-<<<<<<< .mine
 			if(!checkOccupationBuilding(building))
 			{
-=======
-			int buildingX = building.getX();
-			int buildingY = building.getY();
-			Point p = new Point();
-			if(!getAvailableSpace(buildingX, buildingY).equals(p))
-			{
->>>>>>> .r286
 			int buildingXY = building.getX()+building.getY();
 			//Calculate differences
 			if(visitorXY > buildingXY)
