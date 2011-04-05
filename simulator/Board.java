@@ -23,6 +23,8 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 	private Map bitmap = new Map();
 	private Timer timer;
 	private boolean paused = false;
+	private boolean river;
+	private ArrayList<Point> rivers = new ArrayList<Point>();
 	private ArrayList<String> stages;	
 	private GregorianCalendar time = new GregorianCalendar();
 	
@@ -186,6 +188,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 		{
 			drawBuilding(building, g2);
 		}
+		drawRiver(g2);
 		g2.scale(2, 2);
 		g2.setColor(Color.RED);
 		g2.drawString("Date: " + time.get(Calendar.YEAR) + "-" + time.get(Calendar.MONTH) + "-" + time.get(Calendar.DAY_OF_MONTH), 5, 15);
@@ -212,6 +215,20 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 	    	 g2.draw(z);
 	    }
 	    }
+	}
+	
+	public void drawRiver(Graphics2D g2)
+	{
+		if(!rivers.isEmpty())
+		{
+			g2.setColor(new Color(0, 125, 255));
+			//Random r = new Random();
+			//g2.setColor(new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
+			for(Point p: rivers)
+			{
+			g2.fillRect((int)p.getX(), (int)p.getY(), 4, 4);
+			}
+		}
 	}
 	
 	public void drawPath(Path path, Graphics2D g2)
@@ -268,7 +285,11 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 		{
 			addStage(0, 0);
 		}
-		}		
+		else if(legenda.getSelection() == "Selection: River")
+		{
+			river = true;
+		}
+		}
 	}
 	
 	public void checkDragBuilding(Building building, int x, int y)
@@ -518,7 +539,27 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 	
 	//mouseDrag method
 	public void mouseDragged(MouseEvent e) {
-		if (canDrag) {
+	
+		if(river)
+		{
+			if(bitmap.claim(e.getX()/4*4, e.getY()/4*4))
+			{
+				rivers.add(new Point(e.getX()/4*4, e.getY()/4*4));
+			}
+				if(bitmap.claim(4+e.getX()/4*4, e.getY()/4*4))
+			{
+				rivers.add(new Point(4+e.getX()/4*4, e.getY()/4*4));
+			}
+			if(bitmap.claim(e.getX()/4*4, 4+e.getY()/4*4))
+			{
+				rivers.add(new Point(e.getX()/4*4, 4+e.getY()/4*4));
+			}
+			if(bitmap.claim(4+e.getX()/4*4, 4+e.getY()/4*4))
+			{
+				rivers.add(new Point(4+e.getX()/4*4, 4+e.getY()/4*4));
+			}
+		}
+		else if (canDrag) {
 		for (Building building : buildings)
 		{
 			if (buildingSelection == building)
@@ -576,6 +617,8 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 					break;
 				}
 			}
+			river = false;
+			legenda.resetSelection();
 		}
 		if(e.getButton() == MouseEvent.BUTTON1)	
 		{
