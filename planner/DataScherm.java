@@ -431,7 +431,7 @@ public class DataScherm implements Serializable
 		{
 			for (int i = 0; i < str.length(); i++)
 			{
-				if (str.charAt(i)!=','||str.charAt(i)!='.')
+				if (str.charAt(i)!=','&&str.charAt(i)!='.')
 				{
 					ret += str.charAt(i);
 				}
@@ -448,6 +448,7 @@ public class DataScherm implements Serializable
 		try {
 			return Integer.parseInt(removeComma(str));
 		} catch (Exception e) {
+			System.out.printf("%s\t%s\n",removeComma(str), str);
 			return -1;
 		}
 	}
