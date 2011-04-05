@@ -6,7 +6,6 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.text.html.HTMLDocument.Iterator;
 
-
 public class Board extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener{
 	
 	private int delay = 100;
@@ -293,6 +292,34 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 	        }
 	}
 	
+<<<<<<< .mine
+	public boolean checkOccupationBuilding(Building building)
+	{
+		Rectangle2D r2 = new Rectangle2D.Double(building.getX(), building.getY(), building.getWidth(), building.getHeight());
+		int i = 0;
+		for(Visitor visitor: people)
+		{
+			Point p = new Point(visitor.getX(), visitor.getY());
+			if(r2.contains(p))
+			{
+				i++;
+			}
+			if(i == 36)
+			{
+				break;
+			}
+		}
+		if(i == 36)
+		{
+			return true;
+		}
+		else
+			return false;
+	}
+	
+=======
+>>>>>>> .r286
+	
 	//Movement methods
 	public void moveDragBuilding(Building building, int x, int y)
 	{
@@ -427,11 +454,16 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 		int visitorXY = visitor.getX()+visitor.getY();
 		for(Building building: buildings)
 		{
+<<<<<<< .mine
+			if(!checkOccupationBuilding(building))
+			{
+=======
 			int buildingX = building.getX();
 			int buildingY = building.getY();
 			Point p = new Point();
 			if(!getAvailableSpace(buildingX, buildingY).equals(p))
 			{
+>>>>>>> .r286
 			int buildingXY = building.getX()+building.getY();
 			//Calculate differences
 			if(visitorXY > buildingXY)
@@ -485,10 +517,6 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 					space.setLocation(i, t);
 					breaker = true;
 					break;
-				}
-				else
-				{
-					
 				}
 			}
 			if(breaker)
