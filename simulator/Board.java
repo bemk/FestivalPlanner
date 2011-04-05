@@ -13,9 +13,11 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 	private int dragY;
 	private boolean canDrag = false;
 	private Building buildingSelection;
+	private Obstacle obstacleSelection;
 	private LinkedList<Building> buildings = new LinkedList<Building>();
 	private LinkedList<Path> paths = new LinkedList<Path>();
 	private LinkedList<Visitor> people = new LinkedList<Visitor>();
+	private LinkedList<Obstacle> obstacles = new LinkedList<Obstacle>();
 	private Legenda legenda;
 	private int destinationX;
 	private int destinationY;
@@ -132,6 +134,11 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 	
 	
 	// List adds
+	public void addForest(int x, int y)
+	{
+		obstacles.add(new Forest(x, y));
+	}
+	
 	public void addRoad(int x, int y)
 	{
 		paths.add(new Road(x, y));
@@ -203,6 +210,10 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 		{
 			drawBuilding(building, g2);
 		}
+		for(Obstacle obstacle: obstacles)
+		{
+			drawObstacle(obstacle, g2);
+		}
 		drawRiver(g2);
 		g2.scale(2, 2);
 		g2.setColor(Color.RED);
@@ -256,6 +267,11 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 		g2.drawImage(building.getImageIcon().getImage(), building.getX(), building.getY(), this);
 	}
 	
+	public void drawObstacle(Obstacle obstacle, Graphics2D g2)
+	{
+		g2.drawImage(obstacle.getImageIcon().getImage(), obstacle.getX(), obstacle.getY(), this);
+	}
+	
 	public void drawPerson(Person person, Graphics2D g2)
 	{
 		if(person.getAppearance() == 2)
@@ -304,6 +320,10 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 		{
 			river = true;
 		}
+		else if(legenda.getSelection() == "Selection: Forest")
+		{
+			addForest(0, 0);
+		}
 		}
 	}
 	
@@ -325,6 +345,17 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 	            canDrag = true;
 	            dragX = x - path.getX();  
 	            dragY = y - path.getY(); 
+	        }
+	}
+	
+	public void checkDragObstacle(Obstacle obstacle, int x, int y)
+	{
+	       if (x >= obstacle.getX() && x <= (obstacle.getX() + obstacle.getWidth())
+	                && y >= obstacle.getY() && y <= (obstacle.getY() + obstacle.getHeight())) {
+	            canDrag = true;
+	            dragX = x - obstacle.getX();  
+	            dragY = y - obstacle.getY(); 
+	            obstacleSelection = obstacle;
 	        }
 	}
 	
@@ -357,6 +388,12 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 	{
 		building.setX(x - dragX);
 		building.setY(y - dragY);
+	}
+	
+	public void moveDragObstacle(Obstacle obstacle, int x, int y)
+	{
+		obstacle.setX(x - dragX);
+		obstacle.setY(y - dragY);
 	}
 	
 	public void movePerson(Visitor visitor)
@@ -590,6 +627,14 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 				break;
 			}
 		}
+		for (Obstacle obstacle : obstacles)
+		{
+			if (obstacleSelection == obstacle)
+			{
+				moveDragObstacle(obstacle, e.getX(), e.getY());
+				break;
+			}
+		}
 		}
 		}
 	
@@ -599,6 +644,10 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 	       for(Building building: buildings)
 	       {
 			checkDragBuilding(building, e.getX(), e.getY());
+	       }
+	       for(Obstacle obstacle: obstacles)
+	       {
+			checkDragObstacle(obstacle, e.getX(), e.getY());
 	       }
 		}
 	
