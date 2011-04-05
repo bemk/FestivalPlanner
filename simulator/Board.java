@@ -10,7 +10,6 @@ import javax.swing.text.html.HTMLDocument.Iterator;
 public class Board extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener{
 	
 	private int delay = 100;
-	private Thread animator;
 	private int dragX;
 	private int dragY;
 	private boolean canDrag = false;
@@ -25,7 +24,8 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 	private Map bitmap = new Map();
 	private Timer timer;
 	private boolean paused = false;
-	private ArrayList<String> stages;
+	private ArrayList<String> stages;	
+	private GregorianCalendar time = new GregorianCalendar();
 	
 	//Constructor
 	public Board(Interface iface)
@@ -42,6 +42,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+				time.add(Calendar.SECOND, 1);
 				run();
 			}
 		});
@@ -186,6 +187,10 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 		{
 			drawBuilding(building, g2);
 		}
+		g2.scale(2, 2);
+		g2.setColor(Color.RED);
+		g2.drawString("Date: " + time.get(Calendar.YEAR) + "-" + time.get(Calendar.MONTH) + "-" + time.get(Calendar.DAY_OF_MONTH), 5, 15);
+		g2.drawString("Time: " + time.get(Calendar.HOUR_OF_DAY) + ":" + time.get(Calendar.MINUTE) + ":" + time.get(Calendar.SECOND), 5, 25);
 		g2.dispose();
 	}
 	
@@ -239,6 +244,10 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 		for(Visitor visitor: people)
 		{
 			movePerson(visitor);
+		}
+		if (time.get(Calendar.SECOND) % 20 == 0)
+		{
+			changeDestinationPeople();
 		}
 		repaint();		
 	}
