@@ -602,11 +602,4 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 			speedUp();
 		}
 	}
-	
-
-	
-	
-
-
-
 }
