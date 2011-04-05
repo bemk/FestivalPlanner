@@ -25,14 +25,30 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 	private boolean paused = false;
 	private boolean river;
 	private ArrayList<Point> rivers = new ArrayList<Point>();
-	private ArrayList<String> stages;	
+	private ArrayList<String> stages = new ArrayList<String>();
 	private GregorianCalendar time = new GregorianCalendar();
+	private ArrayList<Act> allActs = new ArrayList<Act>();
 	
 	//Constructor
 	public Board(Interface iface)
 	{
-		this.stages = new ArrayList<String>();
 		this.iface = iface;
+		stages = iface.getAllStages();
+		for (int i = 0; i<stages.size(); i++)
+		{
+			ArrayList<Integer> tempInt = iface.getStage(i).getAllActs();
+			for(int j = 0; j < tempInt.size(); j++)
+			{
+				ArrayList<String> tempString = iface.getStage(i).getAct(j).getArtistNames();
+				for(int k = 0; k < tempString.size(); k++)
+				{
+					for(int l = 0; iface.findArtist(tempString.get(k)).getRating() > l; l++)
+						{
+							allActs.add((iface.getStage(i).getAct(j)));
+						}
+				}
+			}
+		}	
 		initSimulator();
 		setDoubleBuffered(true);
 		addMouseListener(this);
@@ -90,7 +106,6 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 //		addStage(300, 200);
 //		addStage(300, 80);
 		
-		stages = iface.getAllStages();
 		Random r = new Random();
 		for (String s : stages)
 		{
@@ -443,14 +458,13 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 	public void destinationChange(Visitor visitor)
 	{
 		Random random = new Random();
-		if(random.nextInt()%3 == 0)
-		{
+		int r = random.nextInt(1000);
+		if(r<=100)
 			visitor.setDestination("EHBO");
-		}
-		else
-		{
+		if(r>100 && r <=200)
 			visitor.setDestination("SnackBar");
-		}
+		
+				
 	}
 	
 	public void changeDestinationPeople()
@@ -501,6 +515,14 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 				}
 			}
 			if(destination == "SnackBar" && building instanceof Snackbar)
+			{
+				if(difference < difference2)
+				{
+					x = building.getX();
+					y = building.getY();
+				}
+			}
+			if(destination == "Stage" && building instanceof StagePicture)
 			{
 				if(difference < difference2)
 				{

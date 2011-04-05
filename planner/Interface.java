@@ -266,6 +266,18 @@ public class Interface implements Serializable
     	return findArtist(i).getRating();
     }
     
+    public Artist findArtist(String name)
+    {
+    	for(Artist i : addressBook.getAllArtists())
+    	{
+    		if(i.getName().equals(name))
+    		{
+    			return i;
+    		}
+    	}
+    	return null;
+    }
+    
     public Artist findArtist(int id)
     {
     	for (Artist i : addressBook.getAllArtists())
