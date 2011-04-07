@@ -60,6 +60,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 		addMouseMotionListener(this);
 		addMouseWheelListener(this);
 		legenda = new Legenda();
+		time.set(Calendar.MONTH, 1);
 		this.timer = new Timer(delay, new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -212,7 +213,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 		drawRiver(g2);
 		g2.scale(2, 2);
 		g2.setColor(Color.RED);
-		g2.drawString("Date: " + time.get(Calendar.YEAR) + "-" + time.get(Calendar.MONTH) + "-" + time.get(Calendar.DAY_OF_MONTH), 5, 15);
+		g2.drawString("Date: " + time.get(Calendar.YEAR) + "-" + (time.get(Calendar.MONTH)) + "-" + time.get(Calendar.DAY_OF_MONTH), 5, 15);
 		g2.drawString("Time: " + time.get(Calendar.HOUR_OF_DAY) + ":" + time.get(Calendar.MINUTE) + ":" + time.get(Calendar.SECOND), 5, 25);
 		g2.dispose();
 	}
