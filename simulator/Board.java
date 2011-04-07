@@ -276,7 +276,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 		{
 			movePerson(visitor);
 		}
-		if (time.get(Calendar.SECOND) % 20 == 0)
+		if (time.get(Calendar.MINUTE) % 5 == 0)
 		{
 			changeDestinationPeople();
 		}
