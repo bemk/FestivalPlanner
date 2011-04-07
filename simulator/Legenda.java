@@ -56,9 +56,9 @@ public class Legenda extends JFrame {
 	
 	class ItemBoard extends JPanel implements MouseListener
 	{
-		private EHBO ehbo = new EHBO(10, 120);
-		private Snackbar snackBar = new Snackbar(10, 160);
-		private StagePicture stage = new StagePicture(10, 200);
+		private StagePicture stage = new StagePicture(10, 100);
+		private EHBO ehbo = new EHBO(10, 160);
+		private Snackbar snackBar = new Snackbar(10, 200);
 		private WC wc = new WC(10, 240);
 		private Rectangle2D river = new Rectangle2D.Double(10, 280, 24, 24); 
 		private Bridge bridge = new Bridge(10, 320);

@@ -376,6 +376,18 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 	            dragX = x - building.getX();  
 	            dragY = y - building.getY(); 
 	            buildingSelection = building;
+	            if(building instanceof StagePicture)
+	            {
+	    			int stageX = building.getX()/24*24;
+					int stageY = building.getY()/24*24;
+					for(int w = 0; w < building.getWidth()/4; w++)
+					{
+						for(int h = 0; h < building.getHeight()/4; h++)
+						{
+							bitmap.free(stageX+4*w, stageY+4*h);
+						}
+					}
+	            }
 	        }
 	}
 	
@@ -401,9 +413,9 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 	            obstacleSelection = obstacle;
 				int obstacleX = obstacle.getX()/24*24;
 				int obstacleY = obstacle.getY()/24*24;
-				for(int w = 0; w <= obstacle.getWidth()/4; w++)
+				for(int w = 0; w < obstacle.getWidth()/4; w++)
 				{
-					for(int h = 0; h <= obstacle.getHeight()/4; h++)
+					for(int h = 0; h < obstacle.getHeight()/4; h++)
 					{
 						bitmap.free(obstacleX+4*w, obstacleY+4*h);
 					}
@@ -559,6 +571,8 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 			visitor.setDestination("SnackBar");
 		if(r>200 && r <=300)
 			visitor.setDestination("WC");
+		if(r>300 && r <=400)
+			visitor.setDestination("Stage");
 		
 				
 	}
@@ -623,7 +637,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 				if(difference < difference2)
 				{
 					x = building.getX();
-					y = building.getY();
+					y = building.getY()+48;
 				}
 			}
 			if(destination == "WC" && building instanceof WC)
@@ -751,6 +765,18 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 			building.setX(building.getX()/24*24);
 			building.setY(building.getY()/24*24);
 			buildingSelection = null;
+			if(building instanceof StagePicture)
+			{
+				int stageX = building.getX()/24*24;
+				int stageY = building.getY()/24*24;
+				for(int w = 0; w < building.getWidth()/4; w++)
+				{
+					for(int h = 0; h < building.getHeight()/4; h++)
+					{
+						bitmap.claim(stageX+4*w, stageY+4*h);
+					}
+				}
+			}
 		}
 		for(Obstacle obstacle: obstacles)
 		{
@@ -758,9 +784,9 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 			int obstacleY = obstacle.getY()/24*24;
 			obstacle.setX(obstacleX);
 			obstacle.setY(obstacleY);
-			for(int w = 0; w <= obstacle.getWidth()/4; w++)
+			for(int w = 0; w < obstacle.getWidth()/4; w++)
 			{
-				for(int h = 0; h <= obstacle.getHeight()/4; h++)
+				for(int h = 0; h < obstacle.getHeight()/4; h++)
 				{
 					bitmap.claim(obstacleX+4*w, obstacleY+4*h);
 				}
@@ -773,9 +799,9 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 			int pathY = path.getY()/24*24;
 			path.setX(pathX);
 			path.setY(pathY);
-			for(int w = 0; w <= path.getWidth()/4; w++)
+			for(int w = 0; w < path.getWidth()/4; w++)
 			{
-				for(int h = 0; h <= path.getHeight()/4; h++)
+				for(int h = 0; h < path.getHeight()/4; h++)
 				{
 					bitmap.free(pathX+4*w, pathY+4*h);
 				}
