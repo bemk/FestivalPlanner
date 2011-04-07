@@ -164,6 +164,11 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 		buildings.add(new StagePicture(x, y));
 	}
 	
+	public void addWC(int x, int y)
+	{
+		buildings.add(new WC(x, y));
+	}
+	
 	
 	//List removes
 	public void removeRoad(int x, int y)
@@ -217,8 +222,13 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 		drawRiver(g2);
 		g2.scale(2, 2);
 		g2.setColor(Color.RED);
-		g2.drawString("Date: " + time.get(Calendar.YEAR) + "-" + time.get(Calendar.MONTH) + "-" + time.get(Calendar.DAY_OF_MONTH), 5, 15);
+		g2.drawString("Date: " + time.get(Calendar.YEAR) + "-" + (time.get(Calendar.MONTH)+1) + "-" + time.get(Calendar.DAY_OF_MONTH), 5, 15);
 		g2.drawString("Time: " + time.get(Calendar.HOUR_OF_DAY) + ":" + time.get(Calendar.MINUTE) + ":" + time.get(Calendar.SECOND), 5, 25);
+		if(river)
+		{
+			g2.setColor(Color.RED);
+			g2.drawString("DRAW MODE ON", 260, 10);
+		}	
 		g2.dispose();
 	}
 	
@@ -356,6 +366,15 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 	            dragX = x - obstacle.getX();  
 	            dragY = y - obstacle.getY(); 
 	            obstacleSelection = obstacle;
+				int obstacleX = obstacle.getX()/24*24;
+				int obstacleY = obstacle.getY()/24*24;
+				for(int w = 0; w <= obstacle.getWidth()/4; w++)
+				{
+					for(int h = 0; h <= obstacle.getHeight()/4; h++)
+					{
+						bitmap.free(obstacleX+4*w, obstacleY+4*h);
+					}
+				}
 	        }
 	}
 	
@@ -500,6 +519,8 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 			visitor.setDestination("EHBO");
 		if(r>100 && r <=200)
 			visitor.setDestination("SnackBar");
+		if(r>200 && r <=300)
+			visitor.setDestination("SnackBar");
 		
 				
 	}
@@ -567,6 +588,14 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 					y = building.getY();
 				}
 			}
+			if(destination == "WC" && building instanceof WC)
+			{
+				if(difference < difference2)
+				{
+					x = building.getX();
+					y = building.getY();
+				}
+			}
 			}
 		}
 		return new Point(x,y);
@@ -601,38 +630,37 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 	
 		if(river)
 		{
-			if(bitmap.claim(e.getX()/4*4, e.getY()/4*4))
+			for(int i = 0; i < 3; i++)
 			{
-				rivers.add(new Point(e.getX()/4*4, e.getY()/4*4));
-			}
-				if(bitmap.claim(4+e.getX()/4*4, e.getY()/4*4))
-			{
-				rivers.add(new Point(4+e.getX()/4*4, e.getY()/4*4));
-			}
-			if(bitmap.claim(e.getX()/4*4, 4+e.getY()/4*4))
-			{
-				rivers.add(new Point(e.getX()/4*4, 4+e.getY()/4*4));
-			}
-			if(bitmap.claim(4+e.getX()/4*4, 4+e.getY()/4*4))
-			{
-				rivers.add(new Point(4+e.getX()/4*4, 4+e.getY()/4*4));
+				for(int z = 0; z < 3; z++)
+				{
+					if(bitmap.claim(e.getX()/4*4+i*4, e.getY()/4*4+z*4))
+					{
+						rivers.add(new Point(e.getX()/4*4+i*4, e.getY()/4*4+z*4));
+					}
+				}
 			}
 		}
 		else if (canDrag) {
+		String selection = "";
 		for (Building building : buildings)
 		{
 			if (buildingSelection == building)
 			{
 				moveDragBuilding(building, e.getX(), e.getY());
+				selection = "Building";
 				break;
 			}
 		}
-		for (Obstacle obstacle : obstacles)
+		if(selection == "")
 		{
-			if (obstacleSelection == obstacle)
+			for (Obstacle obstacle : obstacles)
 			{
-				moveDragObstacle(obstacle, e.getX(), e.getY());
-				break;
+				if (obstacleSelection == obstacle)
+				{
+					moveDragObstacle(obstacle, e.getX(), e.getY());
+					break;
+				}
 			}
 		}
 		}
@@ -657,8 +685,24 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 		canDrag = false;
 		for(Building building: buildings)
 		{
-			building.setX((building.getX()/24)*24);
-			building.setY((building.getY()/24)*24);
+			building.setX(building.getX()/24*24);
+			building.setY(building.getY()/24*24);
+			buildingSelection = null;
+		}
+		for(Obstacle obstacle: obstacles)
+		{
+			int obstacleX = obstacle.getX()/24*24;
+			int obstacleY = obstacle.getY()/24*24;
+			obstacle.setX(obstacleX);
+			obstacle.setY(obstacleY);
+			for(int w = 0; w <= obstacle.getWidth()/4; w++)
+			{
+				for(int h = 0; h <= obstacle.getHeight()/4; h++)
+				{
+					bitmap.claim(obstacleX+4*w, obstacleY+4*h);
+				}
+			}
+			obstacleSelection = null;
 		}
 		repaint();
 	}
