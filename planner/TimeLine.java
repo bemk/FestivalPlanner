@@ -54,9 +54,23 @@ abstract class TimeLine implements Serializable
 		boolean b = false;
 		for(Act a : acts)
 		{
-			if(a.getStartTime().equals(startTime)||a.getEndTime()< endTime)
+			if(a.getStartTime().after(startTime) && ((a.getEndTime()+a.getStartTime().get(Calendar.MINUTE) + (a.getStartTime().get(Calendar.HOUR)/60))< endTime))
 			{
 				b = true;
+				break;
+			}
+		}
+		return b;
+	}
+	public boolean actPast(int endTime)
+	{
+		boolean b = false;
+		for(Act a : acts)
+		{
+			if(a.getEndTime()>= endTime)
+			{
+				b = true;
+				break;
 			}
 		}
 		return b;

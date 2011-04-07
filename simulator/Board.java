@@ -319,16 +319,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 		{
 			changeDestinationPeople();
 		}
-		for(int i = 0; i<stagesB.size(); i++)
-			{
-			System.out.println(stagesB.get(i)+ "\n");
-				if(iface.getStage(i).actBusy(time, (int)time.getTimeInMillis()*60*60))
-				{
-					boolean b = stagesB.get(i);
-					stagesB.remove(i);
-					stagesB.add(i,b);
-				}
-			}
+		
 		repaint();		
 	}
 	
@@ -579,6 +570,21 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 	
 	public void changeDestinationPeople()
 	{
+		for(int i = 0; i<stagesB.size(); i++)
+		{
+		System.out.println(stagesB.get(i)+ "\n");
+			if(iface.getStage(i).actBusy(time, (int)time.getTimeInMillis()*60*60))
+			{
+				boolean b = stagesB.get(i);
+				stagesB.remove(i);
+				b = true;
+				stagesB.add(i,b);
+			}
+			else if(iface.getStage(i).actPast((int)time.getTimeInMillis()*60*60))
+			{
+				
+			}
+		}
 		for(Visitor visitor: people)
 		{
 			destinationChange(visitor);
