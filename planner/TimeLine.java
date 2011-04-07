@@ -49,4 +49,16 @@ abstract class TimeLine implements Serializable
     {
     	return this.ID;
     }
+	public boolean actBusy(Calendar startTime, int endTime)
+	{
+		boolean b = false;
+		for(Act a : acts)
+		{
+			if(a.getStartTime().equals(startTime)||a.getEndTime()< endTime)
+			{
+				b = true;
+			}
+		}
+		return b;
+	}
 }
