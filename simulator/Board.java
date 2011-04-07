@@ -16,6 +16,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 	private LinkedList<Building> buildings = new LinkedList<Building>();
 	private LinkedList<Path> paths = new LinkedList<Path>();
 	private LinkedList<Visitor> people = new LinkedList<Visitor>();
+	private LinkedList<Boolean> stagesB = new LinkedList<Boolean>();
 	private Legenda legenda;
 	private int destinationX;
 	private int destinationY;
@@ -49,6 +50,10 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 				}
 			}
 		}	
+		for(int i = 0;i<stages.size();i++)
+		{
+			stagesB.add(new Boolean(false));
+		}
 		initSimulator();
 		setDoubleBuffered(true);
 		addMouseListener(this);
@@ -60,6 +65,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 			public void actionPerformed(ActionEvent e)
 			{
 				time.add(Calendar.SECOND, 1);
+				
 				run();
 			}
 		});
@@ -280,6 +286,16 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 		{
 			changeDestinationPeople();
 		}
+		for(int i = 0; i<stagesB.size(); i++)
+			{
+			System.out.println(stagesB.get(i)+ "\n");
+				if(iface.getStage(i).actBusy(time, (int)time.getTimeInMillis()*60*60))
+				{
+					boolean b = stagesB.get(i);
+					stagesB.remove(i);
+					stagesB.add(i,b);
+				}
+			}
 		repaint();		
 	}
 	
@@ -459,6 +475,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 	{
 		Random random = new Random();
 		int r = random.nextInt(1000);
+		
 		if(r<=100)
 			visitor.setDestination("EHBO");
 		if(r>100 && r <=200)
