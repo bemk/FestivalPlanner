@@ -8,6 +8,5 @@ private String url = "FP/tree.png";
 		super.coordinates.setLocation(x, y);
 		setImageIcon(url);
 		setBorder();
-		
 	}
 }
