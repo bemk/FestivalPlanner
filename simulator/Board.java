@@ -37,7 +37,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 		for (int i = 0; i<stages.size(); i++)
 		{
 			ArrayList<Integer> tempInt = iface.getStage(i).getAllActs();
-			for(int j = 0; j < tempInt.size(); j++)
+			for(int j : tempInt)
 			{
 				ArrayList<String> tempString = iface.getStage(i).getAct(j).getArtistNames();
 				for(int k = 0; k < tempString.size(); k++)
