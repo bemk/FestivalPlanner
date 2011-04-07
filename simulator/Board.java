@@ -39,7 +39,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 		for (int i = 0; i<stages.size(); i++)
 		{
 			ArrayList<Integer> tempInt = iface.getStage(i).getAllActs();
-			for(int j = 0; j < tempInt.size(); j++)
+			for(int j : tempInt)
 			{
 				ArrayList<String> tempString = iface.getStage(i).getAct(j).getArtistNames();
 				for(int k = 0; k < tempString.size(); k++)
@@ -292,7 +292,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 		{
 			movePerson(visitor);
 		}
-		if (time.get(Calendar.SECOND) % 20 == 0)
+		if (time.get(Calendar.MINUTE) % 5 == 0)
 		{
 			changeDestinationPeople();
 		}
