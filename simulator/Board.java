@@ -28,6 +28,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 	private Timer timer;
 	private boolean paused = false;
 	private boolean river;
+	private boolean start;
 	private ArrayList<Point> rivers = new ArrayList<Point>();
 	private ArrayList<String> stages = new ArrayList<String>();
 	private GregorianCalendar time = new GregorianCalendar();
@@ -117,6 +118,10 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 		{
 			addStage(r.nextInt(24*30), r.nextInt(24*20));
 		}
+	}
+	
+	public void createPeople()
+	{
 		for(int i = 0; i <= 100; i+=4)
 		{
 			for(int t = 0; t <=100; t+=4)
@@ -356,6 +361,11 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 		{
 			addBridge(720-24, 480-24);
 		}
+		else if(legenda.getSelection() == "Selection: Run" && !start)
+		{
+			createPeople();
+			start = true;
+		}
 		}
 	}
 	
@@ -463,6 +473,11 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 		Point space = getAvailableSpace((int)(p.getX()), (int)(p.getY()));
 		int x = (int) (space.getX()/4 * 4);
 		int y = (int) (space.getY()/4 * 4);
+		if(x == 0 && y == 0)
+		{
+			x = 360;
+			y = 240;
+		}
 		visitor.setDestinationPoint(new Point(x,y));
 		if(visitor.getTimesTried() == 5 && visitor.getStatus() !="WayPointMade")
 		{
@@ -470,23 +485,23 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 			int i = r.nextInt(4);
 			if( i == 0)
 			{
-			x = visitor.getX() + 8;
-			y = visitor.getY() + 8;
+			x = visitor.getX() + 24;
+			y = visitor.getY() + 24;
 			}
 			else if ( i == 1)
 			{
-				x = visitor.getX() - 8;
-				y = visitor.getY() - 8;
+				x = visitor.getX() - 24;
+				y = visitor.getY() - 24;
 			}
 			else if ( i == 2)
 			{
-				x = visitor.getX() + 8;
-				y = visitor.getY() - 8;
+				x = visitor.getX() + 24;
+				y = visitor.getY() - 24;
 			}
 			else if ( i == 3)
 			{
-				x = visitor.getX() - 8;
-				y = visitor.getY() + 8;
+				x = visitor.getX() - 24;
+				y = visitor.getY() + 24;
 			}
 			visitor.setStatus("WayPointMade");
 		}
@@ -562,7 +577,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener,
 			visitor.setDestination("SnackBar");
 		if(r>200 && r <=300)
 			visitor.setDestination("WC");
-		if(r>300 && r <=400)
+		if(r>300 && r <=500)
 			visitor.setDestination("Stage");
 		
 				

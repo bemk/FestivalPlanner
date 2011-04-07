@@ -8,6 +8,7 @@ import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -63,6 +64,7 @@ public class Legenda extends JFrame {
 		private Rectangle2D river = new Rectangle2D.Double(10, 280, 24, 24); 
 		private Bridge bridge = new Bridge(10, 320);
 		private Forest forest = new Forest(10, 360);
+		private ImageIcon start = new ImageIcon(this.getClass().getResource("FP/Start.png"));
 		public String selection = "Selection: ";
 		public boolean rightClicked = false;
 		
@@ -106,6 +108,7 @@ public class Legenda extends JFrame {
 			g2.drawImage(wc.getImageIcon().getImage(), wc.getX(), wc.getY(), this);
 			g2.drawImage(forest.getImageIcon().getImage(), forest.getX(), forest.getY(), this);
 			g2.drawImage(bridge.getImageIcon().getImage(), bridge.getX(), bridge.getY(), this);
+			g2.drawImage(start.getImage(), 10, 10, this);
 			g2.setColor(new Color(0, 125, 255));
 			g2.fill(river);
 			g2.setColor(Color.BLACK);
@@ -122,6 +125,7 @@ public class Legenda extends JFrame {
 			checkBorder(river, e.getX(), e.getY());
 			checkObstacle(forest, e.getX(), e.getY());
 			checkPath(bridge, e.getX(), e.getY());
+			checkStart(e.getX(), e.getY());
 			repaint();
 			if (e.getButton() == MouseEvent.BUTTON3)
 			{
@@ -163,6 +167,15 @@ public class Legenda extends JFrame {
 	                && y >= a.getY() && y <= (a.getY() + a.getHeight())) 
 			{
 	           	selection = "Selection: River";
+	        }
+		}
+		
+		public void checkStart(int x, int y)
+		{
+			if (x >= 10 && x <= (10 + 24)
+	                && y >= 10 && y <= (10 + 24)) 
+			{
+	           	selection = "Selection: Run";
 	        }
 		}
 		
