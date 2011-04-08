@@ -1,7 +1,7 @@
 
 public class Bridge extends Path {
 
-private String url = "FP/.png";
+private String url = "FP/bridge.png";
 	
 	public Bridge(int x, int y)
 	{
